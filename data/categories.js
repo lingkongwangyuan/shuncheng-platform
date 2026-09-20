@@ -17,8 +17,8 @@ window.SC_DATA = {
     shortName: '顺诚',
     logo: '顺',
     user: '顺诚',
-    subtitle: '美客多跨境电商 · 选品中心',
-    version: 'v2.0',
+    subtitle: '美客多跨境电商 · 工作平台',
+    version: 'v2.1',
     updated: '2026-09-20'
   },
 
@@ -39,9 +39,9 @@ window.SC_DATA = {
     {
       id: 'shops', name: '店铺矩阵', icon: '🏬',
       children: [
-        { name: '店铺总览', todo: true },
-        { name: '独立核算', todo: true },
-        { name: '店群分析', todo: true }
+        { name: '店铺总览', icon: '🏬', page: 'shops.html' },
+        { name: '店群分析', icon: '📊', page: 'shops-group.html' },
+        { name: '独立核算', icon: '💰', todo: true }
       ]
     },
     {

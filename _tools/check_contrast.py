@@ -19,7 +19,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECKER = r"C:\Users\Lenovo\.workbuddy\tools\contrast_check.py"
 PY = sys.executable
 
-PAGES = ["index.html", "kitchen.html", "bathroom.html", "livingroom.html", "bedroom.html"]
+
+def discover_pages():
+    """自动扫描根目录下所有页面，新增页面无需再改本脚本。
+    跳过 _ 开头的临时探针文件。"""
+    return sorted(
+        f for f in os.listdir(ROOT)
+        if f.endswith(".html") and not f.startswith("_")
+    )
 
 
 def inline_css(html_path):
@@ -42,7 +49,7 @@ def inline_css(html_path):
 def main():
     tmpdir = tempfile.mkdtemp(prefix="sc_contrast_")
     targets = []
-    for p in PAGES:
+    for p in discover_pages():
         src = os.path.join(ROOT, p)
         if not os.path.isfile(src):
             continue
