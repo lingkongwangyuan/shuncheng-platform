@@ -975,6 +975,97 @@ a { color: inherit; }
 .plan-src { font-size: 12px; color: var(--ink-light); margin-bottom: 11px; }
 .plan-gives { font-size: 12px; color: var(--ink-secondary); margin-top: 11px; line-height: 1.6; }
 
+/* ═══════════ 店铺合伙 ═══════════ */
+.parter-bar { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.parter-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; background: #fff;
+  transition: border-color .15s, box-shadow .15s;
+}
+.parter-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+.parter-card.is-current { border-color: var(--primary); box-shadow: var(--shadow-md); }
+.parter-top { display: flex; align-items: center; gap: 11px; margin-bottom: 13px; }
+.parter-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: var(--primary-soft); color: var(--on-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700;
+}
+.parter-name { font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.parter-role { font-size: 11.5px; color: var(--ink-light); }
+.parter-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.parter-metric { background: var(--gray-bg); border-radius: var(--radius-sm); padding: 9px 10px; }
+.pm-label { font-size: 11px; color: var(--ink-light); }
+.pm-value {
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  font-variant-numeric: tabular-nums; margin-top: 2px;
+}
+.parter-shops { font-size: 12px; color: var(--ink-secondary); margin-top: 12px; line-height: 1.75; }
+
+/* 损益表 */
+.pl-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.pl-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.pl-table th {
+  background: var(--primary-soft); color: var(--on-soft);
+  font-weight: 600; font-size: 12px; text-align: left;
+  padding: 9px 12px; border-bottom: 1px solid var(--border);
+}
+.pl-table td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); }
+.pl-table tr:last-child td { border-bottom: 0; }
+.pl-table .pl-name { font-weight: 600; color: var(--ink); }
+.pl-table tr.pl-sub td { background: var(--green-bg); color: var(--green-ink); font-weight: 600; }
+.pl-table tr.pl-total td { background: var(--primary-soft); color: var(--on-soft); font-weight: 700; }
+.pl-sign { display: inline-block; width: 16px; color: var(--ink-light); font-weight: 600; }
+.pl-src { font-size: 11.5px; color: var(--ink-light); }
+.pl-table tr.pl-sub .pl-src,
+.pl-table tr.pl-total .pl-src { color: inherit; }
+.money-todo {
+  display: inline-block; font-size: 11.5px; color: var(--gray-ink);
+  background: var(--gray-bg); border-radius: 4px; padding: 1px 7px;
+}
+
+/* 店 × 月 矩阵 */
+.matrix-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.matrix-table th {
+  background: #fafbfc; color: var(--ink-secondary);
+  font-weight: 600; font-size: 11.5px; padding: 8px 10px;
+  border-bottom: 1px solid var(--border); text-align: center;
+}
+.matrix-table th.mx-shop { text-align: left; }
+.matrix-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-light); text-align: center; }
+.matrix-table td.mx-shop { text-align: left; font-weight: 600; color: var(--ink); }
+.mx-cell { display: flex; flex-direction: column; gap: 2px; }
+.mx-line { font-size: 11px; color: var(--ink-light); }
+.mx-val { font-size: 12px; color: var(--ink-faint); }
+
+/* 分红保险丝 */
+.gate-list { display: flex; flex-direction: column; gap: 10px; }
+.gate-item {
+  display: flex; gap: 12px; padding: 13px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm); background: #fff;
+}
+.gate-no {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: var(--amber-bg); color: var(--amber-ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12.5px; font-weight: 700;
+}
+.gate-body { min-width: 0; }
+.gate-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.gate-rule { font-size: 12.5px; color: var(--ink-secondary); margin-top: 3px; line-height: 1.55; }
+.gate-why { font-size: 11.5px; color: var(--ink-light); margin-top: 5px; line-height: 1.55; }
+
+/* 规则参数 */
+.param-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.param-item { background: var(--primary-soft); border-radius: var(--radius-sm); padding: 13px 14px; }
+.param-label { font-size: 11.5px; color: var(--ink-secondary); }
+.param-value {
+  font-size: 16px; font-weight: 700; color: var(--on-soft);
+  margin-top: 3px; font-variant-numeric: tabular-nums;
+}
+.param-note { font-size: 11px; color: var(--ink-secondary); margin-top: 3px; line-height: 1.5; }
+
 /* ═══════════ 响应式 ═══════════ */
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1006,6 +1097,8 @@ a { color: inherit; }
   .page-header-top { align-items: flex-start; }
   .cmp-grid { grid-template-columns: 1fr; }
   .quad-grid { grid-template-columns: 1fr; }
+  .parter-bar { grid-template-columns: 1fr; }
+  .param-grid { grid-template-columns: 1fr; }
   .heat-row { grid-template-columns: 64px 1fr 88px; gap: 9px; }
   .trend-row { grid-template-columns: 42px 1fr 108px; gap: 9px; }
   .ev-item { grid-template-columns: 70px 76px 1fr; gap: 8px; }

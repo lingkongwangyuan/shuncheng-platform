@@ -18,7 +18,7 @@ window.SC_DATA = {
     logo: '顺',
     user: '顺诚',
     subtitle: '美客多跨境电商 · 工作平台',
-    version: 'v2.2',
+    version: 'v2.3',
     updated: '2026-09-20'
   },
 
@@ -52,6 +52,14 @@ window.SC_DATA = {
         { name: '独立核算', icon: '💰', page: 'acct.html' },
         { name: '产品核算', icon: '🏷️', page: 'acct-products.html' },
         { name: '广告分析', icon: '📣', todo: true }
+      ]
+    },
+    {
+      id: 'parter', name: '店铺合伙', icon: '🤝',
+      children: [
+        { name: '合伙总览', icon: '🤝', page: 'parter.html' },
+        { name: '李源', icon: '👤', page: 'parter-liyuan.html' },
+        { name: '石老师', icon: '👤', page: 'parter-shi.html' }
       ]
     },
     {
