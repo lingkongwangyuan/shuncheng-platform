@@ -257,6 +257,10 @@
             return esc(t.label) + ' → <b>' + pct(t.rate * 100, 0) + '</b>';
           }).join('　|　') +
           '（' + esc(RULE.tiersStatus || '待确认') + '）</div>' +
+        ((RULE.base || {}).open
+          ? '<div class="finding" style="margin-top:14px">' +
+            '<b>口径里有个死角，必须先定死：</b>' + esc(RULE.base.open) + '</div>'
+          : '') +
       '</div>';
 
     /* 四道保险丝 */
