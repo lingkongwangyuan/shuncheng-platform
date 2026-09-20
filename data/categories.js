@@ -40,8 +40,7 @@ window.SC_DATA = {
       id: 'shops', name: '店铺矩阵', icon: '🏬',
       children: [
         { name: '店铺总览', icon: '🏬', page: 'shops.html' },
-        { name: '店群分析', icon: '📊', page: 'shops-group.html' },
-        { name: '独立核算', icon: '💰', todo: true }
+        { name: '店群分析', icon: '📊', page: 'shops-group.html' }
       ]
     },
     {
@@ -50,7 +49,8 @@ window.SC_DATA = {
         { name: '经营概览', icon: '📈', page: 'ops.html' },
         { name: '数据体检', icon: '🩺', page: 'ops-quality.html' },
         { name: '作业节奏', icon: '📅', page: 'ops-rhythm.html' },
-        { name: '利润分析', icon: '💰', todo: true },
+        { name: '独立核算', icon: '💰', page: 'acct.html' },
+        { name: '产品核算', icon: '🏷️', page: 'acct-products.html' },
         { name: '广告分析', icon: '📣', todo: true }
       ]
     },

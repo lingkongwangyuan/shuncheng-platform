@@ -812,6 +812,13 @@ a { color: inherit; }
 .heat-track { height: 16px; background: var(--border-light); border-radius: 4px; overflow: hidden; }
 .heat-fill { display: block; height: 100%; border-radius: 4px; background: #d93025; }
 /* 中性信息（如覆盖天数）不得用风险红，改用蓝 */
+/* ⚠ 必须用组合选择器：.heat-fill 自身带 background，与 .bar-* 同优先级时
+   靠源码先后取胜 → 裸 .bar-green / .bar-amber 会被红色覆盖（2026-09-20 修复） */
+.heat-fill.bar-red { background: #d93025; }
+.heat-fill.bar-orange { background: #e8891a; }
+.heat-fill.bar-amber { background: #d9a406; }
+.heat-fill.bar-green { background: #2e7d4f; }
+.heat-fill.bar-gray { background: #c9ced6; }
 .heat-fill.bar-blue { background: #378add; }
 .heat-val {
   text-align: right; font-size: 12.5px; color: var(--ink-secondary);
@@ -926,6 +933,48 @@ a { color: inherit; }
 .gap-problem { font-size: 12.5px; color: var(--ink-secondary); line-height: 1.5; }
 .gap-impact { font-size: 11.5px; color: var(--ink-light); }
 
+/* ═══════════ 独立核算 ═══════════ */
+.grade-chip {
+  display: inline-block; min-width: 22px; padding: 2px 8px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 600; text-align: center; line-height: 1.5;
+}
+.grade-a { background: var(--green-bg); color: var(--green-ink); }
+.grade-b { background: var(--blue-bg); color: var(--blue-ink); }
+.grade-c { background: #fdeceb; color: #4a2b2b; }
+.grade-none { background: var(--gray-bg); color: var(--gray-ink); }
+
+.quad-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.quad-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 16px; background: #fff;
+}
+.quad-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.quad-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.quad-count { font-size: 12px; color: var(--ink-light); font-variant-numeric: tabular-nums; }
+.quad-shops { font-size: 12.5px; color: var(--ink-secondary); line-height: 1.7; }
+.quad-meta { font-size: 11.5px; color: var(--ink-light); margin-top: 8px; line-height: 1.6; }
+
+.field-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.field-chip {
+  font-size: 11.5px; padding: 3px 9px; border-radius: 999px;
+  background: var(--gray-bg); color: var(--gray-ink);
+}
+
+.plan-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; background: #fff; margin-bottom: 12px;
+}
+.plan-head { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; flex-wrap: wrap; }
+.plan-no {
+  width: 22px; height: 22px; border-radius: 999px; flex-shrink: 0;
+  background: var(--primary-soft); color: var(--on-soft);
+  font-size: 12px; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.plan-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.plan-src { font-size: 12px; color: var(--ink-light); margin-bottom: 11px; }
+.plan-gives { font-size: 12px; color: var(--ink-secondary); margin-top: 11px; line-height: 1.6; }
+
 /* ═══════════ 响应式 ═══════════ */
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -956,6 +1005,7 @@ a { color: inherit; }
   .agent-grid { grid-template-columns: repeat(2, 1fr); }
   .page-header-top { align-items: flex-start; }
   .cmp-grid { grid-template-columns: 1fr; }
+  .quad-grid { grid-template-columns: 1fr; }
   .heat-row { grid-template-columns: 64px 1fr 88px; gap: 9px; }
   .trend-row { grid-template-columns: 42px 1fr 108px; gap: 9px; }
   .ev-item { grid-template-columns: 70px 76px 1fr; gap: 8px; }
