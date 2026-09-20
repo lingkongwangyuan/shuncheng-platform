@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>顺诚AI工作平台 · 卧室用品</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .page-header { margin-bottom: 20px; }
+  .page-title { font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .breadcrumb { font-size: 13px; color: var(--ink-light); }
+  .breadcrumb a { color: var(--ink-light); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--primary); }
+  
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+  .stat-card { background: var(--bg-card); border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .stat-label { font-size: 13px; color: var(--ink-light); margin-bottom: 8px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: var(--ink); }
+  .stat-sub { font-size: 12px; color: var(--ink-light); margin-top: 4px; }
+  
+  .section-card { background: var(--bg-card); border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .section-title { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 18px; }
+  
+  .sub-category-list { display: flex; flex-direction: column; gap: 12px; }
+  .sub-cat-item { display: flex; align-items: center; padding: 16px; border: 1px solid var(--border); border-radius: 10px; transition: all 0.2s; }
+  .sub-cat-item:hover { border-color: var(--primary); box-shadow: 0 2px 12px rgba(232,114,42,0.1); }
+  .sub-cat-no { width: 32px; height: 32px; border-radius: 8px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; margin-right: 16px; flex-shrink: 0; }
+  .sub-cat-info { flex: 1; }
+  .sub-cat-name { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .sub-cat-detail { font-size: 13px; color: var(--ink-light); }
+  .sub-cat-status { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .status-pending { background: var(--orange-bg); color: var(--orange); }
+  .status-progress { background: var(--blue-bg); color: var(--blue); }
+  .status-done { background: var(--green-bg); color: var(--green); }
+  
+  .priority-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-bottom: 12px; }
+  .priority-high { background: #fee2e2; color: #dc2626; }
+  .priority-mid { background: #fef3c7; color: #d97706; }
+  .priority-low { background: #dbeafe; color: #2563eb; }
+  
+  .action-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+  .btn { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-deep); }
+  .btn-secondary { background: var(--bg-card); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+</style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-brand">
+      <div class="logo">顺</div>
+      <span>顺诚AI工作平台</span>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="搜索品类、产品、店铺..." />
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary btn">📤 导出报告</button>
+      <div class="user-avatar">顺</div>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-item expanded active" onclick="toggleSub(this)">
+        <span class="icon">🎯</span> 选品中心
+        <span class="arrow">▶</span>
+      </div>
+      <div class="sidebar-sub open">
+        <a href="kitchen.html" class="sidebar-item">🍳 厨房用品</a>
+        <a href="bathroom.html" class="sidebar-item"> 卫生间用品</a>
+        <a href="livingroom.html" class="sidebar-item">️ 客厅用品</a>
+        <a href="bedroom.html" class="sidebar-item active">️ 卧室用品</a>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-item" onclick="toggleSub(this)">
+        <span class="icon"></span> 店铺矩阵
+        <span class="arrow">▶</span>
+      </div>
+      <div class="sidebar-sub">
+        <div class="sidebar-item">店铺总览</div>
+        <div class="sidebar-item">独立核算</div>
+        <div class="sidebar-item">店群分析</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-item" onclick="toggleSub(this)">
+        <span class="icon">📊</span> 经营数据
+        <span class="arrow">▶</span>
+      </div>
+      <div class="sidebar-sub">
+        <div class="sidebar-item">销售分析</div>
+        <div class="sidebar-item">利润分析</div>
+        <div class="sidebar-item">广告分析</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-item" onclick="toggleSub(this)">
+        <span class="icon"></span> 库存管理
+        <span class="arrow">▶</span>
+      </div>
+      <div class="sidebar-sub">
+        <div class="sidebar-item">库存看板</div>
+        <div class="sidebar-item">补货预警</div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">AI 智能体</div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-item"><span class="icon"></span> 选品智能体</div>
+      <div class="sidebar-item"><span class="icon">📊</span> 数据采集智能体</div>
+      <div class="sidebar-item"><span class="icon">📈</span> 经营分析智能体</div>
+      <div class="sidebar-item"><span class="icon">️</span> 生图智能体</div>
+      <div class="sidebar-item"><span class="icon">️</span> Listing优化智能体</div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">系统</div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-item"><span class="icon">️</span> 设置</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">🛏️ 卧室用品</h1>
+      <div class="breadcrumb">
+        <a href="index.html">选品中心</a> / <span>卧室用品</span>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">三级品类数</div>
+        <div class="stat-value">5</div>
+        <div class="stat-sub">已规划方向</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">产品总数</div>
+        <div class="stat-value">0</div>
+        <div class="stat-sub">待选品</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">已上架</div>
+        <div class="stat-value">0</div>
+        <div class="stat-sub">完成度 0%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">优先级</div>
+        <div class="stat-value" style="color: #2563eb;">P2</div>
+        <div class="stat-sub">后续推进</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">
+        <span class="icon">📋</span>
+        三级细分品类推进顺序
+      </div>
+      <span class="priority-badge priority-low">P2 · 后续</span>
+      
+      <div class="sub-category-list">
+        <div class="sub-cat-item">
+          <div class="sub-cat-no">1</div>
+          <div class="sub-cat-info">
+            <div class="sub-cat-name">卧室收纳</div>
+            <div class="sub-cat-detail">衣柜收纳、鞋架、首饰盒 — 空间利用刚需</div>
+          </div>
+          <span class="sub-cat-status status-pending">待启动</span>
+        </div>
+        
+        <div class="sub-cat-item">
+          <div class="sub-cat-no">2</div>
+          <div class="sub-cat-info">
+            <div class="sub-cat-name">床品配件</div>
+            <div class="sub-cat-detail">床笠、枕套、被套 — 消耗品，复购率高</div>
+          </div>
+          <span class="sub-cat-status status-pending">待启动</span>
+        </div>
+        
+        <div class="sub-cat-item">
+          <div class="sub-cat-no">3</div>
+          <div class="sub-cat-info">
+            <div class="sub-cat-name">卧室装饰</div>
+            <div class="sub-cat-detail">床头灯、挂画、香薰 — 颜值经济，利润空间大</div>
+          </div>
+          <span class="sub-cat-status status-pending">待启动</span>
+        </div>
+        
+        <div class="sub-cat-item">
+          <div class="sub-cat-no">4</div>
+          <div class="sub-cat-info">
+            <div class="sub-cat-name">卧室舒适</div>
+            <div class="sub-cat-detail">眼罩、耳塞、抱枕 — 睡眠经济，增长快</div>
+          </div>
+          <span class="sub-cat-status status-pending">待启动</span>
+        </div>
+        
+        <div class="sub-cat-item">
+          <div class="sub-cat-no">5</div>
+          <div class="sub-cat-info">
+            <div class="sub-cat-name">卧室清洁</div>
+            <div class="sub-cat-detail">除螨仪、床刷、清洁布 — 健康需求，持续稳定</div>
+          </div>
+          <span class="sub-cat-status status-pending">待启动</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <button class="btn btn-primary">+ 新增三级品类</button>
+      <button class="btn btn-secondary"> 导入品类数据</button>
+      <button class="btn btn-secondary">🤖 启动选品智能体</button>
+    </div>
+  </main>
+
+  <script>
+    function toggleSub(el) {
+      const sub = el.nextElementSibling;
+      if (sub && sub.classList.contains('sidebar-sub')) {
+        sub.classList.toggle('open');
+        el.classList.toggle('expanded');
+      }
+    }
+  </script>
+</body>
+</html>

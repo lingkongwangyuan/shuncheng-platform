@@ -212,10 +212,13 @@
     padding-left: 0;
   }
   .sidebar-sub.open { display: block; }
-  .sidebar-sub .sidebar-item {
+  .sidebar-sub .sidebar-item,
+  .sidebar-sub a.sidebar-item {
     padding: 7px 14px 7px 34px;
     font-size: 13px;
     font-weight: 400;
+    text-decoration: none;
+    color: var(--sidebar-text);
   }
   .sidebar-sub .sidebar-item::before {
     content: "";
@@ -459,6 +462,16 @@
     color: var(--ink-light);
   }
   .cat-card .cat-meta span { display: flex; align-items: center; gap: 4px; }
+  /* 品类卡片链接 */
+  .cat-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .cat-card-link:hover {
+    text-decoration: none;
+  }
+
   .cat-card .priority-badge {
     position: absolute;
     top: 12px; right: 14px;
@@ -605,9 +618,10 @@
       <span class="arrow">▶</span>
     </div>
     <div class="sidebar-sub open">
-      <div class="sidebar-item active">品类体系</div>
-      <div class="sidebar-item">选品推进</div>
-      <div class="sidebar-item">产品库</div>
+      <a href="kitchen.html" class="sidebar-item">🍳 厨房用品</a>
+      <a href="bathroom.html" class="sidebar-item">🚿 卫生间用品</a>
+      <a href="livingroom.html" class="sidebar-item">🛋️ 客厅用品</a>
+      <a href="bedroom.html" class="sidebar-item">🛏️ 卧室用品</a>
     </div>
   </div>
 
@@ -684,18 +698,16 @@
   <!-- 页面标题卡片（标题+路径+操作整合） -->
   <div class="page-header-card">
     <div class="page-header-top">
-      <div class="page-title">品类体系</div>
+      <div class="page-title">选品中心 · 品类总览</div>
       <div class="page-actions">
         <button class="btn">📥 导入品类</button>
         <button class="btn btn-primary">＋ 新增品类</button>
       </div>
     </div>
     <div class="page-header-bottom">
-      <div class="page-breadcrumb">选品中心 / <span>品类体系</span></div>
+      <div class="page-breadcrumb">选品中心 / <span>品类总览</span></div>
       <div class="category-path">
         <div class="path-item active">日用百货</div>
-        <span class="path-arrow">›</span>
-        <div class="path-item">厨卫用品</div>
       </div>
     </div>
   </div>
@@ -724,36 +736,64 @@
     </div>
   </div>
 
-  <!-- 二级品类卡片（顶部色带） -->
+  <!-- 品类入口卡片 -->
   <div class="card">
     <div class="card-head">
       <div class="card-title">
         <div class="ct-icon ct-orange">📂</div>
-        二级细分品类
+        品类导航
       </div>
-      <span style="font-size:12.5px;color:var(--ink-light)">日用百货旗下</span>
+      <span style="font-size:12.5px;color:var(--ink-light)">日用百货 · 4 大场景品类</span>
     </div>
     <div class="cat-grid">
-      <div class="cat-card priority-1" onclick="showSubCategory('kitchen')">
-        <span class="priority-badge priority-high">P0 · 优先</span>
-        <div class="cat-name">🍳 厨房用品</div>
-        <div class="cat-desc">涵盖厨房收纳、烹饪工具、保鲜密封、清洁用品等，是日用百货中需求最稳定、复购率最高的品类方向。</div>
-        <div class="cat-meta">
-          <span>📋 5 个三级品类</span>
-          <span>📦 待选品</span>
+      <a href="kitchen.html" class="cat-card-link">
+        <div class="cat-card priority-1">
+          <span class="priority-badge priority-high">P0 · 优先</span>
+          <div class="cat-name">🍳 厨房用品</div>
+          <div class="cat-desc">涵盖厨房收纳、烹饪工具、保鲜密封、清洁用品等，是日用百货中需求最稳定、复购率最高的品类方向。</div>
+          <div class="cat-meta">
+            <span> 5 个三级品类</span>
+            <span>📦 待选品</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-orange" style="width:15%"></div></div>
         </div>
-        <div class="progress-bar"><div class="progress-fill fill-orange" style="width:15%"></div></div>
-      </div>
-      <div class="cat-card priority-2" onclick="showSubCategory('bathroom')">
-        <span class="priority-badge priority-mid">P1 · 次优</span>
-        <div class="cat-name">🚿 卫生间用品</div>
-        <div class="cat-desc">涵盖卫浴收纳、清洁工具、防滑用品、卫浴配件等，客单价适中，适合差异化竞争。</div>
-        <div class="cat-meta">
-          <span>📋 5 个三级品类</span>
-          <span>📦 待选品</span>
+      </a>
+      <a href="bathroom.html" class="cat-card-link">
+        <div class="cat-card priority-2">
+          <span class="priority-badge priority-mid">P1 · 次优</span>
+          <div class="cat-name">🚿 卫生间用品</div>
+          <div class="cat-desc">涵盖卫浴收纳、清洁工具、防滑用品、卫浴配件等，客单价适中，适合差异化竞争。</div>
+          <div class="cat-meta">
+            <span>📋 5 个三级品类</span>
+            <span>📦 待选品</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-orange" style="width:10%"></div></div>
         </div>
-        <div class="progress-bar"><div class="progress-fill fill-orange" style="width:10%"></div></div>
-      </div>
+      </a>
+      <a href="livingroom.html" class="cat-card-link">
+        <div class="cat-card priority-3">
+          <span class="priority-badge priority-low">P2 · 后续</span>
+          <div class="cat-name">️ 客厅用品</div>
+          <div class="cat-desc">涵盖客厅收纳、装饰、清洁、配件等，颜值经济潜力大，适合做差异化爆款。</div>
+          <div class="cat-meta">
+            <span>📋 5 个三级品类</span>
+            <span>📦 待启动</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-orange" style="width:0%"></div></div>
+        </div>
+      </a>
+      <a href="bedroom.html" class="cat-card-link">
+        <div class="cat-card priority-4">
+          <span class="priority-badge priority-low">P2 · 后续</span>
+          <div class="cat-name">️ 卧室用品</div>
+          <div class="cat-desc">涵盖卧室收纳、床品配件、装饰、舒适用品等，睡眠经济增长快，复购率高。</div>
+          <div class="cat-meta">
+            <span>📋 5 个三级品类</span>
+            <span>📦 待启动</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-orange" style="width:0%"></div></div>
+        </div>
+      </a>
     </div>
   </div>
 
