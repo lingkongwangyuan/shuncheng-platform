@@ -23,7 +23,7 @@
 ├── cat-kitchen-storage.html  └ 存储和组织  四级分类专项（22 / 24 条四级）
 ├── cat-furniture.html  2  家具          Muebles para el Hogar
 ├── cat-garden.html     3  花园和户外    Jardín y Aire Libre
-├── cat-mattress.html   4  床垫床垫配件  Camas, Colchones y Accesorios
+├── cat-mattress.html   4  床垫及配件  Camas, Colchones y Accesorios
 ├── cat-decor.html      5  家居装饰和装饰品  Adornos y Decoración del Hogar
 ├── cat-lighting.html   6  家居照明      Iluminación para el Hogar
 ├── cat-security.html   7  家庭安全      Seguridad para el Hogar

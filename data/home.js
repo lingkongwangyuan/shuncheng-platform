@@ -13,7 +13,15 @@ window.SC_HOME = {
   "version": "v1.0",
   "source": "选品分类/市场数据Excel/家居大类市场分析表_v1.xlsx",
   "totalLv3": 147,
-  "totalProducts": 361
+  "totalProducts": 361,
+  "yoyMeta": {
+   "label": "累计同比",
+   "method": "墨西哥站「大盘月度趋势图」逐月像素还原（37 个月）",
+   "src": "选品分类/趋势图·累计同比_v1.json",
+   "screenshotDir": "市场数据截图/",
+   "collected": "2026-09-21",
+   "note": "主口径=2026年1-8月 ÷ 2025年1-8月；被浮层遮挡的品类用同月可比口径（见各品类 yoy.note）"
+  }
  },
  "countries": [
   {
@@ -208,6 +216,13 @@ window.SC_HOME = {
    "icon": "🍳",
    "page": "cat-kitchen.html",
    "salesMxn": 6.34,
+   "yoy": {
+    "value": 35.59,
+    "window": "2026年5-8月",
+    "base": "2025年5-8月",
+    "exact": false,
+    "note": "原图该时段被浮层遮挡，改用同月可比口径"
+   },
    "mx": {
     "status": "done",
     "title": "厨房大类",
@@ -304,13 +319,13 @@ window.SC_HOME = {
      {
       "time": "2025年11月",
       "value": "约7.2亿MXN",
-      "stage": "★★历史最高峰",
+      "stage": "★峰值1",
       "note": "2025年冬季大促高峰"
      },
      {
       "time": "2026年3月",
       "value": "约7.8亿MXN",
-      "stage": "★★历史最高峰",
+      "stage": "★峰值2",
       "note": "2026年春季高峰"
      },
      {
@@ -424,7 +439,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "易碎需加厚包装 建议成套组合",
-     "src": "csv#59"
+     "src": "csv#2"
     },
     {
      "scene": "餐厅",
@@ -437,7 +452,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "易碎包装",
-     "src": "csv#60"
+     "src": "csv#3"
     },
     {
      "scene": "餐厅",
@@ -450,7 +465,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "强调材质安全",
-     "src": "csv#61"
+     "src": "csv#4"
     },
     {
      "scene": "餐厅",
@@ -463,7 +478,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "件数写清",
-     "src": "csv#62"
+     "src": "csv#5"
     },
     {
      "scene": "餐厅",
@@ -476,7 +491,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "不锈钢标号写清",
-     "src": "csv#63"
+     "src": "csv#6"
     },
     {
      "scene": "餐厅",
@@ -489,7 +504,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "安全圆角设计",
-     "src": "csv#64"
+     "src": "csv#7"
     },
     {
      "scene": "餐厅",
@@ -502,7 +517,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "易碎包装",
-     "src": "csv#65"
+     "src": "csv#8"
     },
     {
      "scene": "餐厅",
@@ -515,7 +530,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "易碎包装",
-     "src": "csv#66"
+     "src": "csv#9"
     },
     {
      "scene": "餐厅",
@@ -528,7 +543,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可印图案做差异化",
-     "src": "csv#67"
+     "src": "csv#10"
     },
     {
      "scene": "餐厅",
@@ -541,7 +556,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "保温时长写实",
-     "src": "csv#68"
+     "src": "csv#11"
     },
     {
      "scene": "餐厅",
@@ -554,7 +569,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "耐温数值写清",
-     "src": "csv#75"
+     "src": "csv#12"
     },
     {
      "scene": "餐厅",
@@ -567,7 +582,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可裁剪是卖点",
-     "src": "csv#76"
+     "src": "csv#13"
     },
     {
      "scene": "餐厅",
@@ -580,7 +595,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "不锈钢材质说明",
-     "src": "csv#77"
+     "src": "csv#14"
     },
     {
      "scene": "餐厅",
@@ -593,7 +608,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "容量与保温时长写实",
-     "src": "csv#80"
+     "src": "csv#15"
     },
     {
      "scene": "餐厅",
@@ -606,7 +621,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "尺寸适配餐盘",
-     "src": "csv#81"
+     "src": "csv#16"
     },
     {
      "scene": "餐厅",
@@ -619,7 +634,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "密封防漏是核心",
-     "src": "csv#82"
+     "src": "csv#17"
     },
     {
      "scene": "厨房",
@@ -632,7 +647,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "组合件数是差异化重点",
-     "src": "csv#87"
+     "src": "csv#18"
     },
     {
      "scene": "厨房",
@@ -645,7 +660,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "标注钢号",
-     "src": "csv#88"
+     "src": "csv#19"
     },
     {
      "scene": "厨房",
@@ -658,7 +673,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "强调无PFOA",
-     "src": "csv#89"
+     "src": "csv#20"
     },
     {
      "scene": "厨房",
@@ -671,7 +686,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "直径写清",
-     "src": "csv#90"
+     "src": "csv#21"
     },
     {
      "scene": "厨房",
@@ -684,7 +699,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "可做套装",
-     "src": "csv#91"
+     "src": "csv#22"
     },
     {
      "scene": "厨房",
@@ -697,7 +712,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "适配本地炉型",
-     "src": "csv#92"
+     "src": "csv#23"
     },
     {
      "scene": "厨房",
@@ -710,7 +725,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "安全阀说明与认证",
-     "src": "csv#93"
+     "src": "csv#24"
     },
     {
      "scene": "厨房",
@@ -723,7 +738,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "层数可组合",
-     "src": "csv#94"
+     "src": "csv#25"
     },
     {
      "scene": "厨房",
@@ -736,7 +751,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "刀架包装防割",
-     "src": "csv#102"
+     "src": "csv#26"
     },
     {
      "scene": "厨房",
@@ -749,7 +764,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "刀刃长度标注",
-     "src": "csv#103"
+     "src": "csv#27"
     },
     {
      "scene": "厨房",
@@ -762,7 +777,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "材质区分（PP/竹/小麦秸秆）",
-     "src": "csv#104"
+     "src": "csv#28"
     },
     {
      "scene": "厨房",
@@ -775,7 +790,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "操作简便性写清",
-     "src": "csv#105"
+     "src": "csv#29"
     },
     {
      "scene": "厨房",
@@ -788,7 +803,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多功能是卖点",
-     "src": "csv#106"
+     "src": "csv#30"
     },
     {
      "scene": "厨房",
@@ -801,7 +816,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可做套装",
-     "src": "csv#107"
+     "src": "csv#31"
     },
     {
      "scene": "厨房",
@@ -814,7 +829,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "刀片规格写清",
-     "src": "csv#108"
+     "src": "csv#32"
     },
     {
      "scene": "厨房",
@@ -827,7 +842,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "易清洗是卖点",
-     "src": "csv#109"
+     "src": "csv#33"
     },
     {
      "scene": "厨房",
@@ -840,7 +855,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可组合",
-     "src": "csv#110"
+     "src": "csv#34"
     },
     {
      "scene": "厨房",
@@ -853,7 +868,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "刻度清晰",
-     "src": "csv#111"
+     "src": "csv#35"
     },
     {
      "scene": "厨房",
@@ -866,7 +881,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "柑橘类为主",
-     "src": "csv#112"
+     "src": "csv#36"
     },
     {
      "scene": "厨房",
@@ -879,7 +894,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "低价凑单品",
-     "src": "csv#113"
+     "src": "csv#37"
     },
     {
      "scene": "厨房",
@@ -892,7 +907,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "耐温值写实",
-     "src": "csv#114"
+     "src": "csv#38"
     },
     {
      "scene": "厨房",
@@ -905,7 +920,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可成套",
-     "src": "csv#115"
+     "src": "csv#39"
     },
     {
      "scene": "厨房",
@@ -918,7 +933,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可成套",
-     "src": "csv#116"
+     "src": "csv#40"
     },
     {
      "scene": "厨房",
@@ -931,7 +946,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可成套",
-     "src": "csv#117"
+     "src": "csv#41"
     },
     {
      "scene": "厨房",
@@ -944,7 +959,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "密封防漏是核心",
-     "src": "csv#118"
+     "src": "csv#42"
     },
     {
      "scene": "厨房",
@@ -957,7 +972,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "易碎包装",
-     "src": "csv#119"
+     "src": "csv#43"
     },
     {
      "scene": "厨房",
@@ -970,7 +985,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "带标签款加分",
-     "src": "csv#120"
+     "src": "csv#44"
     },
     {
      "scene": "厨房",
@@ -983,7 +998,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "标注适配冰箱宽度",
-     "src": "csv#121"
+     "src": "csv#45"
     },
     {
      "scene": "厨房",
@@ -996,7 +1011,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "低价凑单品",
-     "src": "csv#122"
+     "src": "csv#46"
     },
     {
      "scene": "厨房",
@@ -1009,7 +1024,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可挂可立",
-     "src": "csv#126"
+     "src": "csv#47"
     },
     {
      "scene": "厨房",
@@ -1022,7 +1037,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "通风防霉设计",
-     "src": "csv#127"
+     "src": "csv#48"
     },
     {
      "scene": "厨房",
@@ -1035,7 +1050,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "接口兼容性写清",
-     "src": "csv#128"
+     "src": "csv#49"
     },
     {
      "scene": "厨房",
@@ -1048,7 +1063,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "常做多片装",
-     "src": "csv#129"
+     "src": "csv#50"
     },
     {
      "scene": "厨房",
@@ -1061,7 +1076,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可折叠款更优",
-     "src": "csv#130"
+     "src": "csv#51"
     },
     {
      "scene": "厨房",
@@ -1074,7 +1089,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "耐油耐高温",
-     "src": "csv#131"
+     "src": "csv#52"
     },
     {
      "scene": "厨房",
@@ -1087,7 +1102,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可折叠",
-     "src": "csv#135"
+     "src": "csv#53"
     },
     {
      "scene": "厨房",
@@ -1100,7 +1115,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可定制图案",
-     "src": "csv#137"
+     "src": "csv#54"
     },
     {
      "scene": "厨房",
@@ -1113,7 +1128,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可裁剪是卖点",
-     "src": "csv#138"
+     "src": "csv#55"
     },
     {
      "scene": "厨房",
@@ -1126,7 +1141,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "耐高温标注",
-     "src": "csv#139"
+     "src": "csv#56"
     },
     {
      "scene": "厨房",
@@ -1139,7 +1154,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "精度与承重标注",
-     "src": "csv#141"
+     "src": "csv#57"
     },
     {
      "scene": "厨房",
@@ -1152,7 +1167,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "探针式更受欢迎",
-     "src": "csv#142"
+     "src": "csv#58"
     },
     {
      "scene": "厨房",
@@ -1165,7 +1180,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "磁吸款加分",
-     "src": "csv#143"
+     "src": "csv#59"
     },
     {
      "scene": "厨房",
@@ -1178,7 +1193,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "巴西咖啡刚需",
-     "src": "csv#147"
+     "src": "csv#60"
     },
     {
      "scene": "厨房",
@@ -1191,7 +1206,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "玻璃款需防碎",
-     "src": "csv#148"
+     "src": "csv#61"
     },
     {
      "scene": "厨房",
@@ -1204,7 +1219,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配滤纸组合",
-     "src": "csv#149"
+     "src": "csv#62"
     },
     {
      "scene": "厨房",
@@ -1217,7 +1232,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "耗材型复购品",
-     "src": "csv#150"
+     "src": "csv#63"
     },
     {
      "scene": "厨房",
@@ -1230,7 +1245,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "墨西哥刚需 低竞争",
-     "src": "csv#151"
+     "src": "csv#64"
     },
     {
      "scene": "厨房",
@@ -1243,7 +1258,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配加热器组合",
-     "src": "csv#152"
+     "src": "csv#65"
     },
     {
      "scene": "厨房",
@@ -1256,7 +1271,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "重量较大",
-     "src": "csv#153"
+     "src": "csv#66"
     },
     {
      "scene": "厨房",
@@ -1269,7 +1284,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "适配本地炉型",
-     "src": "csv#154"
+     "src": "csv#67"
     }
    ],
    "no": 1,
@@ -1283,6 +1298,13 @@ window.SC_HOME = {
    "icon": "🛋️",
    "page": "cat-furniture.html",
    "salesMxn": 7.38,
+   "yoy": {
+    "value": 46.85,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "家具",
@@ -1580,7 +1602,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#3"
+     "src": "csv#68"
     },
     {
      "scene": "玄关/门厅",
@@ -1593,7 +1615,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "注意承重标注",
-     "src": "csv#6"
+     "src": "csv#69"
     },
     {
      "scene": "玄关/门厅",
@@ -1606,7 +1628,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地仓",
-     "src": "csv#19"
+     "src": "csv#70"
     },
     {
      "scene": "玄关/门厅",
@@ -1619,7 +1641,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地仓",
-     "src": "csv#20"
+     "src": "csv#71"
     },
     {
      "scene": "客厅",
@@ -1632,7 +1654,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "平板家具需安装图",
-     "src": "csv#26"
+     "src": "csv#72"
     },
     {
      "scene": "客厅",
@@ -1645,7 +1667,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "折叠是核心卖点",
-     "src": "csv#27"
+     "src": "csv#73"
     },
     {
      "scene": "客厅",
@@ -1658,7 +1680,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "适配小户型",
-     "src": "csv#28"
+     "src": "csv#74"
     },
     {
      "scene": "客厅",
@@ -1671,7 +1693,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地仓",
-     "src": "csv#29"
+     "src": "csv#75"
     },
     {
      "scene": "餐厅",
@@ -1684,7 +1706,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#83"
+     "src": "csv#76"
     },
     {
      "scene": "餐厅",
@@ -1697,7 +1719,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#84"
+     "src": "csv#77"
     },
     {
      "scene": "餐厅",
@@ -1710,7 +1732,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#85"
+     "src": "csv#78"
     },
     {
      "scene": "餐厅",
@@ -1723,7 +1745,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "高度需标注",
-     "src": "csv#86"
+     "src": "csv#79"
     },
     {
      "scene": "卧室",
@@ -1736,7 +1758,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件必须本地发货",
-     "src": "csv#214"
+     "src": "csv#80"
     },
     {
      "scene": "卧室",
@@ -1749,7 +1771,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "需安装图",
-     "src": "csv#220"
+     "src": "csv#81"
     },
     {
      "scene": "卧室",
@@ -1762,7 +1784,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#224"
+     "src": "csv#82"
     },
     {
      "scene": "卧室",
@@ -1775,7 +1797,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "安装图必须清晰",
-     "src": "csv#225"
+     "src": "csv#83"
     },
     {
      "scene": "卧室",
@@ -1788,7 +1810,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#237"
+     "src": "csv#84"
     },
     {
      "scene": "书房/居家办公",
@@ -1801,7 +1823,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#245"
+     "src": "csv#85"
     },
     {
      "scene": "书房/居家办公",
@@ -1814,7 +1836,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#246"
+     "src": "csv#86"
     },
     {
      "scene": "书房/居家办公",
@@ -1827,7 +1849,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "小户型需求",
-     "src": "csv#247"
+     "src": "csv#87"
     },
     {
      "scene": "书房/居家办公",
@@ -1840,7 +1862,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "重货需本地发货",
-     "src": "csv#248"
+     "src": "csv#88"
     },
     {
      "scene": "书房/居家办公",
@@ -1853,7 +1875,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#249"
+     "src": "csv#89"
     },
     {
      "scene": "书房/居家办公",
@@ -1866,7 +1888,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#250"
+     "src": "csv#90"
     },
     {
      "scene": "书房/居家办公",
@@ -1879,7 +1901,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "承重标注",
-     "src": "csv#251"
+     "src": "csv#91"
     },
     {
      "scene": "书房/居家办公",
@@ -1892,7 +1914,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#252"
+     "src": "csv#92"
     },
     {
      "scene": "书房/居家办公",
@@ -1905,7 +1927,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "安装图必须清晰",
-     "src": "csv#253"
+     "src": "csv#93"
     },
     {
      "scene": "儿童房",
@@ -1918,7 +1940,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#278"
+     "src": "csv#94"
     },
     {
      "scene": "儿童房",
@@ -1931,7 +1953,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#279"
+     "src": "csv#95"
     },
     {
      "scene": "儿童房",
@@ -1944,7 +1966,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#280"
+     "src": "csv#96"
     }
    ],
    "no": 2,
@@ -1958,6 +1980,13 @@ window.SC_HOME = {
    "icon": "🌿",
    "page": "cat-garden.html",
    "salesMxn": 4.96,
+   "yoy": {
+    "value": 26.69,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "花园和户外",
@@ -2004,7 +2033,7 @@ window.SC_HOME = {
       "mom": "-13.62% ↓",
       "dod": "-1.61% ↓",
       "prev": "5.04亿",
-      "note": "★★★月销售额约2876万美元，最大！",
+      "note": "★★月销售额约2876万美元，第3大",
       "src": "花园和户外#12"
      },
      {
@@ -2022,7 +2051,7 @@ window.SC_HOME = {
       "mom": "+0.81% ↑",
       "dod": "-0.07% ↓",
       "prev": "502.29",
-      "note": "★★客单价最高，约29美元",
+      "note": "客单价约29美元",
       "src": "花园和户外#14"
      }
     ],
@@ -2042,7 +2071,7 @@ window.SC_HOME = {
      {
       "time": "2024年5月",
       "value": "约5.8亿MXN",
-      "stage": "春季高峰",
+      "stage": "★★历史最高峰（7.8亿）",
       "note": "春季高峰"
      },
      {
@@ -2060,7 +2089,7 @@ window.SC_HOME = {
      {
       "time": "2026年2月",
       "value": "约7.2亿MXN",
-      "stage": "★★历史最高峰",
+      "stage": "★次高峰（7.2亿）",
       "note": "2026年初高峰"
      },
      {
@@ -2084,7 +2113,7 @@ window.SC_HOME = {
       ],
       [
        "市场规模",
-       "★★★最大的二级分类——月销98.79万件，月销售额4.96亿MXN（约2876万美元）"
+       "★★第3大二级分类——月销98.79万件，月销售额4.96亿MXN（约2876万美元）"
       ],
       [
        "活跃率",
@@ -2100,7 +2129,7 @@ window.SC_HOME = {
       ],
       [
        "客单价",
-       "501.94 MXN（约$29.11）——★★客单价最高，约29美元，利润空间大"
+       "501.94 MXN（约\\.11）——客单价约29美元，利润空间大"
       ],
       [
        "3年趋势",
@@ -2308,7 +2337,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "含收纳袋更好卖",
-     "src": "csv#303"
+     "src": "csv#97"
     },
     {
      "scene": "阳台/庭院",
@@ -2321,7 +2350,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "刀口材质说明",
-     "src": "csv#304"
+     "src": "csv#98"
     },
     {
      "scene": "阳台/庭院",
@@ -2334,7 +2363,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "容量标注",
-     "src": "csv#305"
+     "src": "csv#99"
     },
     {
      "scene": "阳台/庭院",
@@ -2347,7 +2376,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可调喷嘴",
-     "src": "csv#306"
+     "src": "csv#100"
     },
     {
      "scene": "阳台/庭院",
@@ -2360,7 +2389,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "自浇水款转化更好",
-     "src": "csv#307"
+     "src": "csv#101"
     },
     {
      "scene": "阳台/庭院",
@@ -2373,7 +2402,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "安装图清晰",
-     "src": "csv#308"
+     "src": "csv#102"
     },
     {
      "scene": "阳台/庭院",
@@ -2386,7 +2415,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "小空间需求",
-     "src": "csv#309"
+     "src": "csv#103"
     },
     {
      "scene": "阳台/庭院",
@@ -2399,7 +2428,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "免钉款更受欢迎",
-     "src": "csv#310"
+     "src": "csv#104"
     },
     {
      "scene": "阳台/庭院",
@@ -2412,7 +2441,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "防水等级标注",
-     "src": "csv#312"
+     "src": "csv#105"
     },
     {
      "scene": "阳台/庭院",
@@ -2425,7 +2454,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#313"
+     "src": "csv#106"
     },
     {
      "scene": "阳台/庭院",
@@ -2438,7 +2467,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "遮光率标注",
-     "src": "csv#317"
+     "src": "csv#107"
     },
     {
      "scene": "阳台/庭院",
@@ -2451,7 +2480,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#318"
+     "src": "csv#108"
     },
     {
      "scene": "阳台/庭院",
@@ -2464,7 +2493,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#319"
+     "src": "csv#109"
     },
     {
      "scene": "阳台/庭院",
@@ -2477,7 +2506,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "低",
      "note": "承重与尺寸标注",
-     "src": "csv#320"
+     "src": "csv#110"
     },
     {
      "scene": "阳台/庭院",
@@ -2490,7 +2519,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "低",
      "note": "重货 注意运输",
-     "src": "csv#321"
+     "src": "csv#111"
     },
     {
      "scene": "阳台/庭院",
@@ -2503,7 +2532,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "成套卖客单价高",
-     "src": "csv#322"
+     "src": "csv#112"
     },
     {
      "scene": "阳台/庭院",
@@ -2516,7 +2545,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件需本地发货",
-     "src": "csv#323"
+     "src": "csv#113"
     },
     {
      "scene": "阳台/庭院",
@@ -2529,7 +2558,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "低",
      "note": "防水与容量标注",
-     "src": "csv#324"
+     "src": "csv#114"
     },
     {
      "scene": "阳台/庭院",
@@ -2542,7 +2571,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "含分区设计",
-     "src": "csv#325"
+     "src": "csv#115"
     }
    ],
    "no": 3,
@@ -2550,15 +2579,22 @@ window.SC_HOME = {
   },
   {
    "id": "cat-mattress",
-   "name": "床垫床垫配件",
-   "short": "床垫床垫配件",
+   "name": "床垫及配件",
+   "short": "床垫及配件",
    "nameEs": "Camas, Colchones y Accesorios",
    "icon": "🛏️",
    "page": "cat-mattress.html",
    "salesMxn": 3.38,
+   "yoy": {
+    "value": 57.95,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
-    "title": "床垫床垫配件",
+    "title": "床垫及配件",
     "metrics": [
      {
       "label": "总商品数",
@@ -2567,7 +2603,7 @@ window.SC_HOME = {
       "dod": "+3.91% ↑",
       "prev": "1,415,841",
       "note": "商品数在增加",
-      "src": "床垫床垫配件#8"
+      "src": "床垫及配件#8"
      },
      {
       "label": "活跃商品数",
@@ -2576,7 +2612,7 @@ window.SC_HOME = {
       "dod": "-0.49% ↓",
       "prev": "44,892",
       "note": "★活跃商品腰斩，行业大洗牌",
-      "src": "床垫床垫配件#9"
+      "src": "床垫及配件#9"
      },
      {
       "label": "活跃率",
@@ -2585,7 +2621,7 @@ window.SC_HOME = {
       "dod": "—",
       "prev": "—",
       "note": "活跃率低，大部分是僵尸商品",
-      "src": "床垫床垫配件#10"
+      "src": "床垫及配件#10"
      },
      {
       "label": "近30天总销量",
@@ -2594,7 +2630,7 @@ window.SC_HOME = {
       "dod": "-0.18% ↓",
       "prev": "24.48万",
       "note": "月销24万件，大品类",
-      "src": "床垫床垫配件#11"
+      "src": "床垫及配件#11"
      },
      {
       "label": "近30天销售额",
@@ -2603,7 +2639,7 @@ window.SC_HOME = {
       "dod": "-0.44% ↓",
       "prev": "3.39亿",
       "note": "★★月销售额约1958万美元",
-      "src": "床垫床垫配件#12"
+      "src": "床垫及配件#12"
      },
      {
       "label": "日均销量",
@@ -2612,7 +2648,7 @@ window.SC_HOME = {
       "dod": "-0.17% ↓",
       "prev": "8,158",
       "note": "每天卖8千件",
-      "src": "床垫床垫配件#13"
+      "src": "床垫及配件#13"
      },
      {
       "label": "平均成交价",
@@ -2621,7 +2657,7 @@ window.SC_HOME = {
       "dod": "-0.27% ↓",
       "prev": "1,385.90",
       "note": "★★★客单价最高！约80美元",
-      "src": "床垫床垫配件#14"
+      "src": "床垫及配件#14"
      }
     ],
     "trend": [
@@ -2740,7 +2776,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "尺寸必须精确",
-     "src": "csv#211"
+     "src": "csv#116"
     },
     {
      "scene": "卧室",
@@ -2753,7 +2789,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "防水等级标注",
-     "src": "csv#212"
+     "src": "csv#117"
     },
     {
      "scene": "卧室",
@@ -2766,7 +2802,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "大件必须本地发货",
-     "src": "csv#213"
+     "src": "csv#118"
     },
     {
      "scene": "儿童房",
@@ -2779,7 +2815,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "涉及安全认证 慎入",
-     "src": "csv#288"
+     "src": "csv#119"
     },
     {
      "scene": "儿童房",
@@ -2792,7 +2828,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "存在安全争议 慎入",
-     "src": "csv#289"
+     "src": "csv#120"
     }
    ],
    "no": 4,
@@ -2806,6 +2842,13 @@ window.SC_HOME = {
    "icon": "🖼️",
    "page": "cat-decor.html",
    "salesMxn": 3.36,
+   "yoy": {
+    "value": 48.93,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "家居装饰和装饰品",
@@ -3086,7 +3129,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "务必加厚包装防碎",
-     "src": "csv#17"
+     "src": "csv#121"
     },
     {
      "scene": "玄关/门厅",
@@ -3099,7 +3142,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "标明安装方式与承重",
-     "src": "csv#18"
+     "src": "csv#122"
     },
     {
      "scene": "客厅",
@@ -3112,7 +3155,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "防碎包装是重点",
-     "src": "csv#41"
+     "src": "csv#123"
     },
     {
      "scene": "客厅",
@@ -3125,7 +3168,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "易碎需加厚包装",
-     "src": "csv#42"
+     "src": "csv#124"
     },
     {
      "scene": "客厅",
@@ -3138,7 +3181,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套主题卖更佳",
-     "src": "csv#43"
+     "src": "csv#125"
     },
     {
      "scene": "客厅",
@@ -3151,7 +3194,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "防碎包装",
-     "src": "csv#44"
+     "src": "csv#126"
     },
     {
      "scene": "客厅",
@@ -3164,7 +3207,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "静音款是卖点",
-     "src": "csv#45"
+     "src": "csv#127"
     },
     {
      "scene": "客厅",
@@ -3177,7 +3220,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "液体运输需密封",
-     "src": "csv#46"
+     "src": "csv#128"
     },
     {
      "scene": "客厅",
@@ -3190,7 +3233,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "受热变形风险",
-     "src": "csv#47"
+     "src": "csv#129"
     },
     {
      "scene": "卧室",
@@ -3203,7 +3246,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配精油组合",
-     "src": "csv#235"
+     "src": "csv#130"
     },
     {
      "scene": "卧室",
@@ -3216,7 +3259,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "防碎包装",
-     "src": "csv#240"
+     "src": "csv#131"
     },
     {
      "scene": "书房/居家办公",
@@ -3229,7 +3272,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "含钉套装",
-     "src": "csv#273"
+     "src": "csv#132"
     },
     {
      "scene": "书房/居家办公",
@@ -3242,7 +3285,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "自浇水款加分",
-     "src": "csv#274"
+     "src": "csv#133"
     },
     {
      "scene": "儿童房",
@@ -3255,7 +3298,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "易撕不损墙是卖点",
-     "src": "csv#296"
+     "src": "csv#134"
     }
    ],
    "no": 5,
@@ -3269,6 +3312,13 @@ window.SC_HOME = {
    "icon": "💡",
    "page": "cat-lighting.html",
    "salesMxn": 3.28,
+   "yoy": {
+    "value": 36.69,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "家居照明",
@@ -3469,7 +3519,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "电压标注",
-     "src": "csv#37"
+     "src": "csv#135"
     },
     {
      "scene": "客厅",
@@ -3482,7 +3532,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "USB供电款物流友好",
-     "src": "csv#38"
+     "src": "csv#136"
     },
     {
      "scene": "客厅",
@@ -3495,7 +3545,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "感应款转化更好",
-     "src": "csv#39"
+     "src": "csv#137"
     },
     {
      "scene": "客厅",
@@ -3508,7 +3558,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "节庆期爆发",
-     "src": "csv#40"
+     "src": "csv#138"
     },
     {
      "scene": "卫生间",
@@ -3521,7 +3571,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "防水等级标注",
-     "src": "csv#190"
+     "src": "csv#139"
     },
     {
      "scene": "卧室",
@@ -3534,7 +3584,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "触摸调光加分",
-     "src": "csv#236"
+     "src": "csv#140"
     },
     {
      "scene": "书房/居家办公",
@@ -3547,7 +3597,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "色温与亮度可调是卖点",
-     "src": "csv#263"
+     "src": "csv#141"
     },
     {
      "scene": "书房/居家办公",
@@ -3560,7 +3610,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可夹床头或桌面",
-     "src": "csv#264"
+     "src": "csv#142"
     },
     {
      "scene": "书房/居家办公",
@@ -3573,7 +3623,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "适配屏幕厚度",
-     "src": "csv#265"
+     "src": "csv#143"
     },
     {
      "scene": "儿童房",
@@ -3586,7 +3636,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "卡通造型加分",
-     "src": "csv#294"
+     "src": "csv#144"
     },
     {
      "scene": "儿童房",
@@ -3599,7 +3649,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "需注意版权风险",
-     "src": "csv#295"
+     "src": "csv#145"
     },
     {
      "scene": "阳台/庭院",
@@ -3612,7 +3662,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免布线是核心卖点",
-     "src": "csv#311"
+     "src": "csv#146"
     },
     {
      "scene": "阳台/庭院",
@@ -3625,7 +3675,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "节庆期爆发",
-     "src": "csv#314"
+     "src": "csv#147"
     },
     {
      "scene": "全屋通用",
@@ -3638,7 +3688,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "螺口规格与电压必须写清",
-     "src": "csv#368"
+     "src": "csv#148"
     },
     {
      "scene": "全屋通用",
@@ -3651,7 +3701,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "尺寸与功率标注",
-     "src": "csv#369"
+     "src": "csv#149"
     },
     {
      "scene": "全屋通用",
@@ -3664,7 +3714,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "开孔尺寸标注",
-     "src": "csv#370"
+     "src": "csv#150"
     },
     {
      "scene": "全屋通用",
@@ -3677,7 +3727,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "电压与开关方式",
-     "src": "csv#371"
+     "src": "csv#151"
     },
     {
      "scene": "全屋通用",
@@ -3690,7 +3740,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "充电或插电说明",
-     "src": "csv#372"
+     "src": "csv#152"
     },
     {
      "scene": "全屋通用",
@@ -3703,7 +3753,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "需说明兼容App与电压",
-     "src": "csv#373"
+     "src": "csv#153"
     },
     {
      "scene": "全屋通用",
@@ -3716,7 +3766,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "官方点名机会品类",
-     "src": "csv#374"
+     "src": "csv#154"
     },
     {
      "scene": "全屋通用",
@@ -3729,7 +3779,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "低",
      "note": "重货需本地发货",
-     "src": "csv#375"
+     "src": "csv#155"
     }
    ],
    "no": 6,
@@ -3743,6 +3793,13 @@ window.SC_HOME = {
    "icon": "🔒",
    "page": "cat-security.html",
    "salesMxn": 3.06,
+   "yoy": {
+    "value": 19.76,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "家庭安全",
@@ -3827,7 +3884,7 @@ window.SC_HOME = {
      {
       "time": "2024年2月",
       "value": "约3.3亿MXN",
-      "stage": "★★历史最高峰",
+      "stage": "★峰值1",
       "note": "2024年初大爆发"
      },
      {
@@ -3851,7 +3908,7 @@ window.SC_HOME = {
      {
       "time": "2026年7月",
       "value": "约3.3亿MXN",
-      "stage": "★★历史最高峰",
+      "stage": "★峰值2",
       "note": "2026年夏季高峰"
      },
      {
@@ -3875,7 +3932,7 @@ window.SC_HOME = {
       ],
       [
        "市场规模",
-       "★★大品类——月销57.57万件，月销售额3.06亿MXN（约1777万美元），比整个厨房品类还大！"
+       "★★大品类——月销57.57万件，月销售额3.06亿MXN（约1777万美元），家居第7大二级分类"
       ],
       [
        "活跃率",
@@ -3891,7 +3948,7 @@ window.SC_HOME = {
       ],
       [
        "客单价",
-       "532.26 MXN（约$30.86）——客单价高，利润空间大，比厨房品类高2-3倍"
+       "532.26 MXN（约\\.86）——客单价高，利润空间大，比厨房品类高约1.5倍"
       ],
       [
        "3年趋势",
@@ -3971,7 +4028,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "背胶质量是差评高发点",
-     "src": "csv#283"
+     "src": "csv#156"
     },
     {
      "scene": "儿童房",
@@ -3984,7 +4041,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#284"
+     "src": "csv#157"
     },
     {
      "scene": "儿童房",
@@ -3997,7 +4054,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "适配当地插座制式",
-     "src": "csv#285"
+     "src": "csv#158"
     },
     {
      "scene": "儿童房",
@@ -4010,7 +4067,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免打孔款更优",
-     "src": "csv#286"
+     "src": "csv#159"
     },
     {
      "scene": "儿童房",
@@ -4023,7 +4080,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "门宽范围需标",
-     "src": "csv#287"
+     "src": "csv#160"
     },
     {
      "scene": "全屋通用",
@@ -4036,7 +4093,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "需说明供电与存储方式",
-     "src": "csv#376"
+     "src": "csv#161"
     },
     {
      "scene": "全屋通用",
@@ -4049,7 +4106,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "接口规格写清",
-     "src": "csv#377"
+     "src": "csv#162"
     },
     {
      "scene": "全屋通用",
@@ -4062,7 +4119,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "需说明联网方式",
-     "src": "csv#378"
+     "src": "csv#163"
     },
     {
      "scene": "全屋通用",
@@ -4075,7 +4132,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免钉安装",
-     "src": "csv#379"
+     "src": "csv#164"
     },
     {
      "scene": "全屋通用",
@@ -4088,7 +4145,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "认证要求需确认",
-     "src": "csv#380"
+     "src": "csv#165"
     },
     {
      "scene": "全屋通用",
@@ -4101,7 +4158,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "认证要求需确认",
-     "src": "csv#381"
+     "src": "csv#166"
     },
     {
      "scene": "全屋通用",
@@ -4114,7 +4171,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "门厚与尺寸兼容性风险高",
-     "src": "csv#382"
+     "src": "csv#167"
     },
     {
      "scene": "全屋通用",
@@ -4127,7 +4184,7 @@ window.SC_HOME = {
      "priority": "C",
      "logistics": "低",
      "note": "重货需本地发货",
-     "src": "csv#383"
+     "src": "csv#168"
     },
     {
      "scene": "全屋通用",
@@ -4140,7 +4197,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "安全类目 需求稳定",
-     "src": "csv#398"
+     "src": "csv#169"
     },
     {
      "scene": "全屋通用",
@@ -4153,7 +4210,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可与儿童防护组合",
-     "src": "csv#400"
+     "src": "csv#170"
     }
    ],
    "no": 7,
@@ -4167,6 +4224,13 @@ window.SC_HOME = {
    "icon": "🧵",
    "page": "cat-textiles.html",
    "salesMxn": 2.2,
+   "yoy": {
+    "value": 34.74,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "家用纺织品和装饰品",
@@ -4409,7 +4473,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可裁剪款更受欢迎",
-     "src": "csv#13"
+     "src": "csv#171"
     },
     {
      "scene": "玄关/门厅",
@@ -4422,7 +4486,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "标注防滑底材质",
-     "src": "csv#14"
+     "src": "csv#172"
     },
     {
      "scene": "客厅",
@@ -4435,7 +4499,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "先确认当地沙发尺寸",
-     "src": "csv#21"
+     "src": "csv#173"
     },
     {
      "scene": "客厅",
@@ -4448,7 +4512,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "标注可拆洗",
-     "src": "csv#22"
+     "src": "csv#174"
     },
     {
      "scene": "客厅",
@@ -4461,7 +4525,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "秋冬季节性强",
-     "src": "csv#23"
+     "src": "csv#175"
     },
     {
      "scene": "客厅",
@@ -4474,7 +4538,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套多色卖转化更好",
-     "src": "csv#24"
+     "src": "csv#176"
     },
     {
      "scene": "客厅",
@@ -4487,7 +4551,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可与抱枕套组合",
-     "src": "csv#25"
+     "src": "csv#177"
     },
     {
      "scene": "客厅",
@@ -4500,7 +4564,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸是主要退货因",
-     "src": "csv#32"
+     "src": "csv#178"
     },
     {
      "scene": "客厅",
@@ -4513,7 +4577,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "需按尺寸定制说明",
-     "src": "csv#33"
+     "src": "csv#179"
     },
     {
      "scene": "客厅",
@@ -4526,7 +4590,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "墨西哥强日照刚需品",
-     "src": "csv#34"
+     "src": "csv#180"
     },
     {
      "scene": "客厅",
@@ -4539,7 +4603,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "常与遮光帘组合卖",
-     "src": "csv#35"
+     "src": "csv#181"
     },
     {
      "scene": "客厅",
@@ -4552,7 +4616,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "强季节性",
-     "src": "csv#58"
+     "src": "csv#182"
     },
     {
      "scene": "餐厅",
@@ -4565,7 +4629,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "尺寸需匹配当地桌型",
-     "src": "csv#69"
+     "src": "csv#183"
     },
     {
      "scene": "餐厅",
@@ -4578,7 +4642,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖转化更高",
-     "src": "csv#70"
+     "src": "csv#184"
     },
     {
      "scene": "餐厅",
@@ -4591,7 +4655,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可与餐垫组合",
-     "src": "csv#71"
+     "src": "csv#185"
     },
     {
      "scene": "餐厅",
@@ -4604,7 +4668,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "标注椅背尺寸",
-     "src": "csv#72"
+     "src": "csv#186"
     },
     {
      "scene": "餐厅",
@@ -4617,7 +4681,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖",
-     "src": "csv#73"
+     "src": "csv#187"
     },
     {
      "scene": "餐厅",
@@ -4630,7 +4694,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "硅胶款更受欢迎",
-     "src": "csv#74"
+     "src": "csv#188"
     },
     {
      "scene": "厨房",
@@ -4643,7 +4707,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "防油防滑",
-     "src": "csv#140"
+     "src": "csv#189"
     },
     {
      "scene": "卫生间",
@@ -4656,7 +4720,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "克重与尺寸写清",
-     "src": "csv#176"
+     "src": "csv#190"
     },
     {
      "scene": "卫生间",
@@ -4669,7 +4733,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "成套卖客单价更高",
-     "src": "csv#177"
+     "src": "csv#191"
     },
     {
      "scene": "卫生间",
@@ -4682,7 +4746,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可机洗是卖点",
-     "src": "csv#182"
+     "src": "csv#192"
     },
     {
      "scene": "卧室",
@@ -4695,7 +4759,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸必须按当地规格定做",
-     "src": "csv#203"
+     "src": "csv#193"
     },
     {
      "scene": "卧室",
@@ -4708,7 +4772,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸与拉链质量",
-     "src": "csv#204"
+     "src": "csv#194"
     },
     {
      "scene": "卧室",
@@ -4721,7 +4785,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖",
-     "src": "csv#205"
+     "src": "csv#195"
     },
     {
      "scene": "卧室",
@@ -4734,7 +4798,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "双人床单套装为巴西热销品",
-     "src": "csv#206"
+     "src": "csv#196"
     },
     {
      "scene": "卧室",
@@ -4747,7 +4811,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "低",
      "note": "蓬松度与克重写实",
-     "src": "csv#207"
+     "src": "csv#197"
     },
     {
      "scene": "卧室",
@@ -4760,7 +4824,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "低",
      "note": "高度与支撑度写清",
-     "src": "csv#208"
+     "src": "csv#198"
     },
     {
      "scene": "卧室",
@@ -4773,7 +4837,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "压缩包装说明",
-     "src": "csv#209"
+     "src": "csv#199"
     },
     {
      "scene": "卧室",
@@ -4786,7 +4850,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "常与抱枕套组合",
-     "src": "csv#210"
+     "src": "csv#200"
     },
     {
      "scene": "卧室",
@@ -4799,7 +4863,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸与遮光率标注",
-     "src": "csv#227"
+     "src": "csv#201"
     },
     {
      "scene": "卧室",
@@ -4812,7 +4876,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "组合销售",
-     "src": "csv#228"
+     "src": "csv#202"
     },
     {
      "scene": "卧室",
@@ -4825,7 +4889,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "巴西热带刚需",
-     "src": "csv#230"
+     "src": "csv#203"
     },
     {
      "scene": "卧室",
@@ -4838,7 +4902,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "电压与安全认证",
-     "src": "csv#241"
+     "src": "csv#204"
     },
     {
      "scene": "卧室",
@@ -4851,7 +4915,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "秋冬季节性强",
-     "src": "csv#242"
+     "src": "csv#205"
     },
     {
      "scene": "卧室",
@@ -4864,7 +4928,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "强季节性",
-     "src": "csv#244"
+     "src": "csv#206"
     },
     {
      "scene": "儿童房",
@@ -4877,7 +4941,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "厚度与材质标注",
-     "src": "csv#281"
+     "src": "csv#207"
     },
     {
      "scene": "儿童房",
@@ -4890,7 +4954,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "拼接口碑是关键",
-     "src": "csv#282"
+     "src": "csv#208"
     },
     {
      "scene": "儿童房",
@@ -4903,7 +4967,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸标注",
-     "src": "csv#290"
+     "src": "csv#209"
     },
     {
      "scene": "阳台/庭院",
@@ -4916,7 +4980,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "防雨防污",
-     "src": "csv#315"
+     "src": "csv#210"
     },
     {
      "scene": "阳台/庭院",
@@ -4929,7 +4993,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "防水面料",
-     "src": "csv#316"
+     "src": "csv#211"
     },
     {
      "scene": "全屋通用",
@@ -4942,7 +5006,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套多色卖",
-     "src": "csv#384"
+     "src": "csv#212"
     },
     {
      "scene": "全屋通用",
@@ -4955,7 +5019,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸适配是难点",
-     "src": "csv#385"
+     "src": "csv#213"
     },
     {
      "scene": "全屋通用",
@@ -4968,7 +5032,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "标注椅背高度",
-     "src": "csv#386"
+     "src": "csv#214"
     },
     {
      "scene": "全屋通用",
@@ -4981,7 +5045,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "尺寸写清",
-     "src": "csv#387"
+     "src": "csv#215"
     },
     {
      "scene": "全屋通用",
@@ -4994,7 +5058,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可与餐垫组合",
-     "src": "csv#388"
+     "src": "csv#216"
     },
     {
      "scene": "全屋通用",
@@ -5007,7 +5071,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸是主要退货因素",
-     "src": "csv#389"
+     "src": "csv#217"
     },
     {
      "scene": "全屋通用",
@@ -5020,7 +5084,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "防滑底材质",
-     "src": "csv#390"
+     "src": "csv#218"
     },
     {
      "scene": "全屋通用",
@@ -5033,7 +5097,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "克重与尺寸",
-     "src": "csv#391"
+     "src": "csv#219"
     },
     {
      "scene": "全屋通用",
@@ -5046,7 +5110,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "尺寸与遮光率",
-     "src": "csv#392"
+     "src": "csv#220"
     }
    ],
    "no": 8,
@@ -5060,6 +5124,13 @@ window.SC_HOME = {
    "icon": "🧺",
    "page": "cat-homecare.html",
    "salesMxn": 1.94,
+   "yoy": {
+    "value": 44.95,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "家庭护理和洗衣",
@@ -5323,7 +5394,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "复购品可做套装",
-     "src": "csv#48"
+     "src": "csv#221"
     },
     {
      "scene": "客厅",
@@ -5336,7 +5407,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "巴西全年刚需",
-     "src": "csv#56"
+     "src": "csv#222"
     },
     {
      "scene": "客厅",
@@ -5349,7 +5420,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "注意液体运输合规",
-     "src": "csv#57"
+     "src": "csv#223"
     },
     {
      "scene": "厨房",
@@ -5362,7 +5433,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套多片卖",
-     "src": "csv#132"
+     "src": "csv#224"
     },
     {
      "scene": "厨房",
@@ -5375,7 +5446,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多片装",
-     "src": "csv#133"
+     "src": "csv#225"
     },
     {
      "scene": "厨房",
@@ -5388,7 +5459,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多片装",
-     "src": "csv#134"
+     "src": "csv#226"
     },
     {
      "scene": "厨房",
@@ -5401,7 +5472,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "适配常见袋型",
-     "src": "csv#136"
+     "src": "csv#227"
     },
     {
      "scene": "厨房",
@@ -5414,7 +5485,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "容量与内桶说明",
-     "src": "csv#144"
+     "src": "csv#228"
     },
     {
      "scene": "厨房",
@@ -5427,7 +5498,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "免钉安装是卖点",
-     "src": "csv#145"
+     "src": "csv#229"
     },
     {
      "scene": "厨房",
@@ -5440,7 +5511,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "多格设计",
-     "src": "csv#146"
+     "src": "csv#230"
     },
     {
      "scene": "卧室",
@@ -5479,7 +5550,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "承重与展开尺寸写清",
-     "src": "csv#299"
+     "src": "csv#233"
     },
     {
      "scene": "阳台/庭院",
@@ -5492,7 +5563,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "可升降款加分",
-     "src": "csv#300"
+     "src": "csv#234"
     },
     {
      "scene": "阳台/庭院",
@@ -5505,7 +5576,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "含固定配件",
-     "src": "csv#301"
+     "src": "csv#235"
     },
     {
      "scene": "阳台/庭院",
@@ -5518,7 +5589,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装 抗老化",
-     "src": "csv#302"
+     "src": "csv#236"
     },
     {
      "scene": "阳台/庭院",
@@ -5531,7 +5602,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "需插电或电池版本说明",
-     "src": "csv#326"
+     "src": "csv#237"
     },
     {
      "scene": "阳台/庭院",
@@ -5544,7 +5615,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "电压标注",
-     "src": "csv#327"
+     "src": "csv#238"
     },
     {
      "scene": "洗衣房",
@@ -5557,7 +5628,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "分类洗涤需求",
-     "src": "csv#329"
+     "src": "csv#239"
     },
     {
      "scene": "洗衣房",
@@ -5570,7 +5641,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "挂门款加分",
-     "src": "csv#330"
+     "src": "csv#240"
     },
     {
      "scene": "洗衣房",
@@ -5583,7 +5654,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "与阳台场景可共用",
-     "src": "csv#331"
+     "src": "csv#241"
     },
     {
      "scene": "洗衣房",
@@ -5596,7 +5667,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多尺寸套装",
-     "src": "csv#332"
+     "src": "csv#242"
     },
     {
      "scene": "洗衣房",
@@ -5609,7 +5680,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可做套装",
-     "src": "csv#333"
+     "src": "csv#243"
     },
     {
      "scene": "洗衣房",
@@ -5622,7 +5693,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配标签",
-     "src": "csv#334"
+     "src": "csv#244"
     },
     {
      "scene": "洗衣房",
@@ -5635,7 +5706,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "折叠款加分",
-     "src": "csv#335"
+     "src": "csv#245"
     },
     {
      "scene": "洗衣房",
@@ -5648,7 +5719,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "尺寸需匹配",
-     "src": "csv#337"
+     "src": "csv#246"
     },
     {
      "scene": "洗衣房",
@@ -5661,7 +5732,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可撕式更受欢迎",
-     "src": "csv#338"
+     "src": "csv#247"
     },
     {
      "scene": "洗衣房",
@@ -5674,7 +5745,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "电池或充电款说明",
-     "src": "csv#339"
+     "src": "csv#248"
     },
     {
      "scene": "洗衣房",
@@ -5687,7 +5758,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "免手洗是核心卖点",
-     "src": "csv#343"
+     "src": "csv#249"
     },
     {
      "scene": "洗衣房",
@@ -5700,7 +5771,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "替换头可单独卖",
-     "src": "csv#344"
+     "src": "csv#250"
     },
     {
      "scene": "洗衣房",
@@ -5713,7 +5784,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免钉款更优",
-     "src": "csv#345"
+     "src": "csv#251"
     },
     {
      "scene": "洗衣房",
@@ -5726,7 +5797,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "含硅胶刮条加分",
-     "src": "csv#346"
+     "src": "csv#252"
     },
     {
      "scene": "全屋通用",
@@ -5739,7 +5810,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "替换布可复购",
-     "src": "csv#353"
+     "src": "csv#253"
     },
     {
      "scene": "全屋通用",
@@ -5752,7 +5823,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "耗材复购品",
-     "src": "csv#354"
+     "src": "csv#254"
     },
     {
      "scene": "全屋通用",
@@ -5765,7 +5836,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配伸缩杆",
-     "src": "csv#358"
+     "src": "csv#255"
     },
     {
      "scene": "全屋通用",
@@ -5778,7 +5849,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可伸缩款加分",
-     "src": "csv#359"
+     "src": "csv#256"
     },
     {
      "scene": "全屋通用",
@@ -5791,7 +5862,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多片装",
-     "src": "csv#360"
+     "src": "csv#257"
     },
     {
      "scene": "全屋通用",
@@ -5804,7 +5875,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "含缝隙刷",
-     "src": "csv#361"
+     "src": "csv#258"
     },
     {
      "scene": "全屋通用",
@@ -5817,7 +5888,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "容量与盖型",
-     "src": "csv#362"
+     "src": "csv#259"
     },
     {
      "scene": "全屋通用",
@@ -5830,7 +5901,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "尺寸与厚度写清",
-     "src": "csv#363"
+     "src": "csv#260"
     },
     {
      "scene": "全屋通用",
@@ -5843,7 +5914,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "化学品运输需合规",
-     "src": "csv#364"
+     "src": "csv#261"
     },
     {
      "scene": "全屋通用",
@@ -5856,7 +5927,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "液体运输合规",
-     "src": "csv#365"
+     "src": "csv#262"
     },
     {
      "scene": "全屋通用",
@@ -5869,7 +5940,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "液体运输合规",
-     "src": "csv#366"
+     "src": "csv#263"
     },
     {
      "scene": "全屋通用",
@@ -5882,7 +5953,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "复购品",
-     "src": "csv#367"
+     "src": "csv#264"
     }
    ],
    "no": 9,
@@ -5896,6 +5967,13 @@ window.SC_HOME = {
    "icon": "🚿",
    "page": "cat-bath.html",
    "salesMxn": 1.47,
+   "yoy": {
+    "value": 34.58,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "浴室",
@@ -6113,7 +6191,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "接口规格必须写清",
-     "src": "csv#155"
+     "src": "csv#265"
     },
     {
      "scene": "卫生间",
@@ -6126,7 +6204,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "水压偏低地区需求强",
-     "src": "csv#156"
+     "src": "csv#266"
     },
     {
      "scene": "卫生间",
@@ -6139,7 +6217,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "长度与接口标注",
-     "src": "csv#157"
+     "src": "csv#267"
     },
     {
      "scene": "卫生间",
@@ -6152,7 +6230,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "承重写实",
-     "src": "csv#158"
+     "src": "csv#268"
     },
     {
      "scene": "卫生间",
@@ -6165,7 +6243,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "滤芯更换周期写清",
-     "src": "csv#159"
+     "src": "csv#269"
     },
     {
      "scene": "卫生间",
@@ -6178,7 +6256,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "防水防霉是核心卖点",
-     "src": "csv#160"
+     "src": "csv#270"
     },
     {
      "scene": "卫生间",
@@ -6191,7 +6269,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "伸缩范围写清",
-     "src": "csv#161"
+     "src": "csv#271"
     },
     {
      "scene": "卫生间",
@@ -6204,7 +6282,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多片装",
-     "src": "csv#162"
+     "src": "csv#272"
     },
     {
      "scene": "卫生间",
@@ -6217,7 +6295,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可裁剪更友好",
-     "src": "csv#163"
+     "src": "csv#273"
     },
     {
      "scene": "卫生间",
@@ -6230,7 +6308,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "施工简易性是卖点",
-     "src": "csv#164"
+     "src": "csv#274"
     },
     {
      "scene": "卫生间",
@@ -6243,7 +6321,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "标准口径标注",
-     "src": "csv#165"
+     "src": "csv#275"
     },
     {
      "scene": "卫生间",
@@ -6256,7 +6334,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多片装",
-     "src": "csv#166"
+     "src": "csv#276"
     },
     {
      "scene": "卫生间",
@@ -6269,7 +6347,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "落地或壁挂要区分",
-     "src": "csv#169"
+     "src": "csv#277"
     },
     {
      "scene": "卫生间",
@@ -6282,7 +6360,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "沥水设计加分",
-     "src": "csv#171"
+     "src": "csv#278"
     },
     {
      "scene": "卫生间",
@@ -6295,7 +6373,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配牙刷架",
-     "src": "csv#172"
+     "src": "csv#279"
     },
     {
      "scene": "卫生间",
@@ -6308,7 +6386,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免钉款更优",
-     "src": "csv#173"
+     "src": "csv#280"
     },
     {
      "scene": "卫生间",
@@ -6321,7 +6399,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "容量标注",
-     "src": "csv#174"
+     "src": "csv#281"
     },
     {
      "scene": "卫生间",
@@ -6334,7 +6412,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可做组合卖",
-     "src": "csv#175"
+     "src": "csv#282"
     },
     {
      "scene": "卫生间",
@@ -6347,7 +6425,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免钉款转化更好",
-     "src": "csv#178"
+     "src": "csv#283"
     },
     {
      "scene": "卫生间",
@@ -6360,7 +6438,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "承重写实",
-     "src": "csv#179"
+     "src": "csv#284"
     },
     {
      "scene": "卫生间",
@@ -6373,7 +6451,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配系列",
-     "src": "csv#180"
+     "src": "csv#285"
     },
     {
      "scene": "卫生间",
@@ -6386,7 +6464,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "防滑底材质写清",
-     "src": "csv#181"
+     "src": "csv#286"
     },
     {
      "scene": "卫生间",
@@ -6399,7 +6477,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "尺码表必须准确",
-     "src": "csv#183"
+     "src": "csv#287"
     },
     {
      "scene": "卫生间",
@@ -6412,7 +6490,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "底座沥水设计",
-     "src": "csv#184"
+     "src": "csv#288"
     },
     {
      "scene": "卫生间",
@@ -6425,7 +6503,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "含替换头套装",
-     "src": "csv#185"
+     "src": "csv#289"
     },
     {
      "scene": "卫生间",
@@ -6438,7 +6516,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "尺寸写清",
-     "src": "csv#186"
+     "src": "csv#290"
     },
     {
      "scene": "卫生间",
@@ -6451,7 +6529,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "型号兼容性风险高",
-     "src": "csv#187"
+     "src": "csv#291"
     },
     {
      "scene": "卫生间",
@@ -6464,7 +6542,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "防碎包装是重点",
-     "src": "csv#188"
+     "src": "csv#292"
     },
     {
      "scene": "卫生间",
@@ -6477,7 +6555,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "需标注供电方式",
-     "src": "csv#189"
+     "src": "csv#293"
     },
     {
      "scene": "卫生间",
@@ -6490,7 +6568,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "防水面料是卖点",
-     "src": "csv#193"
+     "src": "csv#294"
     },
     {
      "scene": "卫生间",
@@ -6503,7 +6581,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免钉款更优",
-     "src": "csv#198"
+     "src": "csv#295"
     },
     {
      "scene": "卫生间",
@@ -6516,7 +6594,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#199"
+     "src": "csv#296"
     },
     {
      "scene": "卫生间",
@@ -6529,7 +6607,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#200"
+     "src": "csv#297"
     },
     {
      "scene": "卫生间",
@@ -6542,7 +6620,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "承重与防滑标注",
-     "src": "csv#201"
+     "src": "csv#298"
     },
     {
      "scene": "卫生间",
@@ -6555,7 +6633,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "安全材质说明",
-     "src": "csv#202"
+     "src": "csv#299"
     },
     {
      "scene": "儿童房",
@@ -6568,7 +6646,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "安全材质说明",
-     "src": "csv#291"
+     "src": "csv#300"
     },
     {
      "scene": "儿童房",
@@ -6581,7 +6659,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "清洁便利性",
-     "src": "csv#292"
+     "src": "csv#301"
     },
     {
      "scene": "儿童房",
@@ -6594,7 +6672,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "低价凑单品",
-     "src": "csv#293"
+     "src": "csv#302"
     }
    ],
    "no": 10,
@@ -6608,6 +6686,13 @@ window.SC_HOME = {
    "icon": "📦",
    "page": "cat-storage.html",
    "salesMxn": 0.96,
+   "yoy": {
+    "value": 49.31,
+    "window": "2026年1-8月",
+    "base": "2025年1-8月",
+    "exact": true,
+    "note": ""
+   },
    "mx": {
     "status": "done",
     "title": "收纳整理",
@@ -6830,7 +6915,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "标明层数与单层承重",
-     "src": "csv#2"
+     "src": "csv#303"
     },
     {
      "scene": "玄关/门厅",
@@ -6843,7 +6928,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "建议成套卖",
-     "src": "csv#4"
+     "src": "csv#304"
     },
     {
      "scene": "玄关/门厅",
@@ -6856,7 +6941,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "折叠收纳场景易出单",
-     "src": "csv#5"
+     "src": "csv#305"
     },
     {
      "scene": "玄关/门厅",
@@ -6869,7 +6954,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "强调一物两用",
-     "src": "csv#7"
+     "src": "csv#306"
     },
     {
      "scene": "玄关/门厅",
@@ -6882,7 +6967,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "注明高度与底座稳定性",
-     "src": "csv#8"
+     "src": "csv#307"
     },
     {
      "scene": "玄关/门厅",
@@ -6895,7 +6980,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "承重写实留余量",
-     "src": "csv#9"
+     "src": "csv#308"
     },
     {
      "scene": "玄关/门厅",
@@ -6908,7 +6993,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "门厚兼容范围要写清",
-     "src": "csv#10"
+     "src": "csv#309"
     },
     {
      "scene": "玄关/门厅",
@@ -6921,7 +7006,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可搭配挂钩组合卖",
-     "src": "csv#11"
+     "src": "csv#310"
     },
     {
      "scene": "玄关/门厅",
@@ -6934,7 +7019,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "免钉款转化更好",
-     "src": "csv#12"
+     "src": "csv#311"
     },
     {
      "scene": "玄关/门厅",
@@ -6947,7 +7032,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "底盘蓄水设计是卖点",
-     "src": "csv#15"
+     "src": "csv#312"
     },
     {
      "scene": "玄关/门厅",
@@ -6960,7 +7045,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "高",
      "note": "免钉款更适配租房人群",
-     "src": "csv#16"
+     "src": "csv#313"
     },
     {
      "scene": "客厅",
@@ -6973,7 +7058,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配同系列产品",
-     "src": "csv#31"
+     "src": "csv#314"
     },
     {
      "scene": "客厅",
@@ -6986,7 +7071,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "大中小号成套卖",
-     "src": "csv#53"
+     "src": "csv#315"
     },
     {
      "scene": "客厅",
@@ -6999,7 +7084,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可折叠更友好",
-     "src": "csv#54"
+     "src": "csv#316"
     },
     {
      "scene": "客厅",
@@ -7012,7 +7097,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可配线材组合",
-     "src": "csv#55"
+     "src": "csv#317"
     },
     {
      "scene": "餐厅",
@@ -7025,7 +7110,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "可放调料或餐盘",
-     "src": "csv#78"
+     "src": "csv#318"
     },
     {
      "scene": "餐厅",
@@ -7038,7 +7123,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "需安装图",
-     "src": "csv#79"
+     "src": "csv#319"
     },
     {
      "scene": "厨房",
@@ -7051,7 +7136,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "免钉款转化更好",
-     "src": "csv#123"
+     "src": "csv#320"
     },
     {
      "scene": "厨房",
@@ -7064,7 +7149,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "伸缩范围需标",
-     "src": "csv#124"
+     "src": "csv#321"
     },
     {
      "scene": "厨房",
@@ -7077,7 +7162,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "承重写实留余量",
-     "src": "csv#125"
+     "src": "csv#322"
     },
     {
      "scene": "卫生间",
@@ -7090,7 +7175,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "承重写实留余量",
-     "src": "csv#167"
+     "src": "csv#323"
     },
     {
      "scene": "卫生间",
@@ -7103,7 +7188,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "需标马桶宽度范围",
-     "src": "csv#168"
+     "src": "csv#324"
     },
     {
      "scene": "卫生间",
@@ -7116,7 +7201,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可成套",
-     "src": "csv#170"
+     "src": "csv#325"
     },
     {
      "scene": "卫生间",
@@ -7129,7 +7214,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可旋转款加分",
-     "src": "csv#191"
+     "src": "csv#326"
     },
     {
      "scene": "卫生间",
@@ -7142,7 +7227,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖",
-     "src": "csv#192"
+     "src": "csv#327"
     },
     {
      "scene": "卫生间",
@@ -7155,7 +7240,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多层款更受欢迎",
-     "src": "csv#194"
+     "src": "csv#328"
     },
     {
      "scene": "卧室",
@@ -7168,7 +7253,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "搬家场景需求",
-     "src": "csv#215"
+     "src": "csv#329"
     },
     {
      "scene": "卧室",
@@ -7181,7 +7266,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "带轮款加分",
-     "src": "csv#216"
+     "src": "csv#330"
     },
     {
      "scene": "卧室",
@@ -7194,7 +7279,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "需配抽气泵",
-     "src": "csv#217"
+     "src": "csv#331"
     },
     {
      "scene": "卧室",
@@ -7207,7 +7292,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖",
-     "src": "csv#218"
+     "src": "csv#332"
     },
     {
      "scene": "卧室",
@@ -7220,7 +7305,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可裁剪款更优",
-     "src": "csv#219"
+     "src": "csv#333"
     },
     {
      "scene": "卧室",
@@ -7233,7 +7318,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#221"
+     "src": "csv#334"
     },
     {
      "scene": "卧室",
@@ -7246,7 +7331,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "省空间是卖点",
-     "src": "csv#222"
+     "src": "csv#335"
     },
     {
      "scene": "卧室",
@@ -7259,7 +7344,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#223"
+     "src": "csv#336"
     },
     {
      "scene": "卧室",
@@ -7272,7 +7357,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "免钉挂式受欢迎",
-     "src": "csv#226"
+     "src": "csv#337"
     },
     {
      "scene": "卧室",
@@ -7285,7 +7370,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖转化更高",
-     "src": "csv#238"
+     "src": "csv#338"
     },
     {
      "scene": "卧室",
@@ -7298,7 +7383,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "分层设计是卖点",
-     "src": "csv#239"
+     "src": "csv#339"
     },
     {
      "scene": "书房/居家办公",
@@ -7311,7 +7396,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可伸缩款加分",
-     "src": "csv#254"
+     "src": "csv#340"
     },
     {
      "scene": "书房/居家办公",
@@ -7324,7 +7409,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖",
-     "src": "csv#255"
+     "src": "csv#341"
     },
     {
      "scene": "书房/居家办公",
@@ -7337,7 +7422,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "低价凑单品",
-     "src": "csv#256"
+     "src": "csv#342"
     },
     {
      "scene": "书房/居家办公",
@@ -7350,7 +7435,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多层款更受欢迎",
-     "src": "csv#257"
+     "src": "csv#343"
     },
     {
      "scene": "书房/居家办公",
@@ -7363,7 +7448,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#258"
+     "src": "csv#344"
     },
     {
      "scene": "书房/居家办公",
@@ -7376,7 +7461,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多只装",
-     "src": "csv#259"
+     "src": "csv#345"
     },
     {
      "scene": "书房/居家办公",
@@ -7389,7 +7474,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "尺寸需匹配插排",
-     "src": "csv#260"
+     "src": "csv#346"
     },
     {
      "scene": "书房/居家办公",
@@ -7402,7 +7487,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可裁剪",
-     "src": "csv#271"
+     "src": "csv#347"
     },
     {
      "scene": "书房/居家办公",
@@ -7415,7 +7500,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "含笔擦套装更好",
-     "src": "csv#272"
+     "src": "csv#348"
     },
     {
      "scene": "儿童房",
@@ -7428,7 +7513,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "分格设计是卖点",
-     "src": "csv#275"
+     "src": "csv#349"
     },
     {
      "scene": "儿童房",
@@ -7441,7 +7526,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可叠放",
-     "src": "csv#276"
+     "src": "csv#350"
     },
     {
      "scene": "儿童房",
@@ -7454,7 +7539,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "安装图清晰",
-     "src": "csv#277"
+     "src": "csv#351"
     },
     {
      "scene": "儿童房",
@@ -7467,7 +7552,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "多格设计",
-     "src": "csv#297"
+     "src": "csv#352"
     },
     {
      "scene": "儿童房",
@@ -7480,7 +7565,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "承重写实",
-     "src": "csv#298"
+     "src": "csv#353"
     },
     {
      "scene": "洗衣房",
@@ -7493,7 +7578,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "中",
      "note": "可折叠款更友好",
-     "src": "csv#328"
+     "src": "csv#354"
     },
     {
      "scene": "洗衣房",
@@ -7506,7 +7591,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "需标适用机型宽度",
-     "src": "csv#341"
+     "src": "csv#355"
     },
     {
      "scene": "洗衣房",
@@ -7519,7 +7604,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可分格",
-     "src": "csv#342"
+     "src": "csv#356"
     },
     {
      "scene": "全屋通用",
@@ -7532,7 +7617,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "大中小号成套卖",
-     "src": "csv#347"
+     "src": "csv#357"
     },
     {
      "scene": "全屋通用",
@@ -7545,7 +7630,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "可叠放",
-     "src": "csv#348"
+     "src": "csv#358"
     },
     {
      "scene": "全屋通用",
@@ -7558,7 +7643,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "成套卖",
-     "src": "csv#349"
+     "src": "csv#359"
     },
     {
      "scene": "全屋通用",
@@ -7571,7 +7656,7 @@ window.SC_HOME = {
      "priority": "B",
      "logistics": "中",
      "note": "承重标注",
-     "src": "csv#350"
+     "src": "csv#360"
     },
     {
      "scene": "全屋通用",
@@ -7584,7 +7669,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "带轮款加分",
-     "src": "csv#351"
+     "src": "csv#361"
     },
     {
      "scene": "全屋通用",
@@ -7597,7 +7682,7 @@ window.SC_HOME = {
      "priority": "A",
      "logistics": "高",
      "note": "低价凑单品",
-     "src": "csv#352"
+     "src": "csv#362"
     }
    ],
    "no": 11,

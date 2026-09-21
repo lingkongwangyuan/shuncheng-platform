@@ -37,6 +37,38 @@
   };
   var sum = function (arr, f) { return arr.reduce(function (a, b) { return a + f(b); }, 0); };
 
+  /* ── 卡片取值辅助 ──
+     数据源：cat.mx.metrics（墨西哥站官方指标），按 label 取；
+     口径与来源以 title 提示回显，页面上不展开，避免卡片过载。 */
+  function metricOf(cat, label) {
+    var ms = (cat && cat.mx && cat.mx.metrics) || [];
+    for (var i = 0; i < ms.length; i++) {
+      if (ms[i] && ms[i].label === label) return ms[i];
+    }
+    return null;
+  }
+
+  /* 取括号前的第一段（"346.46 MXN（约$20.09）" → "346.46 MXN"） */
+  function brief(v) {
+    if (!v) return '—';
+    return String(v).split('（')[0].trim();
+  }
+
+  /* 取括号内的约数（"8,097,053（约810万）" → "约810万"），无括号则原样 */
+  function approx(v) {
+    if (!v) return '—';
+    var m = String(v).match(/（(约[^）]*)）/);
+    return m ? m[1] : String(v).split('（')[0].trim();
+  }
+
+  /* 涨跌标记：中国习惯 —— 涨=红，跌=绿 */
+  function yoyTag(v) {
+    if (v == null) return '<span>—</span>';
+    var cls = v >= 0 ? 'yoy-up' : 'yoy-down';
+    var sign = v >= 0 ? '+' : '';
+    return '<b class="' + cls + '">' + sign + v.toFixed(1) + '%</b>';
+  }
+
   /* ══════════════ 通用片段 ══════════════ */
 
   function pageHeaderCard(opts) {
@@ -165,6 +197,10 @@
         '</div>' +
         '<div class="cat-grid cat-grid-3">' +
           CATS.map(function (c) {
+            var kv = metricOf(c, '平均成交价');
+            var gm = metricOf(c, '总商品数');
+            var ar = metricOf(c, '活跃率');
+            var yoy = c.yoy;
             return '' +
               '<a href="' + esc(c.page) + '" class="cat-card-link">' +
                 '<div class="cat-card">' +
@@ -172,8 +208,28 @@
                   '<div class="cat-name">' + esc(c.icon) + ' ' + esc(c.name) + '</div>' +
                   '<div class="cat-es">' + esc(c.nameEs || '') + '</div>' +
                   '<div class="cat-meta">' +
-                    '<span>💰 ' + (c.salesMxn ? c.salesMxn + '亿 MXN' : '—') + '</span>' +
+                    '<span>💰 月销 ' + (c.salesMxn ? c.salesMxn + '亿' : '—') + '</span>' +
                     '<span>📊 ' + (c.sharePct || 0) + '%</span>' +
+                  '</div>' +
+                  '<div class="cat-meta">' +
+                    '<span>📅 年化 ' + (c.salesMxn ? (c.salesMxn * 12).toFixed(1) + '亿' : '—') + ' MXN</span>' +
+                  '</div>' +
+                  (yoy
+                    ? '<div class="cat-meta cat-yoy">' +
+                        '<span>📈 ' + esc(yoy.window) + '同期 ' +
+                          yoyTag(yoy.value) +
+                        '</span>' +
+                      '</div>'
+                    : '') +
+                  '<div class="cat-meta">' +
+                    '<span title="' + esc(kv ? kv.label + '：' + kv.value + '（' + kv.src + '）' : '无数据') + '">🏷️ ' +
+                      esc(kv ? brief(kv.value) : '—') + '</span>' +
+                  '</div>' +
+                  '<div class="cat-meta">' +
+                    '<span title="' + esc(gm ? gm.label + '：' + gm.value + '（' + gm.src + '）' : '无数据') + '">📦 ' +
+                      esc(gm ? approx(gm.value) : '—') + '</span>' +
+                    '<span title="' + esc(ar ? ar.label + '：' + ar.value + '（' + ar.src + '）' : '无数据') + '">⚡ ' +
+                      esc(ar ? ar.value : '—') + '</span>' +
                   '</div>' +
                   '<div class="cat-meta">' +
                     '<span>📂 三级 ' + (c.lv3 || []).length + '</span>' +
@@ -185,6 +241,10 @@
               '</a>';
           }).join('') +
         '</div>' +
+        '<div class="table-note">卡片口径：月销 / 占比为墨西哥站官方近 30 天数据；' +
+          '年化 = 月销 × 12（便于横向比较，非官方年度口径）；' +
+          '客单价、总商品数、活跃率取官方大盘指标；' +
+          '累计同比由「大盘月度趋势图」逐月还原，涨为红、跌为绿。</div>' +
       '</div>';
 
     /* 二级分类对比总表 */
@@ -199,11 +259,11 @@
           '<table class="shop-table">' +
             '<colgroup><col style="width:52px"><col style="width:150px">' +
               '<col style="width:190px"><col style="width:110px">' +
-              '<col style="width:86px"><col style="width:84px">' +
-              '<col style="width:84px"><col style="width:90px">' +
-              '<col style="width:auto"></colgroup>' +
+              '<col style="width:104px"><col style="width:86px">' +
+              '<col style="width:84px"><col style="width:84px">' +
+              '<col style="width:90px"><col style="width:auto"></colgroup>' +
             '<thead><tr><th>序号</th><th>二级分类</th><th>西语名</th>' +
-              '<th>月销售额</th><th>占比</th><th>三级</th><th>四级</th>' +
+              '<th>月销售额</th><th>累计同比</th><th>占比</th><th>三级</th><th>四级</th>' +
               '<th>选品数</th><th>状态</th></tr></thead>' +
             '<tbody>' +
               CATS.map(function (c) {
@@ -213,6 +273,11 @@
                     esc(c.icon) + ' ' + esc(c.name) + '</a></td>' +
                   '<td class="td-owner">' + esc(c.nameEs || '') + '</td>' +
                   '<td class="num num-strong">' + (c.salesMxn ? c.salesMxn + '亿' : '—') + '</td>' +
+                  '<td class="num"' + (c.yoy
+                    ? ' title="' + esc(c.yoy.window + ' 对比 ' + c.yoy.base +
+                        (c.yoy.note ? '（' + c.yoy.note + '）' : '')) + '"'
+                    : '') + '>' +
+                    (c.yoy ? yoyTag(c.yoy.value) : '—') + '</td>' +
                   '<td class="num">' + (c.sharePct || 0) + '%</td>' +
                   '<td class="num">' + (c.lv3 || []).length + '</td>' +
                   '<td class="num num-mute">' + (c.lv4Count ? c.lv4Count : '—') + '</td>' +
@@ -224,6 +289,9 @@
           '</table>' +
         '</div>' +
         '<div class="table-note">月销售额为墨西哥站官方数据（MXN）。' +
+          '「累计同比」为 2026年1-8月 ÷ 2025年1-8月，由「大盘月度趋势图」逐月还原；' +
+          '厨房大类因原图该时段被浮层遮挡，改用 2026年5-8月 ÷ 2025年5-8月 的同月可比口径（悬停可看）。' +
+          '涨为红、跌为绿。' +
           '「三级 / 四级 / 选品数」来自官方类目树与顺诚选品清单，非市场推算；' +
           '「—」表示该二级分类的四级未采集（厨房大类的四级见「存储和组织」专页）。</div>' +
       '</div>';

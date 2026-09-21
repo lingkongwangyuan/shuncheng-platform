@@ -418,6 +418,12 @@ a { color: inherit; }
   font-size: 12px; color: var(--ink-light);
 }
 .cat-meta span { display: flex; align-items: center; gap: 4px; }
+/* 多行指标之间留出呼吸感（最后一行不受影响） */
+.cat-meta + .cat-meta { margin-top: 5px; }
+/* 同期比：中国习惯 —— 涨用红、跌用绿（均通过白底 4.5:1 对比度） */
+.yoy-up { color: #c0392b; font-weight: 700; }
+.yoy-down { color: #1a7a43; font-weight: 700; }
+.cat-yoy { font-size: 12.5px; }
 
 /* 优先级徽章 — 深底白字 */
 .priority-badge {

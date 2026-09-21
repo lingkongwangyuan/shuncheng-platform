@@ -42,7 +42,7 @@ window.SC_DATA = {
         { name: '存储和组织', icon: '🗂️', page: 'cat-kitchen-storage.html', indent: 1 },
         { name: '家具', icon: '🛋️', page: 'cat-furniture.html' },
         { name: '花园和户外', icon: '🌿', page: 'cat-garden.html' },
-        { name: '床垫床垫配件', icon: '🛏️', page: 'cat-mattress.html' },
+        { name: '床垫及配件', icon: '🛏️', page: 'cat-mattress.html' },
         { name: '家居装饰和装饰品', icon: '🖼️', page: 'cat-decor.html' },
         { name: '家居照明', icon: '💡', page: 'cat-lighting.html' },
         { name: '家庭安全', icon: '🔒', page: 'cat-security.html' },
