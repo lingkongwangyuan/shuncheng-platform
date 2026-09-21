@@ -18,7 +18,7 @@ window.SC_DATA = {
     logo: '顺',
     user: '顺诚',
     subtitle: '美客多跨境电商 · 工作平台',
-    version: 'v2.4',
+    version: 'v2.5',
     updated: '2026-09-21'
   },
 
@@ -41,6 +41,7 @@ window.SC_DATA = {
       id: 'shops', name: '店铺矩阵', icon: '🏬',
       children: [
         { name: '店铺总览', icon: '🏬', page: 'shops.html' },
+        { name: '店铺规划', icon: '📐', page: 'shops-plan.html' },
         { name: '店群分析', icon: '📊', page: 'shops-group.html' }
       ]
     },
