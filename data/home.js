@@ -130,6 +130,7 @@ window.SC_HOME = {
     "src": "家居大类#14"
    }
   ],
+  "yearCny": 191.8,
   "trend": [
    {
     "time": "2023年9月",
@@ -354,6 +355,175 @@ window.SC_HOME = {
   "mom": "-4.59%",
   "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家居大类"
  },
+ "rootSites": [
+  {
+   "code": "MX",
+   "flag": "🇲🇽",
+   "name": "墨西哥",
+   "site": "墨西哥站(MLM)",
+   "currency": "MXN",
+   "currencyName": "比索",
+   "collected": "2026-09-21",
+   "window": "近30天",
+   "source": "选品分类/市场数据Excel/4-家居大类市场分析表_v1.xlsx",
+   "yearCny": 191.8,
+   "yearNote": "折算值 · 月销美元 × 7.2 × 12",
+   "yearNoteFull": "源表未给人民币年销：按源表声明汇率 1 USD≈7.2 CNY，以「近30天销售额」的美元数 × 12 折算，非官方年度口径",
+   "metrics": [
+    {
+     "key": "goods",
+     "label": "总商品数",
+     "rawLabel": "总商品数",
+     "value": "43,936,731（约4394万）",
+     "mom": "-2.06% ↓",
+     "src": "家居大类#8"
+    },
+    {
+     "key": "active",
+     "label": "活跃商品数",
+     "rawLabel": "活跃商品数",
+     "value": "2,267,166（约227万）",
+     "mom": "-52.36% ↓",
+     "src": "家居大类#9"
+    },
+    {
+     "key": "activeRate",
+     "label": "活跃率",
+     "rawLabel": "活跃率",
+     "value": "5.16%",
+     "mom": "—",
+     "src": "家居大类#10"
+    },
+    {
+     "key": "volume",
+     "label": "近30天总销量",
+     "rawLabel": "近30天总销量",
+     "value": "930.91万件",
+     "mom": "-3.24% ↓",
+     "src": "家居大类#11"
+    },
+    {
+     "key": "sales",
+     "label": "近30天销售额",
+     "rawLabel": "近30天销售额",
+     "value": "38.33亿MXN（约$2.22亿）",
+     "mom": "-4.95% ↓",
+     "src": "家居大类#12"
+    },
+    {
+     "key": "daily",
+     "label": "日均销量",
+     "rawLabel": "日均销量",
+     "value": "31.03万件",
+     "mom": "-3.46% ↓",
+     "src": "家居大类#13"
+    },
+    {
+     "key": "aov",
+     "label": "平均成交价",
+     "rawLabel": "平均成交价",
+     "value": "411.71 MXN（约$23.87）",
+     "mom": "-1.89% ↓",
+     "src": "家居大类#14"
+    },
+    {
+     "key": "yearCny",
+     "label": "年销售规模",
+     "rawLabel": "年销售规模（统一人民币）",
+     "value": "191.8亿¥",
+     "mom": "",
+     "isYear": true,
+     "note": "折算值 · 月销美元 × 7.2 × 12",
+     "noteFull": "源表未给人民币年销：按源表声明汇率 1 USD≈7.2 CNY，以「近30天销售额」的美元数 × 12 折算，非官方年度口径",
+     "src": "选品分类/市场数据Excel/4-家居大类市场分析表_v1.xlsx"
+    }
+   ]
+  },
+  {
+   "code": "BR",
+   "flag": "🇧🇷",
+   "name": "巴西",
+   "site": "巴西站(MLB)",
+   "currency": "BRL",
+   "currencyName": "雷亚尔",
+   "collected": "2026-09-21",
+   "window": "近30天",
+   "source": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx",
+   "yearCny": 513.4,
+   "yearNote": "源表已给值 · 未折算",
+   "yearNoteFull": "源表原文：约368.3亿BRL ≈ 513.4亿人民币（照录，未做任何折算）",
+   "metrics": [
+    {
+     "key": "goods",
+     "label": "总商品数",
+     "rawLabel": "总商品数",
+     "value": "45,262,921",
+     "mom": "",
+     "src": "家居大类#3"
+    },
+    {
+     "key": "active",
+     "label": "活跃商品数",
+     "rawLabel": "活跃商品(近30天)",
+     "value": "8,973,245",
+     "mom": "",
+     "src": "家居大类#4"
+    },
+    {
+     "key": "activeRate",
+     "label": "活跃率",
+     "rawLabel": "活跃率",
+     "value": "19.82%",
+     "mom": "",
+     "src": "家居大类#5"
+    },
+    {
+     "key": "volume",
+     "label": "近30天总销量",
+     "rawLabel": "总销量(近30天)",
+     "value": "3,128.13万件",
+     "mom": "",
+     "src": "家居大类#6"
+    },
+    {
+     "key": "sales",
+     "label": "近30天销售额",
+     "rawLabel": "月销售额",
+     "value": "BRL 30.69亿 ≈ USD 5.95亿",
+     "mom": "",
+     "src": "家居大类#7"
+    },
+    {
+     "key": "daily",
+     "label": "日均销量",
+     "rawLabel": "日均销量",
+     "value": "104.27万件",
+     "mom": "",
+     "src": "家居大类#9"
+    },
+    {
+     "key": "aov",
+     "label": "平均成交价",
+     "rawLabel": "平均成交价",
+     "value": "BRL 98.11 ≈ USD 19.02",
+     "mom": "",
+     "src": "家居大类#10"
+    },
+    {
+     "key": "yearCny",
+     "label": "年销售规模",
+     "rawLabel": "年销售规模（统一人民币）",
+     "value": "513.4亿¥",
+     "mom": "",
+     "isYear": true,
+     "note": "源表已给值 · 未折算",
+     "noteFull": "源表原文：约368.3亿BRL ≈ 513.4亿人民币（照录，未做任何折算）",
+     "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx"
+    }
+   ],
+   "momNote": "月环比 销售额 -4.59%"
+  }
+ ],
  "rootCompare": {
   "fx": "按源表汇率 1 USD ≈ 7.2 CNY 折算",
   "mx": {
@@ -362,6 +532,8 @@ window.SC_HOME = {
    "salesLocal": 38.33,
    "salesCny": 15.98,
    "salesUsd": 2.22,
+   "yearCny": 191.8,
+   "yearNote": "折算值",
    "aov": "411.71 MXN（约$23.87）",
    "activeRate": "5.16%"
   },
@@ -371,10 +543,13 @@ window.SC_HOME = {
    "salesLocal": 30.69,
    "salesCny": 42.8,
    "salesUsd": 5.95,
+   "yearCny": 513.4,
+   "yearNote": "源表已给值",
    "aov": "BRL 98.11 ≈ USD 19.02",
    "activeRate": "19.82%"
   },
   "ratioCny": 2.68,
+  "ratioYearCny": 2.68,
   "note": "人民币口径对照。两国本币不可直接比（1 MXN ≠ 1 BRL）。"
  },
  "categories": [

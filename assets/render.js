@@ -115,11 +115,80 @@
 
   /* ══════════════ 首页 · 品类总览 ══════════════ */
 
+  /* ── 家居大类大盘 · 两站数据盒（墨西哥 / 巴西，2026-09-22） ──
+     两站在源表里指标名不一致（墨西哥「近30天销售额」↔ 巴西「月销售额」等），
+     数据层已统一成同一组 8 个标准键，这里按同一顺序逐格渲染，便于横向对照。
+     「年销售规模」是两站唯一统一到人民币的指标，单独高亮（浅橙底 + 深棕字，见配色铁律）。 */
+  function marketSitesCard() {
+    var SITES = HOME.rootSites || [];
+    if (!SITES.length) return '';
+    var M0 = HOME.meta || {};
+    var y = {};
+    SITES.forEach(function (s) { y[s.code] = s.yearCny; });
+    var ratio = (y.MX && y.BR) ? Math.round(y.BR / y.MX * 100) / 100 : null;
+
+    var boxes = SITES.map(function (s) {
+      var head = '' +
+        '<div class="mkt-box-head">' +
+          '<span class="mkt-flag">' + esc(s.flag) + '</span>' +
+          '<span class="mkt-name">' + esc(s.name) + '</span>' +
+          '<span class="mkt-tag">' + esc(s.site) + '</span>' +
+          '<span class="mkt-tag">本币 ' + esc(s.currency) +
+            (s.currencyName ? ' ' + esc(s.currencyName) : '') + '</span>' +
+          (s.momNote ? '<span class="mkt-tag">' + esc(s.momNote) + '</span>' : '') +
+          '<span class="mkt-src">采集 ' + esc(s.collected || '') + '</span>' +
+        '</div>';
+
+      var grid = '<div class="stats-grid stats-grid-8">' +
+        (s.metrics || []).map(function (m) {
+          var isYear = m.key === 'yearCny';
+          var mom = String(m.mom || '');
+          var cls = mom.indexOf('↑') >= 0 ? 'ct-up' : (mom.indexOf('↓') >= 0 ? 'ct-down' : '');
+          var sub = isYear
+            ? '<div class="stat-sub mkt-year-note" title="' +
+                esc(m.noteFull || m.note || '') + '">' + esc(m.note || '人民币口径') + '</div>'
+            : '<div class="stat-sub">月环比 <span class="' + cls + '">' +
+                esc(mom || '—') + '</span></div>';
+          return '<div class="stat-card' + (isYear ? ' is-year' : '') + '"' +
+              (m.src ? ' title="' + esc(m.src) + '"' : '') + '>' +
+            '<div class="stat-label">' + esc(m.label) + (isYear ? '（人民币）' : '') + '</div>' +
+            '<div class="stat-value">' + esc(m.value || '—') + '</div>' +
+            sub +
+            '</div>';
+        }).join('') + '</div>';
+
+      return '<div class="mkt-box">' + head + grid + '</div>';
+    }).join('');
+
+    return '' +
+      '<div class="card">' +
+        '<div class="card-head">' +
+          '<div class="card-title"><div class="ct-icon ct-orange">🏠</div>家居大类大盘（' +
+            esc(M0.window || '近30天') + '）</div>' +
+          '<span class="card-hint">' + SITES.map(function (s) {
+              return esc(s.flag + ' ' + s.site);
+            }).join(' · ') + '</span>' +
+        '</div>' +
+        boxes +
+        '<div class="table-note">' +
+          '<b>按墨西哥 / 巴西分站展示，同一组指标逐格对照。</b>' +
+          '前 7 项（总商品数 / 活跃商品数 / 活跃率 / 近30天总销量 / 近30天销售额 / 日均销量 / 平均成交价）' +
+          '均为各国源表原样数值，本币各自照录（墨西哥 MXN、巴西 BRL），<b>不可直接比</b>；' +
+          '其中「近30天销售额」两国源表都另给了美元段（墨西哥 ≈$2.22 亿、巴西 ≈USD 5.95 亿），美元段可直接比。' +
+          '「<b>年销售规模</b>」是两站唯一统一到人民币的指标：' +
+          '巴西为源表已给值（约 368.3 亿 BRL ≈ 513.4 亿人民币，照录未折算）；' +
+          '墨西哥源表未给人民币年销，按源表声明汇率 1 USD ≈ 7.2 CNY 以「近30天销售额」美元数 × 12 折算——' +
+          '<b>折算值，非官方年度口径</b>。' +
+          (ratio ? '人民币口径下巴西 <b>' + y.BR + ' 亿¥</b> 是墨西哥 <b>' + y.MX +
+                   ' 亿¥</b> 的 <b>' + ratio + ' 倍</b>。' : '') +
+          '巴西源表只给了「月环比」总额一项，无逐项环比，故巴西各格的月环比显示 —。' +
+        '</div>' +
+      '</div>';
+  }
+
   function renderIndex(root) {
     var totalLv3 = META.totalLv3 || sum(CATS, function (c) { return (c.lv3 || []).length; });
     var totalProd = META.totalProducts || sum(CATS, function (c) { return (c.products || []).length; });
-    var RM = HOME.rootMarket || {};
-    var ms = RM.metrics || [];
 
     /* 原「市场分析」页并入的两块数据（2026-09-21） */
     var MP = DATA.overviewExtra || {};
@@ -166,30 +235,8 @@
         '</div>' +
       '</div>';
 
-    /* 家居大类大盘 —— 墨西哥站 */
-    if (ms.length) {
-      html += '' +
-        '<div class="card">' +
-          '<div class="card-head">' +
-            '<div class="card-title"><div class="ct-icon ct-orange">🏠</div>家居大类大盘（' +
-              esc(META.window || '近30天') + '）</div>' +
-            '<span class="card-hint">🇲🇽 ' + esc(META.site || '') +
-              ' · 采集 ' + esc(META.collected || '') + '</span>' +
-          '</div>' +
-          '<div class="stats-grid stats-grid-7">' +
-            ms.map(function (m) {
-              var mom = String(m.mom || '');
-              var cls = mom.indexOf('↑') >= 0 ? 'ct-up' : (mom.indexOf('↓') >= 0 ? 'ct-down' : '');
-              return '<div class="stat-card">' +
-                '<div class="stat-label">' + esc(m.label) + '</div>' +
-                '<div class="stat-value">' + esc(m.value || '—') + '</div>' +
-                '<div class="stat-sub">月环比 <span class="' + cls + '">' + esc(mom || '—') + '</span></div>' +
-                '</div>';
-            }).join('') +
-          '</div>' +
-          '<div class="table-note">数据源：' + esc(META.source || '') + '。本节 7 项均为墨西哥站口径。</div>' +
-        '</div>';
-    }
+    /* 家居大类大盘 —— 墨西哥 / 巴西两站数据盒（含年销售规模·人民币） */
+    html += marketSitesCard();
 
     /* 两站大盘对照 —— 2026-09-22 巴西站接入后新增 */
     var RC = HOME.rootCompare;
@@ -202,11 +249,12 @@
       var rSales = RC.ratioCny;
       var rActive = (mxActive && brActive) ? Math.round(brActive / mxActive * 10) / 10 : null;
 
-      var row = function (flag, name, o, usd, cny, aov, active) {
+      var row = function (flag, name, o, usd, cny, yearCny, aov, active) {
         return '<tr>' +
           '<td class="td-shop">' + flag + ' ' + esc(name) + '</td>' +
           '<td class="num num-strong">' + (usd != null ? '$' + usd + '亿' : '—') + '</td>' +
           '<td class="num num-strong">' + (cny != null ? cny + '亿¥' : '—') + '</td>' +
+          '<td class="num num-strong">' + (yearCny != null ? yearCny + '亿¥' : '—') + '</td>' +
           '<td class="num">$' + esc(aov) + '</td>' +
           '<td class="num">' + esc(active || '—') + '</td>' +
           '<td class="num num-mute">' + esc(o.currency) + '</td>' +
@@ -222,21 +270,23 @@
           '<div class="scroll-hint">← 左右滑动可查看完整字段</div>' +
           '<div class="table-scroll">' +
             '<table class="shop-table">' +
-              '<colgroup><col style="width:172px"><col style="width:120px">' +
-                '<col style="width:124px"><col style="width:110px">' +
-                '<col style="width:104px"><col style="width:auto"></colgroup>' +
+              '<colgroup><col style="width:168px"><col style="width:116px">' +
+                '<col style="width:120px"><col style="width:124px">' +
+                '<col style="width:108px"><col style="width:96px">' +
+                '<col style="width:auto"></colgroup>' +
               '<thead><tr><th>站点</th><th>月销（美元）</th><th>月销（人民币）</th>' +
-                '<th>客单价（美元）</th><th>活跃率</th><th>本币</th></tr></thead>' +
+                '<th>年销（人民币）</th><th>客单价（美元）</th><th>活跃率</th><th>本币</th></tr></thead>' +
               '<tbody>' +
-                row('🇲🇽', RC.mx.site, RC.mx, RC.mx.salesUsd, RC.mx.salesCny,
+                row('🇲🇽', RC.mx.site, RC.mx, RC.mx.salesUsd, RC.mx.salesCny, RC.mx.yearCny,
                     (String(RC.mx.aov).match(/\$([\d.,]+)/) || [null, '—'])[1], RC.mx.activeRate) +
-                row('🇧🇷', RC.br.site, RC.br, RC.br.salesUsd, RC.br.salesCny,
+                row('🇧🇷', RC.br.site, RC.br, RC.br.salesUsd, RC.br.salesCny, RC.br.yearCny,
                     pick(RC.br.aov), RC.br.activeRate) +
                 '<tr class="row-ratio">' +
                   '<td class="td-shop">巴西 ÷ 墨西哥</td>' +
                   '<td class="num num-strong">' + (RC.br.salesUsd && RC.mx.salesUsd
                     ? (RC.br.salesUsd / RC.mx.salesUsd).toFixed(2) + '×' : '—') + '</td>' +
                   '<td class="num num-strong">' + (rSales != null ? rSales + '×' : '—') + '</td>' +
+                  '<td class="num num-strong">' + (RC.ratioYearCny != null ? RC.ratioYearCny + '×' : '—') + '</td>' +
                   '<td class="num">' + (pick(RC.br.aov) && (String(RC.mx.aov).match(/\$([\d.,]+)/) || [0, null])[1]
                     ? (parseFloat(pick(RC.br.aov).replace(',', '')) /
                        parseFloat(String(RC.mx.aov).match(/\$([\d.,]+)/)[1].replace(',', ''))).toFixed(2) + '×'
@@ -249,13 +299,16 @@
           '</div>' +
           '<div class="table-note">' +
             '<b>结论：巴西是规模市场，墨西哥是利润市场。</b>' +
-            '人民币口径下巴西大盘 42.8 亿¥（月）是墨西哥 15.98 亿¥ 的 ' + rSales + ' 倍；' +
+            '人民币口径下巴西大盘月销 42.8 亿¥ 是墨西哥 15.98 亿¥ 的 ' + rSales + ' 倍，' +
+            '年销 ' + RC.br.yearCny + ' 亿¥ 是墨西哥 ' + RC.mx.yearCny + ' 亿¥ 的 ' +
+            (RC.ratioYearCny != null ? RC.ratioYearCny + ' 倍' : '—') + '；' +
             '但墨西哥客单价 $' + (String(RC.mx.aov).match(/\$([\d.,]+)/) || [null, '—'])[1] +
             ' 高于巴西 $' + pick(RC.br.aov) + '，' +
             '而巴西活跃率 ' + RC.br.activeRate + ' 是墨西哥 ' + RC.mx.activeRate + ' 的 ' + rActive + ' 倍——' +
             '同一品类在巴西要面对约 4 倍的对手密度。' +
-            '墨西哥的月销（人民币）为折算值（源表只给了 MXN 与美元，按源表声明汇率 1 USD≈7.2 CNY 折算）；' +
-            '巴西为源表已给值。两国本币不可直接比。</div>' +
+            '「月销（人民币）」「年销（人民币）」两列：墨西哥为折算值（源表只给了 MXN 与美元，' +
+            '按源表声明汇率 1 USD≈7.2 CNY 折算，年销 = 月销美元 × 7.2 × 12），巴西为源表已给值（照录）；' +
+            '两国本币不可直接比。</div>' +
         '</div>';
     }
 

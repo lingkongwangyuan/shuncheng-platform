@@ -1270,6 +1270,38 @@ a { color: inherit; }
 .stats-grid-7 .stat-card { padding: 13px 15px; }
 .stats-grid-7 .stat-value { font-size: 19px; }
 
+/* ══ 家居大类大盘 · 两站数据盒（墨西哥 / 巴西，2026-09-22）══
+   两站各自的指标盒，同一组 8 项逐格对照；「年销售规模」统一人民币并单独高亮。
+   配色铁律：浅橙底（--primary-bg / --primary-soft）一律配深棕字（--on-soft），
+             高亮只靠左侧深橙描边，绝不用橙字。 */
+.mkt-box + .mkt-box {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+.mkt-box-head {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 12px;
+}
+.mkt-flag { font-size: 18px; line-height: 1; }
+.mkt-name { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+.mkt-tag {
+  font-size: 11.5px; color: var(--on-soft);          /* 浅橙底 → 深棕字 */
+  background: var(--primary-soft);
+  border-radius: 999px; padding: 2px 9px; white-space: nowrap;
+}
+.mkt-src { font-size: 11.5px; color: var(--ink-light); margin-left: auto; }
+
+.stats-grid-8 { grid-template-columns: repeat(4, 1fr); margin-bottom: 0; }
+.stats-grid-8 .stat-card { padding: 13px 15px; }
+.stats-grid-8 .stat-value { font-size: 17px; }
+
+/* 年销售规模（人民币）—— 两站唯一可比口径 */
+.stat-card.is-year { border-left-color: var(--primary-deep); background: var(--primary-bg); }
+.stat-card.is-year .stat-label { color: var(--on-soft); font-weight: 700; }
+.stat-card.is-year .stat-value { color: var(--on-soft); font-size: 19px; }
+.stat-card.is-year .mkt-year-note { color: var(--on-soft); opacity: .78; }
+
 /* ── 环比 / 同比涨跌（中文语境：涨红跌绿；均为深色、避开橙系）── */
 .ct-up { color: #a8332a; font-weight: 600; }    /* 涨 → 红 */
 .ct-down { color: #1c6b3c; font-weight: 600; }  /* 跌 → 绿 */
@@ -1481,6 +1513,7 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
 }
 @media (max-width: 1024px) {
   .stats-grid-7 { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid-8 { grid-template-columns: repeat(2, 1fr); }
   .cat-grid-3 { grid-template-columns: 1fr; }
   .scn-grid-4 { grid-template-columns: repeat(2, 1fr); }
   .tr-row { grid-template-columns: 100px 1fr 110px; }
@@ -1488,6 +1521,8 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
 }
 @media (max-width: 560px) {
   .stats-grid-7 { grid-template-columns: 1fr; }
+  .stats-grid-8 { grid-template-columns: 1fr; }
+  .mkt-src { margin-left: 0; }
   .scn-grid-4 { grid-template-columns: 1fr; }
   .ct-tabs { flex-direction: column; }
   .ct-tab { justify-content: center; }
