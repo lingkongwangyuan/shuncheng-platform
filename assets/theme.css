@@ -1066,6 +1066,48 @@ a { color: inherit; }
 }
 .param-note { font-size: 11px; color: var(--ink-secondary); margin-top: 3px; line-height: 1.5; }
 
+/* ═══════════ 市场分析 ═══════════ */
+
+/* ── 分部标题条（一 / 二）：浅橙底 + 深棕字，禁橙字配橙底 ── */
+.part-band {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; margin: 4px 0 16px;
+  background: var(--primary-soft); border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.part-band + .card { margin-top: 0; }
+.part-no {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+  background: #fff; color: var(--on-soft); border: 1px solid var(--primary);
+}
+.part-name { font-size: 16px; font-weight: 700; color: var(--ink); }
+.part-desc { font-size: 12px; color: var(--ink-secondary); margin-left: auto; text-align: right; }
+.part-band.is-next { margin-top: 30px; }
+
+/* ── 场景结构条（品类分析：四大场景一览） ── */
+.scn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.scn-card {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 13px 14px;
+}
+.scn-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.scn-meta { font-size: 11.5px; color: var(--ink-light); margin-top: 5px; line-height: 1.6; }
+.scn-meta b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ── 布局矩阵：待定格子 ── */
+.tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+.mx-pending {
+  display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  background: var(--gray-bg); color: var(--gray-ink); white-space: nowrap;
+}
+.mx-shop { font-weight: 600; }
+.mx-group td {
+  background: var(--primary-soft); color: var(--on-soft);
+  font-weight: 600; font-size: 12.5px;
+}
+
 /* ═══════════ 响应式 ═══════════ */
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1099,6 +1141,9 @@ a { color: inherit; }
   .quad-grid { grid-template-columns: 1fr; }
   .parter-bar { grid-template-columns: 1fr; }
   .param-grid { grid-template-columns: 1fr; }
+  .scn-grid { grid-template-columns: repeat(2, 1fr); }
+  .part-band { flex-wrap: wrap; }
+  .part-desc { margin-left: 0; text-align: left; flex-basis: 100%; }
   .heat-row { grid-template-columns: 64px 1fr 88px; gap: 9px; }
   .trend-row { grid-template-columns: 42px 1fr 108px; gap: 9px; }
   .ev-item { grid-template-columns: 70px 76px 1fr; gap: 8px; }
@@ -1110,6 +1155,7 @@ a { color: inherit; }
   .overview-bar { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr; }
   .agent-grid { grid-template-columns: 1fr; }
+  .scn-grid { grid-template-columns: 1fr; }
   .page-title { font-size: 16px; }
   .btn { padding: 6px 11px; font-size: 12.5px; }
   .sub-cat-item { flex-wrap: wrap; }
