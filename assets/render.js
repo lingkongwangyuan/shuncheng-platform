@@ -3,13 +3,21 @@
    ───────────────────────────────────────────────────────────────
    页面内容由本文件按 data/categories.js + data/home.js 渲染。
 
-   三种模式（由 <body data-page="..."> 决定）：
-     index   → 品类总览（家居大类 + 11 个二级分类）
-     market  → 市场分析（品类分析 + 店铺布局）
+   两种模式（由 <body data-page="..."> 决定）：
+     index   → 品类总览（家居大类 + 11 个二级分类 + 品类 × 店铺承接布局）
      cat-*   → 二级分类页，见 assets/render-home.js
 
    2026-09-21 结构变更：原「日用百货 · 四大场景」废弃，改为
    美客多官方「家居大类 · 11 个二级分类」。分类数据全部来自 data/home.js。
+
+   2026-09-21 二次变更：原「市场分析」页（market.html）与本品类总览大量重复
+   ——「家居大类大盘」「二级分类结构底数」两页同源同数据，页面已下线。
+   其独有的四块内容并入本页：
+     · 市场分析框架（8 个分析维度 · 待采集台账）
+     · 在营店铺现状（18 家）
+     · 品类 × 店铺 承接矩阵
+     · 布局待定项
+   对应数据仍留在 data/categories.js 的 overviewExtra / storePool，不另建数据源。
    ═══════════════════════════════════════════════════════════════ */
 
 (function () {
@@ -76,6 +84,14 @@
     var totalProd = META.totalProducts || sum(CATS, function (c) { return (c.products || []).length; });
     var RM = HOME.rootMarket || {};
     var ms = RM.metrics || [];
+
+    /* 原「市场分析」页并入的两块数据（2026-09-21） */
+    var MP = DATA.overviewExtra || {};
+    var POOL = DATA.storePool || {};
+    var OWNERS = POOL.owners || [];
+    var FW = MP.framework || [];
+    var OPEN = MP.layoutOpen || [];
+    var shopCount = sum(OWNERS, function (o) { return (o.shops || []).length; });
 
     var html = '';
 
@@ -212,106 +228,9 @@
           '「—」表示该二级分类的四级未采集（厨房大类的四级见「存储和组织」专页）。</div>' +
       '</div>';
 
-    /* AI 智能体 */
-    html += '' +
-      '<div class="card">' +
-        '<div class="card-head">' +
-          '<div class="card-title"><div class="ct-icon ct-orange">🤖</div>AI 智能体工作台</div>' +
-          '<span class="card-hint">选品全流程 AI 辅助</span>' +
-        '</div>' +
-        '<div class="agent-grid">' +
-          (DATA.agents || []).map(function (a) {
-            return '' +
-              '<div class="agent-card" data-todo="' + esc(a.name) + '">' +
-                '<div class="agent-icon ' + esc(a.cls) + '">' + esc(a.icon) + '</div>' +
-                '<div class="agent-name">' + esc(a.name) + '</div>' +
-                '<div class="agent-desc">' + esc(a.desc) + '</div>' +
-              '</div>';
-          }).join('') +
-        '</div>' +
-      '</div>';
-
-    html += '' +
-      '<div class="page-foot">' +
-        '<span>顺诚AI工作平台 ' + esc((DATA.meta || {}).version || '') +
-          ' · 数据更新 ' + esc((DATA.meta || {}).updated || '') + '</span>' +
-        '<span>内容源：data/categories.js + data/home.js</span>' +
-      '</div>';
-
-    root.innerHTML = html;
-  }
-
-  /* ══════════════ 市场分析页 ══════════════
-     一 · 品类分析  二 · 店铺布局。
-     品类分析里的「结构底数」来自官方 11 个二级分类（data/home.js）。 */
-
-  function renderMarket(root) {
-    var MP = DATA.marketPage || {};
-    var POOL = DATA.storePool || {};
-    var OWNERS = POOL.owners || [];
-    var PARTS = MP.parts || [];
-    var FW = MP.framework || [];
-    var OPEN = MP.layoutOpen || [];
-    var part1 = PARTS[0] || { no: '一', name: '品类分析', desc: '' };
-    var part2 = PARTS[1] || { no: '二', name: '店铺布局', desc: '' };
-
-    var totalLv3 = META.totalLv3 || sum(CATS, function (c) { return (c.lv3 || []).length; });
-    var totalProd = META.totalProducts || sum(CATS, function (c) { return (c.products || []).length; });
-    var shopCount = sum(OWNERS, function (o) { return (o.shops || []).length; });
-    var RM = HOME.rootMarket || {};
-    var ms = RM.metrics || [];
-
-    function partBand(p, isNext) {
-      return '' +
-        '<div class="part-band' + (isNext ? ' is-next' : '') + '">' +
-          '<div class="part-no">' + esc(p.no) + '</div>' +
-          '<div class="part-name">' + esc(p.name) + '</div>' +
-          '<div class="part-desc">' + esc(p.desc || '') + '</div>' +
-        '</div>';
-    }
-
-    var html = '';
-
-    html += pageHeaderCard({
-      title: '📈 市场分析',
-      breadcrumb: '选品中心 / <span>市场分析</span>',
-      actions:
-        '<a class="btn btn-secondary" href="index.html">📋 品类总览</a>' +
-        '<button class="btn btn-primary" data-todo="导出市场分析报告">📤 导出报告</button>'
-    });
-
-    html += categoryPath(null);
-
-    html += '' +
-      '<div class="overview-bar">' +
-        '<div class="overview-item">' +
-          '<div class="ov-label">一级大类</div>' +
-          '<div class="ov-value">' + esc(META.root || '家居大类') + '</div>' +
-          '<div class="ov-sub">' + esc(META.catId || '') + '</div>' +
-        '</div>' +
-        '<div class="overview-item">' +
-          '<div class="ov-label">二级分类</div>' +
-          '<div class="ov-value">' + CATS.length + '</div>' +
-          '<div class="ov-sub">官方类目树</div>' +
-        '</div>' +
-        '<div class="overview-item">' +
-          '<div class="ov-label">三级分类</div>' +
-          '<div class="ov-value">' + totalLv3 + '</div>' +
-          '<div class="ov-sub">选品清单 ' + totalProd + ' 款</div>' +
-        '</div>' +
-        '<div class="overview-item">' +
-          '<div class="ov-label">在营店铺</div>' +
-          '<div class="ov-value">' + shopCount + '</div>' +
-          '<div class="ov-sub">' + OWNERS.map(function (o) {
-            return esc(o.name) + ' ' + (o.shops || []).length;
-          }).join(' · ') + '</div>' +
-        '</div>' +
-      '</div>';
-
-    /* ═══════════ 第一部分 · 品类分析 ═══════════ */
-    html += partBand(part1, false);
-
-    /* 1-1 市场分析框架 */
+    /* ══════════ 市场分析框架（原「市场分析」页 · 品类分析 并入） ══════════
+       原页的「家居大类大盘」「二级分类结构底数」两块与本页同源重复，已舍弃；
+       只搬这块「待采集台账」——它回答的是「还缺哪些数据」。 */
     html += '' +
       '<div class="card">' +
         '<div class="card-head">' +
@@ -340,60 +259,16 @@
         '<div class="rule-note">' + esc(MP.analysisNote || '') + '</div>' +
       '</div>';
 
-    /* 1-2 家居大类大盘（已采集，来自 home.js） */
-    if (ms.length) {
-      html += '' +
-        '<div class="card">' +
-          '<div class="card-head">' +
-            '<div class="card-title"><div class="ct-icon ct-blue">🏠</div>家居大类大盘（已采集）</div>' +
-            '<span class="card-hint">' + esc(META.site || '') + ' · ' +
-              esc(META.window || '近30天') + ' · ' + esc(META.collected || '') + '</span>' +
-          '</div>' +
-          '<div class="stats-grid stats-grid-7">' +
-            ms.map(function (m) {
-              var mom = String(m.mom || '');
-              var cls = mom.indexOf('↑') >= 0 ? 'ct-up' : (mom.indexOf('↓') >= 0 ? 'ct-down' : '');
-              return '<div class="stat-card">' +
-                '<div class="stat-label">' + esc(m.label) + '</div>' +
-                '<div class="stat-value">' + esc(m.value || '—') + '</div>' +
-                '<div class="stat-sub">月环比 <span class="' + cls + '">' + esc(mom || '—') + '</span></div>' +
-                '</div>';
-            }).join('') +
-          '</div>' +
-          '<div class="rule-note">这一块是<b>已采集的真实数据</b>（墨西哥站官方大盘），' +
-            '与上面「待采集」的 8 个分析维度要分开看：框架是待办清单，这里是现有底数。</div>' +
-        '</div>';
-    }
-
-    /* 1-3 11 个二级分类结构底数 */
+    /* ══════════ 品类 × 店铺 承接布局（原「市场分析」页 · 店铺布局 并入） ══════════
+       三块：在营店铺现状 / 承接矩阵 / 布局待定项。原页整块上提，未作删改。 */
     html += '' +
-      '<div class="card">' +
-        '<div class="card-head">' +
-          '<div class="card-title"><div class="ct-icon ct-blue">📂</div>二级分类结构底数</div>' +
-          '<span class="card-hint">' + CATS.length + ' 个 · 按大盘月销售额降序</span>' +
-        '</div>' +
-        '<div class="scn-grid scn-grid-4">' +
-          CATS.map(function (c) {
-            return '' +
-              '<a class="scn-card scn-link" href="' + esc(c.page) + '">' +
-                '<div class="scn-name">' + esc(c.icon) + ' ' + esc(c.name) + '</div>' +
-                '<div class="scn-meta">' +
-                  '月销售额 <b>' + (c.salesMxn ? c.salesMxn + '亿' : '—') + '</b> MXN<br>' +
-                  '占大盘 <b>' + (c.sharePct || 0) + '%</b><br>' +
-                  '三级 <b>' + (c.lv3 || []).length + '</b> 个 · 选品 <b>' +
-                    (c.products || []).length + '</b> 款' +
-                '</div>' +
-              '</a>';
-          }).join('') +
-        '</div>' +
-        '<div class="table-note">月销售额为墨西哥站官方数据。巴西站（MLB）尚未采集，' +
-          '所有分类的巴西数据都是空的 —— 页面按双国家结构预留。</div>' +
+      '<div class="part-band is-next">' +
+        '<div class="part-no">🏬</div>' +
+        '<div class="part-name">品类 × 店铺 承接布局</div>' +
+        '<div class="part-desc">' + shopCount + ' 家在营店铺 · 承接关系待管理人确认</div>' +
       '</div>';
 
-    /* ═══════════ 第二部分 · 店铺布局 ═══════════ */
-    html += partBand(part2, true);
-
-    /* 2-1 在营店铺现状 */
+    /* 在营店铺现状 */
     html += '' +
       '<div class="card">' +
         '<div class="card-head">' +
@@ -417,7 +292,7 @@
         '<div class="table-note">' + esc(POOL.note || '') + '。此处只列现状，不做分配推断。</div>' +
       '</div>';
 
-    /* 2-2 品类 × 店铺 承接矩阵 */
+    /* 品类 × 店铺 承接矩阵 */
     html += '' +
       '<div class="card">' +
         '<div class="card-head">' +
@@ -458,7 +333,7 @@
         '<div class="rule-note">' + esc(MP.layoutNote || '') + '</div>' +
       '</div>';
 
-    /* 2-3 布局待定项 */
+    /* 布局待定项 */
     html += '' +
       '<div class="card">' +
         '<div class="card-head">' +
@@ -472,6 +347,25 @@
               '<span class="ph-src">' + esc(o.who || '') + '</span>' +
               '<span class="ph-tag">待确认</span>' +
             '</div>';
+          }).join('') +
+        '</div>' +
+      '</div>';
+
+    /* AI 智能体 */
+    html += '' +
+      '<div class="card">' +
+        '<div class="card-head">' +
+          '<div class="card-title"><div class="ct-icon ct-orange">🤖</div>AI 智能体工作台</div>' +
+          '<span class="card-hint">选品全流程 AI 辅助</span>' +
+        '</div>' +
+        '<div class="agent-grid">' +
+          (DATA.agents || []).map(function (a) {
+            return '' +
+              '<div class="agent-card" data-todo="' + esc(a.name) + '">' +
+                '<div class="agent-icon ' + esc(a.cls) + '">' + esc(a.icon) + '</div>' +
+                '<div class="agent-name">' + esc(a.name) + '</div>' +
+                '<div class="agent-desc">' + esc(a.desc) + '</div>' +
+              '</div>';
           }).join('') +
         '</div>' +
       '</div>';
@@ -493,7 +387,6 @@
     if (!root) return;
 
     if (PAGE === 'index' || PAGE === '') { renderIndex(root); return; }
-    if (PAGE === 'market') { renderMarket(root); return; }
 
     /* 二级分类页由 render-home.js 负责；若它没加载，给出提示 */
     if (PAGE.indexOf('cat-') === 0) return;

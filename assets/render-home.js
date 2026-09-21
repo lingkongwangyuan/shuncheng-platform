@@ -400,7 +400,6 @@
         '<span>' + esc(cat.name) + '</span>',
       actions:
         '<a class="btn btn-secondary" href="index.html">📋 品类总览</a>' +
-        '<a class="btn btn-secondary" href="market.html">📈 市场分析</a>' +
         '<button class="btn btn-primary" data-todo="导出分类报告">📤 导出报告</button>'
     });
 
