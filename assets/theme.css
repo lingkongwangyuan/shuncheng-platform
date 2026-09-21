@@ -425,6 +425,47 @@ a { color: inherit; }
 .yoy-down { color: #1a7a43; font-weight: 700; }
 .cat-yoy { font-size: 12.5px; }
 
+/* ── 卡片内 · 两站对照小表（2026-09-22 巴西站接入新增）──
+   浅橙表头底 #fdf3ed 上必须用深棕字（--on-soft），禁用橙色字（同色系违规）。 */
+.h2h {
+  margin-top: 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.h2h-row {
+  display: grid;
+  grid-template-columns: 68px repeat(4, minmax(0, 1fr));
+  align-items: center;
+  font-size: 11px;
+  color: var(--ink);
+}
+.h2h-row + .h2h-row { border-top: 1px solid var(--border-light); }
+.h2h-c { padding: 4px 4px; text-align: right; white-space: nowrap; overflow: hidden; }
+.h2h-c:first-child { text-align: left; }
+.h2h-site { color: var(--ink-secondary); font-weight: 600; }
+.h2h-head {
+  background: var(--primary-soft);
+  color: var(--on-soft);
+  font-weight: 700;
+  font-size: 10.5px;
+}
+
+/* 两站大盘对照表 · 倍数行 */
+.shop-table tr.row-ratio td {
+  background: var(--primary-soft);
+  color: var(--on-soft);
+  font-weight: 700;
+  border-top: 1px solid var(--border);
+}
+.shop-table tr.row-ratio:hover td { background: var(--primary-soft); }
+
+/* 对比总表 · 站点分组表头 */
+.shop-table th.th-grp { text-align: center; font-size: 11.5px; }
+.shop-table th.th-grp-mx { background: var(--primary-soft); color: var(--on-soft); }
+.shop-table th.th-grp-br { background: var(--green-bg); color: var(--green-ink); }
+.shop-table .th-sub { font-weight: 400; font-size: 10px; color: var(--gray-ink); }
+
 /* 优先级徽章 — 深底白字 */
 .priority-badge {
   position: absolute;

@@ -77,22 +77,34 @@
       '</div>';
   }
 
-  /* ══════════════ 一、大盘指标 ══════════════ */
+  /* ══════════════ 一、大盘指标 ══════════════
+     o = {site, currency, source, mom, window}
+     两站源表列不同：墨西哥表每项都带月环比/日环比/昨日；巴西表只有「指标 | 值」两列，
+     环比单独一行。故按实际有无自适应 —— 缺列就不渲染该列，不用「—」占位灌水。 */
 
-  function metricsSection(mx, cat) {
-    var ms = mx.metrics || [];
+  function metricsSection(box, cat, o) {
+    o = o || {};
+    var ms = box.metrics || [];
     if (!ms.length) {
       return todoBlock('大盘指标', '该站点的类目大盘指标尚未采集');
     }
+    var hasMom = ms.some(function (m) { return m.mom && m.mom !== '—'; });
+    var hasDod = ms.some(function (m) { return m.dod && m.dod !== '—'; });
+    var hasPrev = ms.some(function (m) { return m.prev && m.prev !== '—'; });
+
     var cards = ms.map(function (m) {
       var mom = String(m.mom || '');
       var cls = mom.indexOf('↑') >= 0 ? 'ct-up' : (mom.indexOf('↓') >= 0 ? 'ct-down' : '');
+      var sub = '';
+      if (hasMom) {
+        sub = '月环比 <span class="' + cls + '">' + esc(mom || '—') + '</span>' +
+          (hasPrev && m.prev ? ' · 昨日 ' + esc(m.prev) : '');
+      }
       return '' +
         '<div class="stat-card">' +
           '<div class="stat-label">' + esc(m.label) + '</div>' +
           '<div class="stat-value">' + esc(m.value || '—') + '</div>' +
-          '<div class="stat-sub">月环比 <span class="' + cls + '">' + esc(mom || '—') + '</span>' +
-            (m.prev ? ' · 昨日 ' + esc(m.prev) : '') + '</div>' +
+          (sub ? '<div class="stat-sub">' + sub + '</div>' : '') +
         '</div>';
     }).join('');
 
@@ -100,40 +112,51 @@
       return '<tr>' +
         '<td class="td-shop">' + esc(m.label) + '</td>' +
         '<td class="num num-strong">' + esc(m.value || '—') + '</td>' +
-        '<td class="num">' + esc(m.mom || '—') + '</td>' +
-        '<td class="num num-mute">' + esc(m.dod || '—') + '</td>' +
-        '<td class="num num-mute">' + esc(m.prev || '—') + '</td>' +
+        (hasMom ? '<td class="num">' + esc(m.mom || '—') + '</td>' : '') +
+        (hasDod ? '<td class="num num-mute">' + esc(m.dod || '—') + '</td>' : '') +
+        (hasPrev ? '<td class="num num-mute">' + esc(m.prev || '—') + '</td>' : '') +
         '<td class="td-owner">' + esc(m.note || '') + '</td>' +
         '</tr>';
     }).join('');
+
+    var ths = '<th>指标</th><th>数值</th>' +
+      (hasMom ? '<th>月环比</th>' : '') +
+      (hasDod ? '<th>日环比</th>' : '') +
+      (hasPrev ? '<th>昨日</th>' : '') +
+      '<th>说明</th>';
+    var cols = '<col style="width:148px"><col style="width:200px">' +
+      (hasMom ? '<col style="width:110px">' : '') +
+      (hasDod ? '<col style="width:110px">' : '') +
+      (hasPrev ? '<col style="width:120px">' : '') +
+      '<col style="width:auto">';
 
     return '' +
       '<div class="stats-grid stats-grid-7">' + cards + '</div>' +
       '<div class="card">' +
         '<div class="card-head">' +
           '<div class="card-title"><div class="ct-icon ct-orange">📊</div>一、大盘指标（' +
-            esc(META.window || '近30天') + '）</div>' +
-          '<span class="card-hint">站点 ' + esc(META.site || '') + ' · 币种 ' + esc(META.currency || '') + '</span>' +
+            esc(o.window || META.window || '近30天') + '）</div>' +
+          '<span class="card-hint">站点 ' + esc(o.site || META.site || '') +
+            ' · 币种 ' + esc(o.currency || META.currency || '') +
+            (o.mom ? ' · 站点月环比 ' + esc(o.mom) : '') + '</span>' +
         '</div>' +
         '<div class="scroll-hint">← 左右滑动可查看完整字段</div>' +
         '<div class="table-scroll">' +
           '<table class="shop-table">' +
-            '<colgroup><col style="width:132px"><col style="width:190px">' +
-              '<col style="width:110px"><col style="width:110px">' +
-              '<col style="width:120px"><col style="width:auto"></colgroup>' +
-            '<thead><tr><th>指标</th><th>数值</th><th>月环比</th><th>日环比</th>' +
-              '<th>昨日</th><th>说明</th></tr></thead>' +
+            '<colgroup>' + cols + '</colgroup>' +
+            '<thead><tr>' + ths + '</tr></thead>' +
             '<tbody>' + rows + '</tbody>' +
           '</table>' +
         '</div>' +
-        '<div class="table-note">数值照录源表原文，未做换算。来源：' + esc(META.source || '') + '</div>' +
+        '<div class="table-note">数值照录源表原文，未做换算。来源：' + esc(o.source || META.source || '') + '</div>' +
       '</div>';
   }
 
   /* ══════════════ 二、3年按月趋势 ══════════════ */
 
-  function trendSection(mx) {
-    var ts = mx.trend || [];
+  function trendSection(box, o) {
+    o = o || {};
+    var ts = box.trend || [];
     if (!ts.length) {
       return todoBlock('3年按月趋势', '该站点的趋势数据尚未采集');
     }
@@ -144,13 +167,15 @@
       var v = nums[i];
       var pct = v === null ? 0 : Math.max(3, Math.round(v / max * 100));
       var isCur = String(t.time).indexOf('当前') >= 0;
+      /* stage 为空时不能渲染空元素 —— .tr-stage 带浅橙底和 padding，
+         空内容会画出一个假的橙色小药丸（巴西站趋势没有阶段标签，会整列假药丸） */
       return '' +
         '<div class="tr-row">' +
           '<div class="tr-time">' + esc(t.time) + '</div>' +
           '<div class="tr-track"><div class="tr-fill' + (isCur ? ' is-cur' : '') +
             '" style="width:' + pct + '%"></div></div>' +
           '<div class="tr-val">' + esc(t.value || '—') + '</div>' +
-          '<div class="tr-stage">' + esc(t.stage || '') + '</div>' +
+          (t.stage ? '<div class="tr-stage">' + esc(t.stage) + '</div>' : '<div></div>') +
           '<div class="tr-note">' + esc(t.note || '') + '</div>' +
         '</div>';
     }).join('');
@@ -158,11 +183,13 @@
     return '' +
       '<div class="card">' +
         '<div class="card-head">' +
-          '<div class="card-title"><div class="ct-icon ct-blue">📈</div>二、3年按月趋势</div>' +
-          '<span class="card-hint">2023.9 – 2026.9 · 商品销售额</span>' +
+          '<div class="card-title"><div class="ct-icon ct-blue">📈</div>' +
+            esc(o.title || '二、3年按月趋势') + '</div>' +
+          '<span class="card-hint">' + esc(o.hint || '2023.9 – 2026.9 · 商品销售额') + '</span>' +
         '</div>' +
         '<div class="tr-chart">' + bars + '</div>' +
-        '<div class="table-note">条形长度按源表「月销售额」原文等比绘制，仅用于看形状，不是精确刻度。</div>' +
+        '<div class="table-note">' + esc(o.note ||
+          '条形长度按源表「月销售额」原文等比绘制，仅用于看形状，不是精确刻度。') + '</div>' +
       '</div>';
   }
 
@@ -231,7 +258,24 @@
     var inner;
 
     if (box.status === 'done' && box.metrics && box.metrics.length) {
-      inner = metricsSection(box, cat) + trendSection(box) + section3(box);
+      var isBr = code === 'BR';
+      var bm = (META.brMeta || {});
+      var opt = {
+        site: box.site || c.site || '',
+        currency: box.currency || c.currency || '',
+        window: isBr ? (bm.window || META.window) : META.window,
+        mom: box.mom || '',
+        source: isBr ? (bm.source || c.note || '') : (META.source || ''),
+      };
+      inner = metricsSection(box, cat, opt) + trendSection(box, isBr ? {
+        title: '二、月度销售趋势（截图还原）',
+        hint: (box.trend || []).length
+          ? box.trend[0].time + ' – ' + box.trend[box.trend.length - 1].time +
+            ' · ' + box.trend.length + ' 个完整月'
+          : '',
+        note: '数值由巴西站「大盘月度趋势图」逐月像素还原（37 个月序列中的最近 12 个完整月），' +
+          '非源表数字；2026-09 因截图时点只到 9/21（不完整月）已剔除，避免误导同比判断。',
+      } : {}) + section3(box);
     } else {
       inner =
         '<div class="card">' +
@@ -406,27 +450,34 @@
     html += categoryPath(cat);
 
     /* 概览条 */
+    var ovBr = cat.br || {};
+    var ovHasBr = ovBr.status === 'done';
     html += '' +
       '<div class="overview-bar">' +
         '<div class="overview-item">' +
           '<div class="ov-label">月销售额（官方）</div>' +
           '<div class="ov-value">' + (cat.salesMxn ? cat.salesMxn + '亿' : '—') + '</div>' +
-          '<div class="ov-sub">MXN · ' + esc(META.site || '') + '</div>' +
+          '<div class="ov-sub">🇲🇽 MXN · 🇧🇷 ' +
+            (ovHasBr && ovBr.salesBrl != null ? ovBr.salesBrl + '亿 BRL' : '待采集') + '</div>' +
+        '</div>' +
+        '<div class="overview-item">' +
+          '<div class="ov-label">年销售规模</div>' +
+          '<div class="ov-value">' +
+            ((cat.mx || {}).yearCny != null ? (cat.mx || {}).yearCny + '亿¥' : '—') + '</div>' +
+          '<div class="ov-sub">🇧🇷 ' +
+            (ovHasBr && ovBr.yearCny != null ? ovBr.yearCny + '亿¥' : '待采集') +
+            ' · 按源表汇率折算</div>' +
         '</div>' +
         '<div class="overview-item">' +
           '<div class="ov-label">占家居大类</div>' +
           '<div class="ov-value">' + (cat.sharePct || 0) + '%</div>' +
-          '<div class="ov-sub">按官方月销售额</div>' +
-        '</div>' +
-        '<div class="overview-item">' +
-          '<div class="ov-label">三级分类</div>' +
-          '<div class="ov-value">' + (cat.lv3 || []).length + '</div>' +
-          '<div class="ov-sub">四级 ' + (cat.lv4Count || 0) + ' 项</div>' +
+          '<div class="ov-sub">🇲🇽 按官方月销售额</div>' +
         '</div>' +
         '<div class="overview-item">' +
           '<div class="ov-label">选品清单</div>' +
           '<div class="ov-value">' + (cat.products || []).length + '</div>' +
-          '<div class="ov-sub">款 · 含西语/葡语搜索词</div>' +
+          '<div class="ov-sub">款 · 三级 ' + (cat.lv3 || []).length +
+            ' 个 · 四级 ' + (cat.lv4Count || 0) + ' 项</div>' +
         '</div>' +
       '</div>';
 

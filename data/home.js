@@ -1,5 +1,6 @@
 /* 自动生成 —— 由 scripts/16_build_homedata.py 产出，请勿手工编辑 */
-/* 源文件：选品分类/市场数据Excel/家居大类市场分析表_v1.xlsx  */
+/* 源文件：选品分类/市场数据Excel/4-家居大类市场分析表_v1.xlsx（墨西哥）    */
+/*         选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx（巴西）*/
 window.SC_HOME = {
  "meta": {
   "rootId": "home",
@@ -21,6 +22,24 @@ window.SC_HOME = {
    "screenshotDir": "市场数据截图/",
    "collected": "2026-09-21",
    "note": "主口径=2026年1-8月 ÷ 2025年1-8月；被浮层遮挡的品类用同月可比口径（见各品类 yoy.note）"
+  },
+  "brMeta": {
+   "site": "巴西站(MLB)",
+   "currency": "BRL",
+   "currencyName": "雷亚尔",
+   "window": "近30天",
+   "collected": "2026-09-21",
+   "connected": "2026-09-22",
+   "source": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx",
+   "yoyMeta": {
+    "label": "累计同比",
+    "method": "巴西站「大盘月度趋势图」逐月像素还原（37 个月）",
+    "src": "选品分类/趋势图·巴西累计同比_v1.json",
+    "screenshotDir": "市场数据截图/",
+    "collected": "2026-09-21",
+    "note": "口径与墨西哥完全一致：2026年1-8月 ÷ 2025年1-8月，12 张图全部 8/8 月可读、零遮挡"
+   },
+   "note": "巴西表只覆盖 11 个二级分类中的 11 个（一一对应）；三级/四级类目树尚未采集，页面上的类目树仍为墨西哥站口径"
   }
  },
  "countries": [
@@ -38,8 +57,9 @@ window.SC_HOME = {
    "site": "巴西站(MLB)",
    "currency": "BRL",
    "currencyName": "雷亚尔",
-   "status": "todo",
-   "note": "巴西站数据尚未采集，结构已预留，采集后直接回填（不编造数字）"
+   "status": "done",
+   "collected": "2026-09-21",
+   "note": "巴西站大盘数据已接入（累计同比为截图逐月还原）"
   }
  ],
  "rootMarket": {
@@ -169,10 +189,6 @@ window.SC_HOME = {
    ],
    "rows": [
     [
-     "维度",
-     "结论"
-    ],
-    [
      "市场规模",
      "★★超级大市场——月销930万件，月销售额38.33亿MXN（约2.2亿美元）"
     ],
@@ -207,6 +223,160 @@ window.SC_HOME = {
    ]
   }
  },
+ "rootMarketBr": {
+  "title": "巴西家居大类 - 大盘数据分析",
+  "site": "巴西站(MLB)",
+  "currency": "BRL",
+  "metrics": [
+   {
+    "label": "总商品数",
+    "value": "45,262,921",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#3"
+   },
+   {
+    "label": "活跃商品(近30天)",
+    "value": "8,973,245",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#4"
+   },
+   {
+    "label": "活跃率",
+    "value": "19.82%",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#5"
+   },
+   {
+    "label": "总销量(近30天)",
+    "value": "3,128.13万件",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#6"
+   },
+   {
+    "label": "月销售额",
+    "value": "BRL 30.69亿 ≈ USD 5.95亿",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#7"
+   },
+   {
+    "label": "月销售额(人民币)",
+    "value": "约42.8亿人民币",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#8"
+   },
+   {
+    "label": "日均销量",
+    "value": "104.27万件",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#9"
+   },
+   {
+    "label": "平均成交价",
+    "value": "BRL 98.11 ≈ USD 19.02",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#10"
+   },
+   {
+    "label": "月环比",
+    "value": "销售额-4.59%",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#11"
+   },
+   {
+    "label": "年销售规模",
+    "value": "约368.3亿BRL ≈ 513.4亿人民币",
+    "mom": "",
+    "dod": "",
+    "prev": "",
+    "note": "",
+    "src": "家居大类#12"
+   }
+  ],
+  "s3": {
+   "kind": "verdict",
+   "title": "年度周期规律",
+   "head": [
+    "#",
+    "结论"
+   ],
+   "rows": [
+    [
+     "1",
+     "整体呈上升趋势，从2023年9月的约10亿B增长到2026年的25-30亿BRL"
+    ],
+    [
+     "2",
+     "每年11月有明显高峰（黑五+圣诞），2025年11月达到约32亿BRL的历史高点"
+    ],
+    [
+     "3",
+     "每年1-2月是淡季，销售额最低"
+    ],
+    [
+     "4",
+     "2026年整体在25-30亿BRL之间波动，市场已经比较成熟"
+    ]
+   ]
+  },
+  "salesBrl": 30.69,
+  "salesCny": 42.8,
+  "salesUsd": 5.95,
+  "yearCny": 513.4,
+  "aov": "BRL 98.11 ≈ USD 19.02",
+  "activeRate": "19.82%",
+  "mom": "-4.59%",
+  "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家居大类"
+ },
+ "rootCompare": {
+  "fx": "按源表汇率 1 USD ≈ 7.2 CNY 折算",
+  "mx": {
+   "site": "墨西哥站(MLM)",
+   "currency": "MXN",
+   "salesLocal": 38.33,
+   "salesCny": 15.98,
+   "salesUsd": 2.22,
+   "aov": "411.71 MXN（约$23.87）",
+   "activeRate": "5.16%"
+  },
+  "br": {
+   "site": "巴西站(MLB)",
+   "currency": "BRL",
+   "salesLocal": 30.69,
+   "salesCny": 42.8,
+   "salesUsd": 5.95,
+   "aov": "BRL 98.11 ≈ USD 19.02",
+   "activeRate": "19.82%"
+  },
+  "ratioCny": 2.68,
+  "note": "人民币口径对照。两国本币不可直接比（1 MXN ≠ 1 BRL）。"
+ },
  "categories": [
   {
    "id": "cat-kitchen",
@@ -216,13 +386,6 @@ window.SC_HOME = {
    "icon": "🍳",
    "page": "cat-kitchen.html",
    "salesMxn": 6.34,
-   "yoy": {
-    "value": 35.59,
-    "window": "2026年5-8月",
-    "base": "2025年5-8月",
-    "exact": false,
-    "note": "原图该时段被浮层遮挡，改用同月可比口径"
-   },
    "mx": {
     "status": "done",
     "title": "厨房大类",
@@ -405,11 +568,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 35.59,
+     "window": "2026年5-8月",
+     "base": "2025年5-8月",
+     "exact": false,
+     "note": "原图该时段被浮层遮挡，改用同月可比口径"
+    },
+    "yearCny": 31.8,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西厨房 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "9,206,777",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "2,075,042",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "22.54%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "690.63万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 5.28亿 ≈ USD 1.02亿",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约7.36亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "23.02万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 76.40 ≈ USD 14.81",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-7.87%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约63.36亿BRL ≈ 88.32亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "厨房#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "3.56亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "4.01亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "4.88亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "4.18亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "4.12亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "3.98亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "4.74亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "4.74亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "5.18亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "4.98亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "5.73亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "5.77亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约1.5亿BRL增长到2026年的5-5.5亿BRL"
+      ],
+      [
+       "2",
+       "每年11-12月有明显高峰，2025年11月达到约5.8亿BRL"
+      ],
+      [
+       "3",
+       "每年1-2月是淡季"
+      ],
+      [
+       "4",
+       "厨房是巴西家居大类里最大的二级分类！"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 55.29,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 5.28,
+    "salesCny": 7.36,
+    "yearCny": 88.32,
+    "aov": "BRL 76.40 ≈ USD 14.81",
+    "activeRate": "22.54%",
+    "goods": "9,206,777",
+    "mom": "-7.87%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#厨房"
    },
    "lv3": [
     "烘焙用具",
@@ -1298,13 +1678,6 @@ window.SC_HOME = {
    "icon": "🛋️",
    "page": "cat-furniture.html",
    "salesMxn": 7.38,
-   "yoy": {
-    "value": 46.85,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "家具",
@@ -1479,11 +1852,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 46.85,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 37.0,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西家具 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "3,295,307",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "916,815",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "27.82%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "262.06万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 6.82亿 ≈ USD 1.32亿",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约9.51亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "8.74万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 260.15 ≈ USD 50.44",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-7.31%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约81.84亿BRL ≈ 114.08亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家具#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "5.01亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "5.58亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "7.08亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "4.69亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "5.37亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "5.25亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "6.35亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "6.03亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "6.77亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "6.56亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "7.39亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "7.41亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约2亿BRL增长到2026年的6.5-7亿BRL"
+      ],
+      [
+       "2",
+       "客单价最高！$50.44，是所有二级分类里客单价最高的！"
+      ],
+      [
+       "3",
+       "每年11-12月有明显高峰"
+      ],
+      [
+       "4",
+       "家具是巴西家居大类里市场规模最大的二级分类！"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 43.61,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 6.82,
+    "salesCny": 9.51,
+    "yearCny": 114.08,
+    "aov": "BRL 260.15 ≈ USD 50.44",
+    "activeRate": "27.82%",
+    "goods": "3,295,307",
+    "mom": "-7.31%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家具"
    },
    "lv3": [
     "书桌",
@@ -1980,13 +2570,6 @@ window.SC_HOME = {
    "icon": "🌿",
    "page": "cat-garden.html",
    "salesMxn": 4.96,
-   "yoy": {
-    "value": 26.69,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "花园和户外",
@@ -2108,10 +2691,6 @@ window.SC_HOME = {
      ],
      "rows": [
       [
-       "维度",
-       "结论"
-      ],
-      [
        "市场规模",
        "★★第3大二级分类——月销98.79万件，月销售额4.96亿MXN（约2876万美元）"
       ],
@@ -2145,11 +2724,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 26.69,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 24.8,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西花园和户外 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "3,296,127",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "1,111,568",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "33.72%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "308.24万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 3.52亿 ≈ USD 6,829.52万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约4.91亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "10.27万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 114.27 ≈ USD 22.16",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-0.77%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约42.24亿BRL ≈ 58.88亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "花园和户外#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "2.89亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "3.37亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "3.98亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "4.22亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "3.84亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "3.08亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "3.29亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "3.10亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "2.99亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "2.84亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "3.26亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "3.75亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约1.5亿BRL增长到2026年的3.5-4亿BRL"
+      ],
+      [
+       "2",
+       "每年11-12月有高峰，季节性比厨房明显"
+      ],
+      [
+       "3",
+       "客单价最高！$22.16，是家居大类里客单价最高的二级分类"
+      ],
+      [
+       "4",
+       "活跃率33.72%，竞争比较激烈"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 29.28,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 3.52,
+    "salesCny": 4.91,
+    "yearCny": 58.88,
+    "aov": "BRL 114.27 ≈ USD 22.16",
+    "activeRate": "33.72%",
+    "goods": "3,296,127",
+    "mom": "-0.77%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#花园和户外"
    },
    "lv3": [
     "户外家具",
@@ -2585,13 +3381,6 @@ window.SC_HOME = {
    "icon": "🛏️",
    "page": "cat-mattress.html",
    "salesMxn": 3.38,
-   "yoy": {
-    "value": 57.95,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "床垫及配件",
@@ -2746,11 +3535,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 57.95,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 16.9,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西床垫及配件 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "1,595,708",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "124,159",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "7.78%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "41.27万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 1.22亿 ≈ USD 2368.81万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约1.7亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "1.38万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 296.03 ≈ USD 57.40",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-4.37%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约14.64亿BRL ≈ 20.41亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "床垫及配件#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "0.83亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "0.89亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "1.25亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "0.85亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "0.96亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "0.87亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "1.04亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "0.96亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "1.15亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "1.11亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "1.30亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "1.28亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约0.6亿BRL增长到2026年的1.2-1.3亿BRL"
+      ],
+      [
+       "2",
+       "客单价第二高！$57.40，仅次于家具"
+      ],
+      [
+       "3",
+       "活跃率7.78%，竞争相对较小"
+      ],
+      [
+       "4",
+       "每年11-12月有高峰"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 54.66,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 1.22,
+    "salesCny": 1.7,
+    "yearCny": 20.41,
+    "aov": "BRL 296.03 ≈ USD 57.40",
+    "activeRate": "7.78%",
+    "goods": "1,595,708",
+    "mom": "-4.37%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#床垫及配件"
    },
    "lv3": [
     "床垫",
@@ -2842,13 +3848,6 @@ window.SC_HOME = {
    "icon": "🖼️",
    "page": "cat-decor.html",
    "salesMxn": 3.36,
-   "yoy": {
-    "value": 48.93,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "家居装饰和装饰品",
@@ -2958,10 +3957,6 @@ window.SC_HOME = {
      ],
      "rows": [
       [
-       "维度",
-       "结论"
-      ],
-      [
        "市场规模",
        "★★大品类——月销125万件，月销售额3.36亿MXN（约1949万美元）"
       ],
@@ -2995,11 +3990,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 48.93,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 16.8,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西家居装饰和装饰品 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "11,775,781",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "1,093,220",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "9.28%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "290.97万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 2.33亿 ≈ USD 4,520.07万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约3.25亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "9.70万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 80.12 ≈ USD 15.53",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-1.30%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约27.96亿BRL ≈ 38.98亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居装饰和装饰品#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "1.87亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "2.55亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "4.51亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "2.52亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "1.84亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "1.72亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "2.08亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "1.99亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "2.13亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "2.09亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "2.35亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "2.39亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约1亿BRL增长到2026年的2.3-2.5亿BRL"
+      ],
+      [
+       "2",
+       "每年11-12月有非常明显的高峰（圣诞装饰），2025年11月达到约4.5亿BRL"
+      ],
+      [
+       "3",
+       "季节性极强！每年1月和2月是低谷，只有高峰时的一半"
+      ],
+      [
+       "4",
+       "活跃率9.28%，竞争相对较小"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 36.02,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 2.33,
+    "salesCny": 3.25,
+    "yearCny": 38.98,
+    "aov": "BRL 80.12 ≈ USD 15.53",
+    "activeRate": "9.28%",
+    "goods": "11,775,781",
+    "mom": "-1.30%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家居装饰和装饰品"
    },
    "lv3": [
     "圣诞树和装饰品",
@@ -3312,13 +4524,6 @@ window.SC_HOME = {
    "icon": "💡",
    "page": "cat-lighting.html",
    "salesMxn": 3.28,
-   "yoy": {
-    "value": 36.69,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "家居照明",
@@ -3434,10 +4639,6 @@ window.SC_HOME = {
      ],
      "rows": [
       [
-       "维度",
-       "结论"
-      ],
-      [
        "市场规模",
        "★★大品类——月销108.65万件，月销售额3.28亿MXN（约1900万美元）"
       ],
@@ -3471,11 +4672,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 36.69,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 16.4,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西家居照明 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "2,510,959",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "781,131",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "31.11%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "321.53万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 2.67亿 ≈ USD 5,169.06万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约3.72亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "10.72万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 82.91 ≈ USD 16.08",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-3.07%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约32.04亿BRL ≈ 44.66亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家居照明#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "1.97亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "2.27亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "2.51亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "2.00亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "1.93亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "1.87亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "2.27亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "2.24亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "2.49亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "2.47亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "2.71亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "2.75亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约1亿BRL增长到2026年的2.5-2.7亿BRL"
+      ],
+      [
+       "2",
+       "每年11-12月有明显高峰（圣诞装饰灯），2025年11月达到约2.7亿BRL"
+      ],
+      [
+       "3",
+       "每年1-2月是淡季"
+      ],
+      [
+       "4",
+       "活跃率31.11%，比墨西哥站高很多，竞争更激烈"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 34.48,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 2.67,
+    "salesCny": 3.72,
+    "yearCny": 44.66,
+    "aov": "BRL 82.91 ≈ USD 16.08",
+    "activeRate": "31.11%",
+    "goods": "2,510,959",
+    "mom": "-3.07%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家居照明"
    },
    "lv3": [
     "灯具",
@@ -3793,13 +5211,6 @@ window.SC_HOME = {
    "icon": "🔒",
    "page": "cat-security.html",
    "salesMxn": 3.06,
-   "yoy": {
-    "value": 19.76,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "家庭安全",
@@ -3927,10 +5338,6 @@ window.SC_HOME = {
      ],
      "rows": [
       [
-       "维度",
-       "结论"
-      ],
-      [
        "市场规模",
        "★★大品类——月销57.57万件，月销售额3.06亿MXN（约1777万美元），家居第7大二级分类"
       ],
@@ -3964,11 +5371,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 19.76,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 15.4,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西家庭安全 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "1,269,382",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "493,965",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "38.91%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "197.76万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 2.81亿 ≈ USD 5453.91万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约3.92亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "6.59万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 142.24 ≈ USD 27.58",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-5.36%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约33.72亿BRL ≈ 47.01亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭安全#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "2.23亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "2.43亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "2.65亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "2.29亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "2.55亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "2.36亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "2.78亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "2.53亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "2.70亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "2.63亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "2.98亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "2.96亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约1亿BRL增长到2026年的2.5-3亿BRL"
+      ],
+      [
+       "2",
+       "活跃率38.91%，比较高，竞争比较激烈"
+      ],
+      [
+       "3",
+       "客单价$27.58，中等偏上"
+      ],
+      [
+       "4",
+       "每年11-12月有高峰"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 34.29,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 2.81,
+    "salesCny": 3.92,
+    "yearCny": 47.01,
+    "aov": "BRL 142.24 ≈ USD 27.58",
+    "activeRate": "38.91%",
+    "goods": "1,269,382",
+    "mom": "-5.36%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家庭安全"
    },
    "lv3": [
     "保险箱",
@@ -4224,13 +5848,6 @@ window.SC_HOME = {
    "icon": "🧵",
    "page": "cat-textiles.html",
    "salesMxn": 2.2,
-   "yoy": {
-    "value": 34.74,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "家用纺织品和装饰品",
@@ -4405,11 +6022,224 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 34.74,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 11.0,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西家用纺织品和装饰品 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "6,790,603",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "746,011",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "10.99%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "254.01万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 1.78亿 ≈ USD 3,457.64万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约2.48亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "8.47万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 70.20 ≈ USD 13.61",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-1.51%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约21.36亿BRL ≈ 29.78亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家用纺织品和装饰品#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "1.14亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "1.33亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "1.73亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "1.53亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "1.35亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "1.31亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "1.56亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "1.55亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "1.88亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "1.99亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "2.01亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "1.81亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约0.8亿BRL增长到2026年的1.7-2亿BRL"
+      ],
+      [
+       "2",
+       "每年11-12月有高峰，季节性比较明显"
+      ],
+      [
+       "3",
+       "活跃率10.99%，竞争中等"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 45.86,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 1.78,
+    "salesCny": 2.48,
+    "yearCny": 29.78,
+    "aov": "BRL 70.20 ≈ USD 13.61",
+    "activeRate": "10.99%",
+    "goods": "6,790,603",
+    "mom": "-1.51%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家用纺织品和装饰品"
    },
    "lv3": [
     "地毯和地垫",
@@ -5124,13 +6954,6 @@ window.SC_HOME = {
    "icon": "🧺",
    "page": "cat-homecare.html",
    "salesMxn": 1.94,
-   "yoy": {
-    "value": 44.95,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "家庭护理和洗衣",
@@ -5246,10 +7069,6 @@ window.SC_HOME = {
      ],
      "rows": [
       [
-       "维度",
-       "结论"
-      ],
-      [
        "市场规模",
        "★★大品类——月销91.77万件，月销售额1.94亿MXN（约1123万美元）"
       ],
@@ -5283,11 +7102,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 44.95,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 9.7,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西家庭护理和洗衣 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "1,765,139",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "822,281",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "46.58%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "465.60万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 2.07亿 ≈ USD 4,004.57万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约2.89亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "15.52万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 44.36 ≈ USD 8.60",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-3.56%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约24.84亿BRL ≈ 34.63亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "家庭护理和洗衣#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "1.27亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "1.36亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "1.55亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "1.16亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "1.49亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "1.47亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "1.74亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "1.66亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "1.85亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "1.87亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "2.14亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "2.14亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约0.5亿BRL增长到2026年的2亿BRL"
+      ],
+      [
+       "2",
+       "活跃率46.58%，非常高，竞争很激烈"
+      ],
+      [
+       "3",
+       "客单价最低！只有$8.60，利润空间小"
+      ],
+      [
+       "4",
+       "属于刚需高频品类"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 65.16,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 2.07,
+    "salesCny": 2.89,
+    "yearCny": 34.63,
+    "aov": "BRL 44.36 ≈ USD 8.60",
+    "activeRate": "46.58%",
+    "goods": "1,765,139",
+    "mom": "-3.56%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#家庭护理和洗衣"
    },
    "lv3": [
     "清洁产品",
@@ -5967,13 +8003,6 @@ window.SC_HOME = {
    "icon": "🚿",
    "page": "cat-bath.html",
    "salesMxn": 1.47,
-   "yoy": {
-    "value": 34.58,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "浴室",
@@ -6089,10 +8118,6 @@ window.SC_HOME = {
      ],
      "rows": [
       [
-       "维度",
-       "结论"
-      ],
-      [
        "市场规模",
        "中等——月销59.76万件，月销售额1.47亿MXN（约850万美元）"
       ],
@@ -6126,11 +8151,228 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 34.58,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 7.4,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西浴室 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "2,535,327",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "622,084",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "24.54%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "219.27万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 1.61亿 ≈ USD 3,121.21万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约2.24亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "7.31万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 73.41 ≈ USD 14.23",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额+0.02%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约19.32亿BRL ≈ 26.93亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "浴室#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "1.29亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "1.43亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "1.65亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "1.32亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "1.45亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "1.38亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "1.61亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "1.51亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "1.64亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "1.47亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "1.66亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "1.63亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约7000万BRL增长到2026年的1.5-1.7亿BRL"
+      ],
+      [
+       "2",
+       "每年11-12月有高峰，波动比照明小一些"
+      ],
+      [
+       "3",
+       "每年1-2月是淡季"
+      ],
+      [
+       "4",
+       "月环比+0.02%，增长比较平稳"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 32.52,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 1.61,
+    "salesCny": 2.24,
+    "yearCny": 26.93,
+    "aov": "BRL 73.41 ≈ USD 14.23",
+    "activeRate": "24.54%",
+    "goods": "2,535,327",
+    "mom": "0.02%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#浴室"
    },
    "lv3": [
     "浴室龙头",
@@ -6686,13 +8928,6 @@ window.SC_HOME = {
    "icon": "📦",
    "page": "cat-storage.html",
    "salesMxn": 0.96,
-   "yoy": {
-    "value": 49.31,
-    "window": "2026年1-8月",
-    "base": "2025年1-8月",
-    "exact": true,
-    "note": ""
-   },
    "mx": {
     "status": "done",
     "title": "收纳整理",
@@ -6867,11 +9102,224 @@ window.SC_HOME = {
       ]
      ]
     },
+    "yoy": {
+     "value": 49.31,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "yearCny": 4.8,
     "screenshotDir": "选品分类/市场数据截图/"
    },
    "br": {
-    "status": "todo",
-    "note": "巴西站数据尚未采集"
+    "status": "done",
+    "title": "巴西收纳整理 - 大盘数据分析",
+    "metrics": [
+     {
+      "label": "总商品数",
+      "value": "1,168,226",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#3"
+     },
+     {
+      "label": "活跃商品(近30天)",
+      "value": "179,478",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#4"
+     },
+     {
+      "label": "活跃率",
+      "value": "15.36%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#5"
+     },
+     {
+      "label": "总销量(近30天)",
+      "value": "75.43万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#6"
+     },
+     {
+      "label": "月销售额",
+      "value": "BRL 5633.40万 ≈ USD 1092.27万",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#7"
+     },
+     {
+      "label": "月销售额(人民币)",
+      "value": "约0.79亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#8"
+     },
+     {
+      "label": "日均销量",
+      "value": "2.51万件",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#9"
+     },
+     {
+      "label": "平均成交价",
+      "value": "BRL 74.69 ≈ USD 14.48",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#10"
+     },
+     {
+      "label": "月环比",
+      "value": "销售额-3.07%",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#11"
+     },
+     {
+      "label": "年销售规模",
+      "value": "约6.76亿BRL ≈ 9.42亿人民币",
+      "mom": "",
+      "dod": "",
+      "prev": "",
+      "note": "",
+      "src": "收纳整理#12"
+     }
+    ],
+    "trend": [
+     {
+      "time": "2025年9月",
+      "value": "0.39亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年10月",
+      "value": "0.43亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年11月",
+      "value": "0.47亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2025年12月",
+      "value": "0.41亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年1月",
+      "value": "0.50亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年2月",
+      "value": "0.43亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年3月",
+      "value": "0.48亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年4月",
+      "value": "0.46亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年5月",
+      "value": "0.49亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年6月",
+      "value": "0.49亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年7月",
+      "value": "0.58亿BRL",
+      "stage": "",
+      "note": ""
+     },
+     {
+      "time": "2026年8月",
+      "value": "0.59亿BRL",
+      "stage": "",
+      "note": ""
+     }
+    ],
+    "s3": {
+     "kind": "verdict",
+     "title": "年度周期规律",
+     "head": [
+      "#",
+      "结论"
+     ],
+     "rows": [
+      [
+       "1",
+       "整体呈上升趋势，从2023年的约0.2亿BRL增长到2026年的0.5-0.6亿BRL"
+      ],
+      [
+       "2",
+       "活跃率15.36%，竞争中等"
+      ],
+      [
+       "3",
+       "收纳整理属于刚需品类，季节性相对弱一些"
+      ]
+     ]
+    },
+    "yoy": {
+     "value": 32.59,
+     "window": "2026年1-8月",
+     "base": "2025年1-8月",
+     "exact": true,
+     "note": ""
+    },
+    "currency": "BRL",
+    "site": "巴西站(MLB)",
+    "salesBrl": 0.56334,
+    "salesCny": 0.79,
+    "yearCny": 9.42,
+    "aov": "BRL 74.69 ≈ USD 14.48",
+    "activeRate": "15.36%",
+    "goods": "1,168,226",
+    "mom": "-3.07%",
+    "src": "选品分类/市场数据Excel/2-巴西家居二级分类市场分析表_v1.xlsx#收纳整理"
    },
    "lv3": [
     "真空袋",
