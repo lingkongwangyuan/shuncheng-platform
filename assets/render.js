@@ -199,7 +199,7 @@
                   '<td class="num num-strong">' + (c.salesMxn ? c.salesMxn + '亿' : '—') + '</td>' +
                   '<td class="num">' + (c.sharePct || 0) + '%</td>' +
                   '<td class="num">' + (c.lv3 || []).length + '</td>' +
-                  '<td class="num num-mute">' + (c.lv4Count || 0) + '</td>' +
+                  '<td class="num num-mute">' + (c.lv4Count ? c.lv4Count : '—') + '</td>' +
                   '<td class="num">' + (c.products || []).length + '</td>' +
                   '<td><span class="tag tag-soft">🇧🇷 待采集</span></td>' +
                   '</tr>';
@@ -208,7 +208,8 @@
           '</table>' +
         '</div>' +
         '<div class="table-note">月销售额为墨西哥站官方数据（MXN）。' +
-          '「三级 / 四级 / 选品数」来自官方类目树与顺诚选品清单，非市场推算。</div>' +
+          '「三级 / 四级 / 选品数」来自官方类目树与顺诚选品清单，非市场推算；' +
+          '「—」表示该二级分类的四级未采集（厨房大类的四级见「存储和组织」专页）。</div>' +
       '</div>';
 
     /* AI 智能体 */

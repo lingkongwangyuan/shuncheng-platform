@@ -74,7 +74,8 @@
   }
 
   function childHTML(c) {
-    var cls = 'sidebar-item' + (isActive(c) ? ' active' : '');
+    var cls = 'sidebar-item' + (isActive(c) ? ' active' : '') +
+              (c.indent ? ' is-sub' : '');
     var icon = c.icon ? '<span class="icon">' + esc(c.icon) + '</span>' : '';
     if (c.page) {
       return '<a href="' + esc(c.page) + '" class="' + cls + '">' + icon + esc(c.name) + '</a>';

@@ -33,8 +33,11 @@ window.SC_DATA = {
         { name: '市场分析', icon: '📈', page: 'market.html' },
         /* ── 家居大类 · 11 个官方二级分类 ──
            排序：厨房第一（老周指定），其余按官方大盘月销售额降序。
-           此处仅导航壳；分类数据源为 data/home.js（由 16_build_homedata.py 生成）。 */
+           厨房大类的分类数据源为 data/kitchen.js（由 17_build_kitchendata.py 生成）；
+           其余 10 个二级分类数据源为 data/home.js（由 16_build_homedata.py 生成）。
+           indent: 1 = 二级缩进项，仅用于导航视觉层级。 */
         { name: '厨房大类', icon: '🍳', page: 'cat-kitchen.html' },
+        { name: '存储和组织', icon: '🗂️', page: 'cat-kitchen-storage.html', indent: 1 },
         { name: '家具', icon: '🛋️', page: 'cat-furniture.html' },
         { name: '花园和户外', icon: '🌿', page: 'cat-garden.html' },
         { name: '床垫床垫配件', icon: '🛏️', page: 'cat-mattress.html' },

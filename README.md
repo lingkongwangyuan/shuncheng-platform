@@ -20,7 +20,8 @@
 ├── market.html         选品中心 · 市场分析（品类分析 + 店铺布局）
 │
 │   ── 家居大类 · 11 个官方二级分类（厨房第一，其余按大盘月销售额降序）──
-├── cat-kitchen.html    1  厨房大类      Cocina
+├── cat-kitchen.html    1  厨房大类      Cocina（国家 → 13 个三级分类，重点页）
+├── cat-kitchen-storage.html  └ 存储和组织  四级分类专项（22 / 24 条四级）
 ├── cat-furniture.html  2  家具          Muebles para el Hogar
 ├── cat-garden.html     3  花园和户外    Jardín y Aire Libre
 ├── cat-mattress.html   4  床垫床垫配件  Camas, Colchones y Accesorios
@@ -53,7 +54,8 @@
 │   ├── theme.css         设计系统（全站唯一样式源）
 │   ├── layout.js         顶部栏 + 左侧导航（统一注入）
 │   ├── render.js         选品中心渲染（品类总览 / 市场分析）
-│   ├── render-home.js    家居大类 11 个二级分类页渲染（含墨西哥/巴西国家切换）
+│   ├── render-home.js    家居大类 10 个二级分类页渲染（含墨西哥/巴西国家切换）
+│   ├── render-kitchen.js 厨房大类渲染（厨房总览 / 存储和组织四级页）
 │   ├── render-shops.js   店铺矩阵渲染（店铺总览 / 店群分析）
 │   ├── render-plan.js    店铺规划渲染
 │   ├── render-ops.js     经营数据渲染
@@ -63,6 +65,7 @@
 ├── data/
 │   ├── categories.js     导航 / 店铺池 / 市场分析页结构（唯一内容源）
 │   ├── home.js           家居大类 11 个二级分类数据（自动生成，勿手改）
+│   ├── kitchen.js        厨房大类数据：13 个三级 + 存储和组织四级（自动生成，勿手改）
 │   ├── shops.js          店铺矩阵数据（自动生成，勿手改）
 │   ├── plan.js           店铺规划数据（自动生成，勿手改）
 │   ├── ops.js            经营数据（自动生成，勿手改）
@@ -95,6 +98,7 @@
 | 改某个页面的版式、颜色、间距 | `assets/theme.css` |
 | 改选品中心的区块结构 | `assets/render.js` |
 | 改二级分类页的区块结构（国家切换、大盘、趋势、清单） | `assets/render-home.js` |
+| 改厨房大类页 / 存储和组织页的区块结构 | `assets/render-kitchen.js` |
 | 改市场分析页的两个分部（品类分析 / 店铺布局）文案与框架 | `data/categories.js` 的 `marketPage` |
 | 改店铺矩阵的区块结构 | `assets/render-shops.js` |
 | 改店铺规划的区块结构 | `assets/render-plan.js` |
@@ -104,6 +108,7 @@
 | **更新店铺数据** | 重新跑数据脚本（见下节），**不要手改 `data/shops.js`** |
 | **更新经营数据** | 同上，跑 `scripts/11_build_opsdata.py`，**不要手改 `data/ops.js`** |
 | **更新家居分类数据** | 跑 `scripts/16_build_homedata.py`，**不要手改 `data/home.js`** |
+| **更新厨房大类数据** | 跑 `scripts/17_build_kitchendata.py`，**不要手改 `data/kitchen.js`** |
 
 **加一个家居二级分类页的完整步骤：**
 
@@ -228,7 +233,9 @@ python _tools/check_contrast.py
 | 模块 | 状态 | 待接入内容 |
 |---|---|---|
 | **家居大类 11 个二级分类页** | ✅ **已接入** | 墨西哥站大盘 / 3 年趋势 / 选品判断 + 官方三级四级清单 + 选品清单 |
-| 二级分类 · 巴西站 | ⏳ 待采集 | 每页已建「🇧🇷 巴西站(MLB)」标签页，结构预留，**全站巴西数据为零** |
+| **厨房大类 · 三级分类（13 个）** | ✅ **已接入** | 墨西哥 / 巴西双站大盘、月度周期规律、年销估算、跨国统一排名（`cat-kitchen.html`） |
+| **厨房大类 · 四级分类** | 🟡 **仅「存储和组织」** | 墨西哥 22 条 / 巴西 24 条，含机会评分、市场份额、赛道类型与选品建议（`cat-kitchen-storage.html`）；其余 12 个三级分类的四级未采集 |
+| 二级分类 · 巴西站 | 🟡 **厨房已接入** | 厨房大类的巴西站三级（13 个）与四级（24 条）已到位；其余 10 个二级分类的巴西数据仍为零 |
 | 二级分类 · 五级/四级销量数据 | ⏳ 待采集 | 四级分类只有名称，销量 / 价格 / 竞争度未采集 |
 | 二级分类 · 深度分析（价格分布 / 品牌竞争 / TOP商品 / 机会指数） | 🟡 部分有 | 仅厨房（围裙 / 锅具 / 厨房布）有截图，其余分类待采集 |
 | **店铺总览** | ✅ **已接入** | 数据底座 3,827 条日报 |

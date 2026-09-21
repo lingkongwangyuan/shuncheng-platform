@@ -1223,9 +1223,9 @@ a { color: inherit; }
 .stats-grid-7 .stat-card { padding: 13px 15px; }
 .stats-grid-7 .stat-value { font-size: 19px; }
 
-/* ── 环比涨跌（跨色系：深绿 / 深红，避开橙系）── */
-.ct-up { color: #1c6b3c; font-weight: 600; }
-.ct-down { color: #a8332a; font-weight: 600; }
+/* ── 环比 / 同比涨跌（中文语境：涨红跌绿；均为深色、避开橙系）── */
+.ct-up { color: #a8332a; font-weight: 600; }    /* 涨 → 红 */
+.ct-down { color: #1c6b3c; font-weight: 600; }  /* 跌 → 绿 */
 
 /* ── 3 年趋势条形 ── */
 .tr-chart { display: flex; flex-direction: column; gap: 9px; }
@@ -1277,6 +1277,97 @@ a { color: inherit; }
 .scn-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .scn-link { text-decoration: none; display: block; }
 .scn-link:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+
+/* ══════════════════════════════════════════════════════════════
+   厨房大类 · 三级 / 四级分析（2026-09-21 新增）
+   页面：cat-kitchen.html（厨房总览）/ cat-kitchen-storage.html（存储和组织）
+   配色铁律：浅亮底一律深棕字；彩色浅底配跨色系低饱和深字，禁同色系
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 导航二级缩进项 ── */
+.sidebar-sub .sidebar-item.is-sub { padding-left: 40px; font-size: 12.5px; }
+.sidebar-sub .sidebar-item.is-sub .icon { font-size: 12px; }
+
+/* ── 表格：数字列 / 说明列 ── */
+.td-num { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.td-note { font-size: 12px; color: var(--ink-secondary); line-height: 1.55; min-width: 180px; }
+.stat-unit { font-size: 13px; font-weight: 500; color: var(--ink-secondary); }
+.sub-title {
+  font-size: 13.5px; font-weight: 700; color: var(--ink);
+  margin: 20px 0 10px; padding-left: 9px; border-left: 3px solid var(--primary);
+}
+.tk-es { font-size: 11.5px; color: var(--ink-secondary); font-style: italic; margin-top: 2px; }
+.tk-dash { color: var(--ink-faint); }
+
+/* ── 宽表：列多时横向滚动，避免 table-layout:fixed 把末列压成单字 ── */
+.kt-cross  { min-width: 1120px; }
+.kt-detail { min-width: 1340px; }
+.kt-lv4    { min-width: 1200px; }
+.kt-rank   { min-width: 1420px; }
+
+/* ── 三级分类行展开 ── */
+.tk-acc-btn {
+  font-family: inherit; font-size: 11.5px; font-weight: 600;
+  color: var(--on-soft); background: var(--primary-soft);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 4px 11px; cursor: pointer; white-space: nowrap;
+}
+.tk-acc-btn:hover { border-color: var(--primary); }
+.tk-acc-row > td { background: var(--primary-bg); padding: 0; }
+.tk-acc-body {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px; padding: 14px;
+}
+.tk-sec {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 13px 14px;
+}
+.tk-sec-title {
+  font-size: 12.5px; font-weight: 700; color: var(--primary-deep);
+  margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border-light);
+}
+.tk-metrics { display: flex; flex-direction: column; gap: 7px; }
+.tk-metric { padding-bottom: 6px; border-bottom: 1px dashed var(--border-light); }
+.tk-metric:last-child { border-bottom: 0; padding-bottom: 0; }
+.tk-metric-label { font-size: 11.5px; color: var(--ink-light); }
+.tk-metric-value { font-size: 13.5px; font-weight: 600; color: var(--ink); word-break: break-all; }
+.tk-metric-sub { font-size: 11px; color: var(--ink-secondary); }
+.tk-metric-note { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
+.tk-ul { list-style: none; }
+.tk-ul li {
+  position: relative; padding-left: 15px; margin-bottom: 8px;
+  font-size: 12.5px; color: var(--ink-secondary); line-height: 1.75;
+}
+.tk-ul li::before {
+  content: ''; position: absolute; left: 4px; top: 8px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--primary);
+}
+.tk-empty { font-size: 12px; color: var(--ink-faint); padding: 6px 0; }
+
+/* ── 赛道类型 chip（浅底 + 跨色系低饱和深字）── */
+.tk-t1 { background: var(--green-bg); color: var(--green-ink); }
+.tk-t2 { background: var(--amber-bg); color: var(--amber-ink); }
+.tk-t3 { background: var(--blue-bg);  color: var(--blue-ink); }
+.tk-t4 { background: var(--gray-bg);  color: var(--gray-ink); }
+.tk-t5 { background: #e3f2f4; color: #2c4a4e; }
+.tk-t6 { background: #fdeceb; color: #4a3130; }
+
+/* ── 赛道地图 ── */
+.tk-tracks { display: flex; flex-direction: column; gap: 11px; }
+.tk-track-row { display: grid; grid-template-columns: 130px 1fr; gap: 13px; align-items: start; }
+.tk-track-name { width: 100%; text-align: center; padding: 5px 8px; }
+.tk-track-list { display: flex; flex-wrap: wrap; gap: 7px; }
+
+/* ── 四级下钻引导卡 ── */
+.tk-cta { display: flex; align-items: flex-start; gap: 20px; }
+.tk-cta-main { flex: 1; min-width: 0; }
+.tk-cta-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 7px; }
+.tk-cta-desc { font-size: 12.5px; color: var(--ink-secondary); line-height: 1.8; margin-bottom: 11px; }
+.tk-cta .btn { flex-shrink: 0; text-decoration: none; margin-top: 4px; }
+.tk-legend { margin-top: 10px; }
+
+/* ── 未入排名 / 待录入 行弱化 ── */
+tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-weight: 400; }
 
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1355,4 +1446,18 @@ a { color: inherit; }
   .ct-tab { justify-content: center; }
   .tr-row { grid-template-columns: 88px 1fr; }
   .tr-val { display: none; }
+}
+
+/* ── 厨房大类新增组件 · 响应式（2026-09-21）── */
+@media (max-width: 1200px) {
+  .tk-acc-body { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 1024px) {
+  .tk-acc-body { grid-template-columns: 1fr; }
+  .tk-track-row { grid-template-columns: 110px 1fr; }
+}
+@media (max-width: 720px) {
+  .tk-cta { flex-direction: column; align-items: stretch; }
+  .tk-track-row { grid-template-columns: 1fr; }
+  .tk-track-name { text-align: left; }
 }
