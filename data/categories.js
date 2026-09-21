@@ -18,7 +18,7 @@ window.SC_DATA = {
     logo: '顺',
     user: '顺诚',
     subtitle: '美客多跨境电商 · 工作平台',
-    version: 'v2.5',
+    version: 'v3.0',
     updated: '2026-09-21'
   },
 
@@ -31,10 +31,20 @@ window.SC_DATA = {
       children: [
         { name: '品类总览', icon: '📋', page: 'index.html' },
         { name: '市场分析', icon: '📈', page: 'market.html' },
-        { name: '厨房用品', icon: '🍳', page: 'kitchen.html' },
-        { name: '卫生间用品', icon: '🚿', page: 'bathroom.html' },
-        { name: '客厅用品', icon: '🛋️', page: 'livingroom.html' },
-        { name: '卧室用品', icon: '🛏️', page: 'bedroom.html' }
+        /* ── 家居大类 · 11 个官方二级分类 ──
+           排序：厨房第一（老周指定），其余按官方大盘月销售额降序。
+           此处仅导航壳；分类数据源为 data/home.js（由 16_build_homedata.py 生成）。 */
+        { name: '厨房大类', icon: '🍳', page: 'cat-kitchen.html' },
+        { name: '家具', icon: '🛋️', page: 'cat-furniture.html' },
+        { name: '花园和户外', icon: '🌿', page: 'cat-garden.html' },
+        { name: '床垫床垫配件', icon: '🛏️', page: 'cat-mattress.html' },
+        { name: '家居装饰和装饰品', icon: '🖼️', page: 'cat-decor.html' },
+        { name: '家居照明', icon: '💡', page: 'cat-lighting.html' },
+        { name: '家庭安全', icon: '🔒', page: 'cat-security.html' },
+        { name: '家用纺织品和装饰品', icon: '🧵', page: 'cat-textiles.html' },
+        { name: '家庭护理和洗衣', icon: '🧺', page: 'cat-homecare.html' },
+        { name: '浴室', icon: '🚿', page: 'cat-bath.html' },
+        { name: '收纳整理', icon: '📦', page: 'cat-storage.html' }
       ]
     },
     {
@@ -95,11 +105,15 @@ window.SC_DATA = {
     { name: '生图智能体', icon: '🖼️', cls: 'ai-amber', desc: 'AI 生成主图和详情页素材', status: 'todo' }
   ],
 
-  /* ── 一级品类 ── */
+  /* ── 一级品类 ──
+     2026-09-21 调整：聚焦「家居大类」（美客多官方一级大类 MLM1574），
+     原「日用百货/四大场景」是早期编的结构，无数据支撑，已废弃。 */
   root: {
-    id: 'daily',
-    name: '日用百货',
-    desc: '顺诚选品中心一级品类，下分居家四大场景，按 P0→P2 顺序推进'
+    id: 'home',
+    name: '家居大类',
+    nameEs: 'Hogar, Muebles y Jardín',
+    catId: 'MLM1574',
+    desc: '美客多官方一级大类，下分 11 个二级分类（厨房第一，其余按大盘月销售额降序）'
   },
 
   /* ── 可分配店铺池 ──
@@ -121,19 +135,19 @@ window.SC_DATA = {
      说明：原页面此处为编造数字，已全部撤下，改为「分析维度 + 数据源」框架，
      口径确认后再回填，宁可标空不填假。 */
   marketPage: {
-    intro: '本页是「日用百货」一级品类的统一分析页。市场分析与店铺布局只在'
-         + '这里讲一次，不在四个场景子页里各重复一遍。',
+    intro: '本页是「家居大类」一级大类（官方 MLM1574）的统一分析页。'
+         + '市场分析与店铺布局只在这里讲一次，不在 11 个二级分类页里各重复一遍。',
     parts: [
       {
         no: '一', id: 'cat-analysis', name: '品类分析',
-        desc: '市场盘子 · 分析框架 · 四大场景结构'
+        desc: '市场盘子 · 分析框架 · 11 个二级分类结构'
       },
       {
         no: '二', id: 'shop-layout', name: '店铺布局',
         desc: '18 家在营店铺现状 · 品类 × 店铺承接矩阵'
       }
     ],
-    frameworkNote: '八项分析维度全部未采集，先定框架与数据源，口径确认后回填。',
+    frameworkNote: '八项分析维度尚未采集（类目大盘除外），先定框架与数据源，口径确认后回填。',
     framework: [
       { dim: '市场规模与增速', item: '类目 GMV、增长率、在售商品数', src: '美客多类目报告' },
       { dim: '热卖趋势', item: '近 30 天搜索增长、热搜关键词', src: '美客多后台 / 第三方选品工具' },
@@ -144,8 +158,9 @@ window.SC_DATA = {
       { dim: '合规与准入', item: '类目限制、强制认证、侵权高发词', src: '美客多类目规则' },
       { dim: '物流与包装', item: '体积重、破损率、配送时效要求', src: '物流商 / 自建' }
     ],
-    analysisNote: '本页不含任何推算结论。市场指标未采集，一律标「待采集」并写明数据源；'
-                + '已采集的只有品类结构本身（来自选品中心的品类规划）。',
+    analysisNote: '本页不含任何推算结论。8 个分析维度尚未采集，一律标「待采集」并写明数据源；'
+                + '已采集的是墨西哥站类目大盘（来自「家居大类市场分析表 v1」）与官方类目树结构，'
+                + '巴西站尚无任何数据。',
     layoutNote: '「品类 → 店铺」的承接关系需管理人确认。本页只列店铺现状与矩阵骨架，'
               + '不做分配推断——谁做哪个品类是经营决策，不能由页面替你定。',
     layoutOpen: [
@@ -156,80 +171,11 @@ window.SC_DATA = {
     ]
   },
 
-  /* ── 四大场景品类 ──
-     subs[].status : pending 待启动 / progress 进行中 / done 已完成 */
-  categories: [
-    {
-      id: 'kitchen',
-      name: '厨房用品',
-      icon: '🍳',
-      page: 'kitchen.html',
-      priority: { level: 'P0', label: '优先', cls: 'priority-high', cardCls: 'priority-1' },
-      desc: '涵盖厨房收纳、烹饪工具、保鲜密封、清洁用品等，是日用百货中需求最稳定、复购率最高的品类方向。',
-      cardMeta: '5 个三级品类',
-      progress: 15,
-      progressNote: '待选品',
-      subs: [
-        { no: 1, name: '厨房收纳', detail: '置物架、收纳盒、调料架、橱柜收纳 — 高频刚需，SKU丰富度最高', plan: 20, status: 'pending' },
-        { no: 2, name: '厨房工具', detail: '铲勺套装、开瓶器、削皮器、压蒜器 — 标品化程度高，适合批量上架', plan: 15, status: 'pending' },
-        { no: 3, name: '保鲜/密封容器', detail: '保鲜盒、密封罐、真空袋 — 复购率高，适合做品牌化', plan: 12, status: 'pending' },
-        { no: 4, name: '厨房清洁', detail: '洗碗刷、清洁布、去污剂 — 消耗品，复购频次高', plan: 10, status: 'pending' },
-        { no: 5, name: '厨房装饰', detail: '沥水架、调味瓶、厨房挂钟 — 颜值经济，适合差异化', plan: 8, status: 'pending' }
-      ]
-    },
-    {
-      id: 'bathroom',
-      name: '卫生间用品',
-      icon: '🚿',
-      page: 'bathroom.html',
-      priority: { level: 'P0', label: '优先', cls: 'priority-high', cardCls: 'priority-1' },
-      desc: '涵盖卫浴收纳、清洁工具、防滑用品、卫浴配件等，客单价适中，适合差异化竞争。',
-      cardMeta: '5 个三级品类',
-      progress: 10,
-      progressNote: '待选品',
-      subs: [
-        { no: 1, name: '浴室收纳', detail: '置物架、挂钩、肥皂盒、牙刷架 — 刚需高频，SKU空间大', plan: 18, status: 'pending' },
-        { no: 2, name: '卫浴纺织品', detail: '毛巾、浴巾、地垫、浴帘 — 复购率高，适合组合销售', plan: 15, status: 'pending' },
-        { no: 3, name: '浴室配件', detail: '花洒、水龙头、排水口滤网 — 标品化程度高，适合批量', plan: 12, status: 'pending' },
-        { no: 4, name: '浴室清洁', detail: '马桶刷、清洁刷、除垢剂 — 消耗品，复购频次高', plan: 10, status: 'pending' },
-        { no: 5, name: '浴室装饰', detail: '浴室镜、香薰、装饰品 — 颜值经济，差异化空间大', plan: 8, status: 'pending' }
-      ]
-    },
-    {
-      id: 'livingroom',
-      name: '客厅用品',
-      icon: '🛋️',
-      page: 'livingroom.html',
-      priority: { level: 'P1', label: '中等', cls: 'priority-mid', cardCls: 'priority-3' },
-      desc: '涵盖客厅收纳、装饰、纺织、灯饰等，颜值经济潜力大，适合做差异化爆款。',
-      cardMeta: '5 个三级品类',
-      progress: 0,
-      progressNote: '待启动',
-      subs: [
-        { no: 1, name: '客厅收纳', detail: '收纳箱、置物架、杂志架、遥控器收纳 — 需求稳定，组合销售空间大', plan: 15, status: 'pending' },
-        { no: 2, name: '家居装饰', detail: '壁画、花瓶、摆件、相框 — 颜值经济，差异化空间大，利润高', plan: 12, status: 'pending' },
-        { no: 3, name: '沙发纺织品', detail: '沙发垫、抱枕套、盖毯、桌旗 — 复购率高，季节性需求', plan: 10, status: 'pending' },
-        { no: 4, name: '客厅灯饰', detail: '台灯、落地灯、氛围灯、LED灯带 — 氛围感经济，溢价空间大', plan: 8, status: 'pending' },
-        { no: 5, name: '客厅配件', detail: '遥控器、电视支架、线缆收纳 — 标品化程度高，适合批量', plan: 10, status: 'pending' }
-      ]
-    },
-    {
-      id: 'bedroom',
-      name: '卧室用品',
-      icon: '🛏️',
-      page: 'bedroom.html',
-      priority: { level: 'P2', label: '待启动', cls: 'priority-low', cardCls: 'priority-4' },
-      desc: '涵盖卧室收纳、床品配件、灯具、装饰等，睡眠经济增长快，复购率高。',
-      cardMeta: '5 个三级品类',
-      progress: 0,
-      progressNote: '待启动',
-      subs: [
-        { no: 1, name: '卧室收纳', detail: '衣柜收纳、床头置物架、首饰盒 — 刚需高频，组合销售空间大', plan: 15, status: 'pending' },
-        { no: 2, name: '床品纺织', detail: '床单、被套、枕套、蚊帐 — 复购率高，季节性需求强', plan: 12, status: 'pending' },
-        { no: 3, name: '卧室灯具', detail: '床头灯、夜灯、睡眠灯 — 氛围感经济，溢价空间大', plan: 10, status: 'pending' },
-        { no: 4, name: '卧室装饰', detail: '墙贴、挂画、香薰蜡烛 — 颜值经济，差异化空间大', plan: 10, status: 'pending' },
-        { no: 5, name: '卧室配件', detail: '眼罩、耳塞、闹钟 — 标品化程度高，适合批量上架', plan: 8, status: 'pending' }
-      ]
-    }
-  ]
+  /* ── 家居大类 · 11 个二级分类 ──
+     原「日用百货 · 四大场景」（厨房 / 卫生间 / 客厅 / 卧室用品）已于 2026-09-21 废弃：
+     其三级方向全部是早期编造、无数据支撑，与真实采集的官方二级分类对不上。
+     现按美客多官方二级分类重建，数据源 = data/home.js
+     （由 scripts/16_build_homedata.py 从「家居大类市场分析表_v1.xlsx」生成）。
+     此处不复写分类数据，避免两处维护。 */
+  homeNote: '家居大类的 11 个二级分类数据在 data/home.js；本文件只保留导航与文案。'
 };

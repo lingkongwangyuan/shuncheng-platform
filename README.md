@@ -3,7 +3,7 @@
 美客多跨境电商（顺诚）内部工作平台。
 
 现有板块：
-- **选品中心** —— 日用百货四大场景品类 + 一级品类市场分析（品类分析 / 店铺布局）
+- **选品中心** —— 家居大类（美客多官方一级大类 MLM1574）11 个二级分类 + 品类总览 + 市场分析
 - **店铺矩阵** —— 18 家店的健康与风险对照 + 店铺规划（定位 / 品类 / 人群）
 - **经营数据** —— 经营概览、数据体检、作业节奏、独立核算、产品核算
 - **店铺合伙** —— 两位合伙人的损益结构与增量分红机制（金额待接入）
@@ -16,12 +16,24 @@
 ## 目录结构
 
 ```
-├── index.html          选品中心 · 品类总览
+├── index.html          选品中心 · 品类总览（家居大类 + 11 个二级分类）
 ├── market.html         选品中心 · 市场分析（品类分析 + 店铺布局）
-├── kitchen.html        厨房用品
-├── bathroom.html       卫生间用品
-├── livingroom.html     客厅用品
-├── bedroom.html        卧室用品
+│
+│   ── 家居大类 · 11 个官方二级分类（厨房第一，其余按大盘月销售额降序）──
+├── cat-kitchen.html    1  厨房大类      Cocina
+├── cat-furniture.html  2  家具          Muebles para el Hogar
+├── cat-garden.html     3  花园和户外    Jardín y Aire Libre
+├── cat-mattress.html   4  床垫床垫配件  Camas, Colchones y Accesorios
+├── cat-decor.html      5  家居装饰和装饰品  Adornos y Decoración del Hogar
+├── cat-lighting.html   6  家居照明      Iluminación para el Hogar
+├── cat-security.html   7  家庭安全      Seguridad para el Hogar
+├── cat-textiles.html   8  家用纺织品和装饰品  Textiles de Hogar y Decoración
+├── cat-homecare.html   9  家庭护理和洗衣  Cuidado del Hogar y Lavandería
+├── cat-bath.html      10  浴室          Baños
+├── cat-storage.html   11  收纳整理      Organización para el Hogar
+│
+│   注：官方二级分类共 13 个，「家具安装(Instalaciones de Muebles，空分类)」
+│       与「其他(Otros，残差桶)」按老周要求暂不做页面。
 │
 ├── shops.html          店铺矩阵 · 店铺总览
 ├── shops-plan.html     店铺矩阵 · 店铺规划（存量定位 + 拟新开）
@@ -40,7 +52,8 @@
 ├── assets/
 │   ├── theme.css         设计系统（全站唯一样式源）
 │   ├── layout.js         顶部栏 + 左侧导航（统一注入）
-│   ├── render.js         选品中心渲染（品类总览 / 市场分析 / 场景品类页）
+│   ├── render.js         选品中心渲染（品类总览 / 市场分析）
+│   ├── render-home.js    家居大类 11 个二级分类页渲染（含墨西哥/巴西国家切换）
 │   ├── render-shops.js   店铺矩阵渲染（店铺总览 / 店群分析）
 │   ├── render-plan.js    店铺规划渲染
 │   ├── render-ops.js     经营数据渲染
@@ -48,7 +61,8 @@
 │   └── render-parter.js  店铺合伙渲染
 │
 ├── data/
-│   ├── categories.js     品类树 / 导航 / 店铺池 / 市场分析页结构（唯一内容源）
+│   ├── categories.js     导航 / 店铺池 / 市场分析页结构（唯一内容源）
+│   ├── home.js           家居大类 11 个二级分类数据（自动生成，勿手改）
 │   ├── shops.js          店铺矩阵数据（自动生成，勿手改）
 │   ├── plan.js           店铺规划数据（自动生成，勿手改）
 │   ├── ops.js            经营数据（自动生成，勿手改）
@@ -75,11 +89,12 @@
 
 | 想改什么 | 改哪里 |
 |---|---|
-| 加 / 删品类、改品类文案、改三级细分品类 | `data/categories.js` 的 `categories` |
+| 加 / 删品类、改品类文案、改三级细分品类 | `data/categories.js` 的 `nav`（导航）+ `scripts/16_build_homedata.py`（分类数据） |
 | 改左侧导航（栏目、子项、顺序） | `data/categories.js` 的 `nav` |
 | 改 AI 智能体清单 | `data/categories.js` 的 `agents` |
 | 改某个页面的版式、颜色、间距 | `assets/theme.css` |
 | 改选品中心的区块结构 | `assets/render.js` |
+| 改二级分类页的区块结构（国家切换、大盘、趋势、清单） | `assets/render-home.js` |
 | 改市场分析页的两个分部（品类分析 / 店铺布局）文案与框架 | `data/categories.js` 的 `marketPage` |
 | 改店铺矩阵的区块结构 | `assets/render-shops.js` |
 | 改店铺规划的区块结构 | `assets/render-plan.js` |
@@ -88,13 +103,20 @@
 | 改经营数据的区块结构 | `assets/render-ops.js` |
 | **更新店铺数据** | 重新跑数据脚本（见下节），**不要手改 `data/shops.js`** |
 | **更新经营数据** | 同上，跑 `scripts/11_build_opsdata.py`，**不要手改 `data/ops.js`** |
+| **更新家居分类数据** | 跑 `scripts/16_build_homedata.py`，**不要手改 `data/home.js`** |
 
-**加一个新品类的完整步骤：**
+**加一个家居二级分类页的完整步骤：**
 
-1. 在 `data/categories.js` 的 `categories` 数组里加一条（参考现有条目字段）
-2. 复制任一品类页（如 `kitchen.html`），改 `data-page` 为新的 `id`
-3. 在 `nav` 的选品中心 `children` 里加一行，`page` 指向新文件
-4. 完成——导航高亮、面包屑、统计数字全自动
+1. 在 `scripts/16_build_homedata.py` 的 `META` 里加一条（分类名 → icon / slug / 简称）
+2. 跑 `python scripts/16_build_homedata.py` 重新生成 `data/home.js`
+3. 复制任一分类页（如 `cat-bath.html`），改 `data-page` 为新的 `slug`
+4. 在 `data/categories.js` 的 `nav` → 选品中心 `children` 里加一行，`page` 指向新文件
+5. 完成——导航高亮、面包屑、统计数字、国家切换全自动
+
+**「其他」「家具安装」为什么没做页面：** 官方二级分类本来有 13 个，其中
+`Instalaciones de Muebles`（家具安装）商品数为 0 的空分类，`Otros`（其他）是残差桶
+（活跃率 0.5%、月销 198 件）。两者按老周要求暂不做页面，但数据仍在
+`家居大类市场分析表_v1.xlsx` 里，随时可加回。
 
 ---
 
@@ -205,8 +227,10 @@ python _tools/check_contrast.py
 
 | 模块 | 状态 | 待接入内容 |
 |---|---|---|
-| 品类结构 | ✅ 已就绪 | — |
-| 三级细分品类 | ✅ 已就绪 | — |
+| **家居大类 11 个二级分类页** | ✅ **已接入** | 墨西哥站大盘 / 3 年趋势 / 选品判断 + 官方三级四级清单 + 选品清单 |
+| 二级分类 · 巴西站 | ⏳ 待采集 | 每页已建「🇧🇷 巴西站(MLB)」标签页，结构预留，**全站巴西数据为零** |
+| 二级分类 · 五级/四级销量数据 | ⏳ 待采集 | 四级分类只有名称，销量 / 价格 / 竞争度未采集 |
+| 二级分类 · 深度分析（价格分布 / 品牌竞争 / TOP商品 / 机会指数） | 🟡 部分有 | 仅厨房（围裙 / 锅具 / 厨房布）有截图，其余分类待采集 |
 | **店铺总览** | ✅ **已接入** | 数据底座 3,827 条日报 |
 | **店铺规划** | 🟡 **已上线 · 规划待填** | 决策底数为真实数据；18 家店定位、规划品类、目标人群、阶段待管理人填 |
 | **店群分析** | ✅ **已接入** | 同上 |
@@ -214,8 +238,8 @@ python _tools/check_contrast.py
 | **数据体检** | ✅ **已接入** | 同上 |
 | **作业节奏** | ✅ **已接入** | 同上 |
 | **独立核算（店铺）** | ✅ **已接入** | 同上（效率口径，非利润） |
-| 市场分析 · 品类分析 | ⏳ 待采集 | 8 个分析维度已定框架与数据源，指标未采集 |
-| 店铺布局（品类→店铺） | ⏳ 待确认 | `storePool` 已列 18 家实名店铺；`market.html` 已建承接矩阵骨架，分配关系待管理人回填 |
+| 市场分析 · 品类分析 | ⏳ 待采集 | 8 个分析维度已定框架与数据源，指标未采集（类目大盘除外） |
+| 店铺布局（品类→店铺） | ⏳ 待确认 | `storePool` 已列 18 家实名店铺；`market.html` 已建 11 列承接矩阵骨架，分配关系待管理人回填 |
 | 产品核算 / 产品清单 | ⏳ 待接入 | 需美客多后台订单明细（Ventas），数据源已定 |
 | 店铺合伙（分红） | ⏳ 待接入 | 缺 8 项金额数据；规则与四道保险丝已定 |
 | 独立核算（财务口径）/ 利润分析 | ⏳ 待接入 | 缺成本 / 售价 / 佣金 / 运费 / 广告 / 退款 |

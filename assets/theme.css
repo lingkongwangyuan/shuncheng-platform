@@ -1164,6 +1164,120 @@ a { color: inherit; }
 .new-table th.nh-no, .new-table td.nh-no { width: 34px; text-align: center; color: var(--ink-light); }
 
 /* ═══════════ 响应式 ═══════════ */
+/* ══════════════════════════════════════════════════════════════
+   家居大类 · 二级分类页（2026-09-21 新增）
+   用于 index.html / market.html / cat-*.html
+   配色铁律：浅亮底一律深棕字；彩色浅底配跨色系深字，禁同色系
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── ct-icon 补充变体（琥珀）── */
+.ct-amber { background: var(--amber-bg); color: var(--amber-ink); }
+
+/* ── 品类导航：3 列版 ── */
+.cat-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.cat-no-badge {
+  position: absolute; top: 13px; right: 13px;
+  width: 23px; height: 23px; border-radius: 50%;
+  background: var(--primary-soft); color: var(--on-soft);
+  font-size: 11.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.cat-es { font-size: 11.5px; color: var(--ink-secondary); font-style: italic; margin-bottom: 9px; }
+.cat-todo {
+  margin-top: 10px; font-size: 11px; display: inline-block;
+  color: var(--amber-ink); background: var(--amber-bg);
+  border-radius: var(--radius-sm); padding: 4px 9px;
+}
+.tbl-link { color: var(--ink); text-decoration: none; }
+.tbl-link:hover { color: var(--primary-deep); text-decoration: underline; }
+.page-title .cat-es { font-size: 15px; font-style: italic; font-weight: 400; color: var(--ink-secondary); }
+
+/* ── 页头国家状态药丸 ── */
+.ct-pill-wrap { display: inline-flex; gap: 6px; margin-right: 6px; }
+.ct-pill, .ct-badge {
+  font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 999px;
+  background: var(--amber-bg); color: var(--amber-ink);
+}
+.ct-pill.is-ok { background: var(--green-bg); color: var(--green-ink); }
+
+/* ── 国家切换 tabs ── */
+.ct-tabs { display: flex; gap: 9px; margin-bottom: 16px; flex-wrap: wrap; }
+.ct-tab {
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 10px 18px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: #fff; color: var(--ink-secondary);
+  cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+}
+.ct-tab:hover { border-color: var(--primary); color: var(--on-soft); }
+.ct-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.ct-flag { font-size: 15px; }
+.ct-tab .ct-badge { padding: 2px 8px; font-size: 10.5px; }
+/* 激活态 tab 上的药丸：白底 + 深棕字（浅亮底禁白字 / 禁同色系，见配色铁律） */
+.ct-tab.active .ct-badge { background: #fff; color: var(--on-soft); }
+.ct-badge.is-ok { background: var(--green-bg); color: var(--green-ink); }
+.ct-tab.active .ct-badge.is-ok { background: #fff; color: var(--green-ink); }
+.ct-panel[hidden] { display: none; }
+
+/* ── 7 格统计条 ── */
+.stats-grid-7 { grid-template-columns: repeat(4, 1fr); }
+.stats-grid-7 .stat-card { padding: 13px 15px; }
+.stats-grid-7 .stat-value { font-size: 19px; }
+
+/* ── 环比涨跌（跨色系：深绿 / 深红，避开橙系）── */
+.ct-up { color: #1c6b3c; font-weight: 600; }
+.ct-down { color: #a8332a; font-weight: 600; }
+
+/* ── 3 年趋势条形 ── */
+.tr-chart { display: flex; flex-direction: column; gap: 9px; }
+.tr-row {
+  display: grid; grid-template-columns: 116px 1fr 128px 104px 1fr;
+  gap: 10px; align-items: center; font-size: 12px;
+}
+.tr-time { color: var(--ink-secondary); font-size: 11.5px; }
+.tr-track { height: 14px; background: var(--border-light); border-radius: 7px; overflow: hidden; }
+.tr-fill { height: 100%; border-radius: 7px; background: #f0a060; }
+.tr-fill.is-cur { background: var(--primary-deep); }
+.tr-val { font-weight: 600; color: var(--ink); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.tr-stage {
+  color: var(--on-soft); background: var(--primary-soft);
+  border-radius: 999px; padding: 2px 9px; font-size: 11px; text-align: center;
+  white-space: nowrap;
+}
+.tr-note { color: var(--ink-light); font-size: 11px; }
+
+/* ── 三级分类 chips ── */
+.lv3-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.lv3-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 6px 12px; font-size: 12.5px; color: var(--ink); background: #fff;
+}
+.lv3-name { font-weight: 600; }
+.lv3-cnt {
+  font-size: 10.5px; font-weight: 700;
+  background: var(--primary-soft); color: var(--on-soft);
+  border-radius: 999px; padding: 1px 7px;
+}
+
+/* ── 优先级 / 站点 chip ── */
+.pri-chip {
+  display: inline-block; min-width: 22px; text-align: center;
+  font-size: 11px; font-weight: 700; border-radius: var(--radius-sm); padding: 2px 7px;
+}
+.pri-a { background: var(--green-bg); color: var(--green-ink); }
+.pri-b { background: var(--amber-bg); color: var(--amber-ink); }
+.pri-c { background: var(--gray-bg); color: var(--gray-ink); }
+.ct-site { font-size: 11.5px; color: var(--ink-secondary); }
+
+/* ── 选品清单表：列宽之和超容器时横向滚动，避免 table-layout:fixed 把末列挤成 1 字符 ── */
+.prod-table { min-width: 1240px; }
+.td-nowrap { white-space: nowrap; }
+
+/* ── 二级分类结构卡（可点击）── */
+.scn-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.scn-link { text-decoration: none; display: block; }
+.scn-link:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .agent-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1218,4 +1332,27 @@ a { color: inherit; }
   .trend-row { grid-template-columns: 38px 1fr 96px; }
   .site-dots { flex-wrap: wrap; }
   .pos-legend { gap: 8px; font-size: 11.5px; }
+}
+
+/* ── 家居大类新增组件 · 响应式（2026-09-21）── */
+@media (max-width: 1200px) {
+  .cat-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .scn-grid-4 { grid-template-columns: repeat(3, 1fr); }
+  .tr-row { grid-template-columns: 106px 1fr 118px 80px; }
+  .tr-note { display: none; }
+}
+@media (max-width: 1024px) {
+  .stats-grid-7 { grid-template-columns: repeat(2, 1fr); }
+  .cat-grid-3 { grid-template-columns: 1fr; }
+  .scn-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .tr-row { grid-template-columns: 100px 1fr 110px; }
+  .tr-stage { display: none; }
+}
+@media (max-width: 560px) {
+  .stats-grid-7 { grid-template-columns: 1fr; }
+  .scn-grid-4 { grid-template-columns: 1fr; }
+  .ct-tabs { flex-direction: column; }
+  .ct-tab { justify-content: center; }
+  .tr-row { grid-template-columns: 88px 1fr; }
+  .tr-val { display: none; }
 }
