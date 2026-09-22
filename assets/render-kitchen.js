@@ -375,7 +375,9 @@
 
     out += '<div class="tk-sec lv3-span2"><div class="tk-sec-title">四级子品类 · 销量占比与自发货适配度</div>' +
       ((c.lv4 || []).length
-        ? '<div class="table-scroll"><table class="shop-table">' +
+        ? '<div class="table-scroll"><table class="shop-table lv3-lv4">' +
+            '<colgroup><col style="width:150px"><col style="width:84px">' +
+              '<col style="width:96px"><col></colgroup>' +
             '<thead><tr><th>四级子品类</th><th>销量占比</th><th>适配度</th><th>说明</th></tr></thead>' +
             '<tbody>' + c.lv4.map(function (x) {
               return '<tr><td class="td-shop">' + esc(x.name) + '</td>' +
@@ -415,25 +417,26 @@
     return out;
   }
 
+  /* 百分比字段去掉 % 号（表头已标注单位），CR10 三项并成一格，避免窄屏横滑 */
+  var barePct = function (s) { return String(s == null ? '' : s).replace(/%/g, '').trim() || '—'; };
+
   function lv3SitePanel(code, siteName, site, cats) {
     var rows = cats.map(function (c, i) {
       var id = 'lv3-' + code + '-' + i;
-      return '<tr>' +
-          '<td class="td-owner">' + esc(c.no) + '</td>' +
-          '<td class="td-shop"><strong>' + esc(c.name) + '</strong>' +
+      return '<tr class="lv3-row" data-acc-row="' + id + '" title="点击展开该品类的四级子品类与切入建议">' +
+          '<td class="td-shop"><div class="lv3-cat">' + lv3Chip(c.tier) +
+            '<strong>' + esc(c.name) + '</strong></div>' +
             '<div class="tk-es">' + esc(c.nameForeign || '—') + '</div></td>' +
           '<td class="td-num"><strong>' + esc(c.salesWan) + '</strong></td>' +
           '<td class="td-num">' + esc(c.aov) + '</td>' +
           '<td class="td-num">' + fmtDelta(c.yoy) + '</td>' +
-          '<td class="td-num">' + esc(c.cr10Brand) + '</td>' +
-          '<td class="td-num">' + esc(c.cr10Shop) + '</td>' +
-          '<td class="td-num">' + esc(c.cr10Item) + '</td>' +
+          '<td class="td-num"><span class="lv3-cr10">' + barePct(c.cr10Brand) +
+            ' <i>/</i> ' + barePct(c.cr10Shop) + ' <i>/</i> ' + barePct(c.cr10Item) + '</span></td>' +
           '<td class="td-num">' + esc(c.selfShip) + '</td>' +
           '<td class="td-num">' + lv3Star(c.star) + '</td>' +
-          '<td>' + lv3Chip(c.tier) + '</td>' +
-          '<td><button class="tk-acc-btn" type="button" data-target="' + id + '">详情 ▾</button></td>' +
+          '<td class="lv3-chev-td"><span class="lv3-chev" aria-hidden="true"></span></td>' +
         '</tr>' +
-        '<tr class="tk-acc-row" id="' + id + '" hidden><td colspan="12">' +
+        '<tr class="tk-acc-row" id="' + id + '" hidden><td colspan="8">' +
           lv3Detail(c, site, code) + '</td></tr>';
     }).join('');
 
@@ -442,21 +445,18 @@
       iconCls: code === 'mx' ? 'ct-green' : 'ct-amber',
       title: '二、' + siteName + ' · ' + cats.length + ' 个三级品类明细',
       hint: '口径：深度分析表 v1',
-      body: '<div class="scroll-hint">← 左右滑动可查看完整字段；点「详情」看四级子品类结构、竞争格局与切入建议，' +
-          '以及基础数据层（源表大盘）参考</div>' +
+      body: '<div class="scroll-hint">点任意一行，就地展开该品类的四级子品类、竞争格局与切入建议</div>' +
         '<div class="table-scroll"><table class="shop-table kt-detail">' +
-        '<colgroup><col style="width:52px"><col style="width:158px">' +
-          '<col style="width:98px"><col style="width:86px"><col style="width:78px">' +
-          '<col style="width:74px"><col style="width:74px"><col style="width:74px">' +
-          '<col style="width:88px"><col style="width:104px"><col style="width:76px">' +
-          '<col style="width:84px"></colgroup>' +
-        '<thead><tr><th>序号</th><th>三级品类</th><th>月销售额<br>(万人民币)</th>' +
-        '<th>客单价<br>(人民币)</th><th>累计<br>同比</th><th>品牌<br>CR10</th><th>店铺<br>CR10</th>' +
-        '<th>商品<br>CR10</th><th>跨境自<br>发货占比</th><th>自发货<br>友好度</th>' +
-        '<th>推荐<br>优先级</th><th>展开</th></tr></thead>' +
+        '<colgroup><col style="width:176px"><col style="width:92px">' +
+          '<col style="width:74px"><col style="width:76px"><col style="width:118px">' +
+          '<col style="width:86px"><col style="width:92px"><col style="width:30px"></colgroup>' +
+        '<thead><tr><th>三级品类 / 优先级</th><th>月销售额<br>(万人民币)</th>' +
+        '<th>客单价<br>(人民币)</th><th>累计<br>同比</th>' +
+        '<th>CR10(%)<br><span class="th-sub">品牌 / 店铺 / 商品</span></th>' +
+        '<th>跨境自<br>发货占比</th><th>自发货<br>友好度</th><th></th></tr></thead>' +
         '<tbody>' + rows + '</tbody></table></div>' +
         '<div class="table-note">数值照录源表《' + siteName + '厨房_三级品类深度分析表_v1》原文，' +
-        '未换算、未推断。月销售额单位为「万人民币」。</div>'
+        '未换算、未推断。月销售额单位为「万人民币」，CR10 单位为百分比。</div>'
     });
   }
 
@@ -508,14 +508,13 @@
     /* 数字进表、建议出表 —— 建议列文字长，塞在表里会被推到屏幕外要横向拖。
        拆开后全表可在桌面宽度内完整显示，建议也不再被截断。 */
     var mergeTable = '<div class="table-scroll"><table class="shop-table">' +
-      '<colgroup><col style="width:104px"><col style="width:140px">' +
-        '<col style="width:94px"><col style="width:94px"><col style="width:98px">' +
-        '<col style="width:90px"><col style="width:90px">' +
-        '<col style="width:96px"><col style="width:96px"></colgroup>' +
+      '<colgroup><col style="width:92px"><col style="width:136px">' +
+        '<col style="width:84px"><col style="width:84px"><col style="width:92px">' +
+        '<col style="width:128px"><col style="width:112px"></colgroup>' +
       '<thead><tr><th>统一<br>优先级</th><th>品类</th>' +
       '<th>BR 月销<br>(万¥)</th><th>MX 月销<br>(万¥)</th><th>双站合计<br>(万¥)</th>' +
-      '<th>BR 累计<br>增速</th><th>MX 累计<br>增速</th>' +
-      '<th>BR 跨境<br>自发货</th><th>MX 跨境<br>自发货</th></tr></thead><tbody>' +
+      '<th>累计增速<br><span class="th-sub">BR / MX</span></th>' +
+      '<th>跨境自发货<br><span class="th-sub">BR / MX</span></th></tr></thead><tbody>' +
       mgRows.map(function (r) {
         return '<tr>' +
           '<td>' + lv3Chip(r.tier) + '</td>' +
@@ -523,10 +522,10 @@
           '<td class="td-num">' + esc(r.brSalesWan) + '</td>' +
           '<td class="td-num">' + esc(r.mxSalesWan) + '</td>' +
           '<td class="td-num"><strong>' + esc(r.bothWan) + '</strong></td>' +
-          '<td class="td-num">' + fmtDelta(r.brYoy) + '</td>' +
-          '<td class="td-num">' + fmtDelta(r.mxYoy) + '</td>' +
-          '<td class="td-num">' + esc(r.brSelfShip) + '</td>' +
-          '<td class="td-num">' + esc(r.mxSelfShip) + '</td>' +
+          '<td class="td-num"><span class="lv3-cr10">' + fmtDelta(r.brYoy) +
+            ' <i>/</i> ' + fmtDelta(r.mxYoy) + '</span></td>' +
+          '<td class="td-num"><span class="lv3-cr10">' + esc(r.brSelfShip) +
+            ' <i>/</i> ' + esc(r.mxSelfShip) + '</span></td>' +
           '</tr>';
       }).join('') + '</tbody></table></div>';
 
@@ -622,14 +621,41 @@
   }
 
   function bindAcc(root) {
+    /* 按钮式展开（历史形态，保留以兼容） */
     Array.prototype.forEach.call(root.querySelectorAll('.tk-acc-btn'), function (btn) {
       btn.addEventListener('click', function () {
-        var id = btn.getAttribute('data-target');
-        var row = document.getElementById(id);
+        var row = document.getElementById(btn.getAttribute('data-target'));
         if (!row) return;
-        var open = !row.hasAttribute('hidden');
-        if (open) { row.setAttribute('hidden', ''); btn.textContent = '详情 ▾'; }
+        if (!row.hasAttribute('hidden')) { row.setAttribute('hidden', ''); btn.textContent = '详情 ▾'; }
         else { row.removeAttribute('hidden'); btn.textContent = '收起 ▴'; }
+      });
+    });
+
+    /* 整行式展开（三级品类明细）：点行内任意位置就地展开，
+       免去「先把宽表横滑到最右、再点按钮」的两步操作。
+       同一 tbody 内互斥（手风琴），避免多行同时展开把页面拉得很长。 */
+    Array.prototype.forEach.call(root.querySelectorAll('[data-acc-row]'), function (tr) {
+      var collapse = function (t) {
+        var r = document.getElementById(t.getAttribute('data-acc-row'));
+        if (r) r.setAttribute('hidden', '');
+        t.classList.remove('is-open');
+      };
+      var toggle = function () {
+        var row = document.getElementById(tr.getAttribute('data-acc-row'));
+        if (!row) return;
+        var opening = row.hasAttribute('hidden');
+        if (opening) {
+          var sibs = tr.parentNode ? tr.parentNode.querySelectorAll('[data-acc-row].is-open') : [];
+          Array.prototype.forEach.call(sibs, function (o) { if (o !== tr) collapse(o); });
+          row.removeAttribute('hidden');
+          tr.classList.add('is-open');
+        } else {
+          collapse(tr);
+        }
+      };
+      tr.addEventListener('click', toggle);
+      tr.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
       });
     });
   }

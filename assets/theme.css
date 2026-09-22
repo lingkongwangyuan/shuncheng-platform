@@ -1384,9 +1384,14 @@ a { color: inherit; }
 /* 注：必须写成 .table-scroll table.X —— 否则被上一条 `.table-scroll table{min-width:780px}`
    （特异性 0,1,1）压过，导致 8~12 列宽表被挤回 780px、末列文字竖排。 */
 .table-scroll table.kt-cross  { min-width: 1120px; }
-.table-scroll table.kt-detail { min-width: 1340px; }
+                           /* .kt-detail（三级品类明细）已改为整行可点 + 列压缩：
+                              colgroup 列宽和约 744px ＜ 默认 780px，故不再设 min-width 覆盖，
+                              交给 table-layout:fixed 按比例撑满容器宽度，桌面端不再出现横滑。 */
 .table-scroll table.kt-lv4    { min-width: 1200px; }
 .table-scroll table.kt-rank   { min-width: 1420px; }
+                           /* 展开区内的「四级子品类」只有 4 列，不需要 780px 的宽表下限，
+                              否则窄窗口下会白白多出一条横滑条 */
+.table-scroll table.lv3-lv4   { min-width: 480px; }
                            /* 第三节的整合优先级表已拆为「数字表 + 建议列表」，
                               9 列可在桌面宽度内放下，故不设 min-width 覆盖。 */
 
@@ -1603,6 +1608,30 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
 
 /* ── 星级（照录源表 ⭐）── */
 .lv3-star { font-size: 12px; white-space: nowrap; color: var(--ink-secondary); }
+
+/* ── 三级品类明细：整行可点展开（免去「横滑到最右再点按钮」）── */
+.lv3-row { cursor: pointer; }
+.lv3-row > td { transition: background .12s ease; }
+.lv3-row.is-open > td { background: var(--primary-bg); }
+.lv3-row:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.lv3-cat { display: flex; align-items: center; gap: 7px; }
+.lv3-cat .lv3-chip { flex: none; }
+.lv3-cr10 { font-size: 11.5px; white-space: nowrap; letter-spacing: -.2px; }
+.lv3-cr10 i { font-style: normal; color: var(--ink-light); }
+/* 本表每行两行文字（中文名 + 外国名），收紧上下内边距让 12 行更紧凑；
+   只作用于数据行，不影响 padding:0 的展开区 */
+.table-scroll table.kt-detail tbody > tr.lv3-row > td { padding-top: 9px; padding-bottom: 9px; }
+.table-scroll table.kt-detail .tk-es { font-size: 11px; margin-top: 1px; }
+.lv3-chev-td { text-align: right; }
+/* 用 CSS 三角而非 ▾ 字符：字符在部分字体下会回退成看不清的窄点 */
+.lv3-chev {
+  display: inline-block; width: 0; height: 0;
+  border-left: 4px solid transparent; border-right: 4px solid transparent;
+  border-top: 5.5px solid var(--ink-light);
+  vertical-align: middle;
+  transition: transform .16s ease, border-top-color .16s ease;
+}
+.lv3-row.is-open .lv3-chev { transform: rotate(180deg); border-top-color: var(--primary-deep); }
 
 /* ── 基础数据层参考块（源表口径，视觉上与主口径区分）──
    浅灰底一律配深灰字，不用橙字（配色铁律） */
