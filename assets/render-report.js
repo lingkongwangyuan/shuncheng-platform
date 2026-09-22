@@ -24,7 +24,22 @@
 
   var CFG = window.SC_REPORT_CONFIG || {};
   var DATA = window.SC_DATA || {};
-  var STORE_KEY = 'sc_report_v1';
+  var CORE = window.SC_REPORT_CORE;
+
+  if (!CORE) {
+    document.addEventListener('DOMContentLoaded', function () {
+      var r = document.getElementById('sc-content');
+      if (r) r.innerHTML = '<div class="card"><div class="card-title">计算核心未加载</div>' +
+        '<div class="table-note">缺少 assets/report-core.js，请确认该文件存在且在本脚本之前加载。</div></div>';
+    });
+    return;
+  }
+
+  /* 工具与算法全部来自公共核心 report-core.js —— 全站只有这一份。
+     个人页（parter-liyuan / parter-shi）调的是同一个函数，
+     所以两页算出来的利润必然一致。 */
+  var esc = CORE.esc, num = CORE.num, money = CORE.money,
+      money0 = CORE.money0, pctS = CORE.pctS;
 
   /* ── 店铺池（18 店，来自 categories.js）── */
   var SHOPS = [];
@@ -33,110 +48,21 @@
   });
   if (!SHOPS.length) SHOPS = [{ name: '未配置店铺', owner: '' }];
 
-  var esc = function (s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  };
-  var num = function (v) {
-    var n = parseFloat(v);
-    return isFinite(n) ? n : 0;
-  };
-  /* 金额统一两位小数 + 千分位 */
-  var money = function (v) {
-    var n = num(v);
-    var s = Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return (n < 0 ? '-' : '') + s;
-  };
-  var money0 = function (v) {
-    var n = Math.round(num(v));
-    return (n < 0 ? '-' : '') + Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  };
-  var pctS = function (v, d) {
-    if (!isFinite(v)) return '—';
-    return (v * 100).toFixed(d == null ? 1 : d) + '%';
-  };
-
   /* ══════════════ 存储 ══════════════ */
 
-  function clone(o) { return JSON.parse(JSON.stringify(o)); }
-
-  function blank() {
-    return {
-      version: 1,
-      rateBase: CFG.rateBase || 'net',
-      rates: clone(CFG.rates || {}),
-      dividend: clone(CFG.dividend || { poolPct: 0.3, partners: [] }),
-      fixed: {},   /* fixed[店铺][YYYY-MM] = 金额 */
-      daily: {}    /* daily[店铺][YYYY-MM-DD] = { sales, returns, ... } */
-    };
-  }
-
-  var DB = (function load() {
-    try {
-      var raw = localStorage.getItem(STORE_KEY);
-      if (!raw) return blank();
-      var d = JSON.parse(raw);
-      var b = blank();
-      /* 逐键兜底：老数据缺新配置项时补齐，不整块丢弃 */
-      d.rateBase = d.rateBase || b.rateBase;
-      d.rates = Object.assign({}, b.rates, d.rates || {});
-      d.dividend = Object.assign({}, b.dividend, d.dividend || {});
-      d.fixed = d.fixed || {};
-      d.daily = d.daily || {};
-      return d;
-    } catch (e) {
-      return blank();
-    }
-  })();
+  var DB = CORE.load();          /* 读本地数据，缺键自动补齐 */
 
   var LS_OK = true;
   function save() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(DB)); }
-    catch (e) { LS_OK = false; }
+    LS_OK = CORE.save(DB);
   }
 
-  /* ══════════════ 日期工具 ══════════════ */
+  /* ══════════════ 日期工具（来自核心） ══════════════ */
 
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function iso(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
-  function parseD(s) {
-    var p = String(s || '').split('-');
-    if (p.length !== 3) return new Date();
-    return new Date(+p[0], +p[1] - 1, +p[2]);
-  }
-  function todayISO() { return iso(new Date()); }
-  function ymOf(s) { return String(s).slice(0, 7); }
-  function daysInMonth(s) {
-    var d = parseD(s);
-    return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
-  }
-  /* 自然周：周一 ~ 周日 */
-  function weekRange(s) {
-    var d = parseD(s);
-    var wd = d.getDay();
-    var off = (wd === 0 ? 6 : wd - 1);
-    var from = new Date(d.getFullYear(), d.getMonth(), d.getDate() - off);
-    var to = new Date(from.getFullYear(), from.getMonth(), from.getDate() + 6);
-    return { from: from, to: to };
-  }
-  function monthRange(s) {
-    var d = parseD(s);
-    return {
-      from: new Date(d.getFullYear(), d.getMonth(), 1),
-      to: new Date(d.getFullYear(), d.getMonth() + 1, 0)
-    };
-  }
-  /* 逐日推进 */
-  function eachDay(from, to, fn) {
-    var cur = new Date(from.getFullYear(), from.getMonth(), from.getDate());
-    var end = new Date(to.getFullYear(), to.getMonth(), to.getDate());
-    var guard = 0;
-    while (cur <= end && guard++ < 800) {
-      fn(iso(cur));
-      cur.setDate(cur.getDate() + 1);
-    }
-  }
+  var pad = CORE.pad, iso = CORE.iso, parseD = CORE.parseD,
+      todayISO = CORE.todayISO, ymOf = CORE.ymOf,
+      daysInMonth = CORE.daysInMonth, weekRange = CORE.weekRange,
+      monthRange = CORE.monthRange, eachDay = CORE.eachDay;
 
   /* ══════════════ 计算 ══════════════ */
 
@@ -146,81 +72,13 @@
     return k;
   }
 
-  function fixedOfMonth(shop, ym) {
-    return num(((DB.fixed[shop] || {})[ym]));
-  }
-  function fixedPerDay(shop, date) {
-    var whole = fixedOfMonth(shop, ymOf(date));
-    return whole / daysInMonth(date);
-  }
-
-  /* 单日成本拆解 */
-  function costsOf(rec, base) {
-    var r = DB.rates || {};
-    return {
-      commission: base * num(r.commission),
-      payment: base * num(r.payment),
-      lowPrice: base * num(r.lowPrice),
-      other: base * num(r.other)
-    };
-  }
-
-  /* 单日一行（含派生指标） */
-  function dayRow(shop, date) {
-    var rec = ((DB.daily[shop] || {})[date]) || {};
-    var sales = num(rec.sales);
-    var returns = num(rec.returns);
-    var net = sales - returns;
-    var base = (DB.rateBase === 'gross') ? sales : net;
-    var c = costsOf(rec, base);
-    var ads = num(rec.ads), freight = num(rec.freight), cost = num(rec.cost), penalty = num(rec.penalty);
-
-    var autoSum = c.commission + c.payment + c.lowPrice + c.other;
-    var manualSum = ads + freight + cost + penalty;
-    var varCost = autoSum + manualSum;
-
-    var margin = net - varCost;                 /* 边界利润 */
-    var fixed = fixedPerDay(shop, date);
-    var profit = margin - fixed;                /* 经营利润 */
-
-    return {
-      date: date, shop: shop,
-      sales: sales, returns: returns, net: net,
-      commission: c.commission, payment: c.payment, lowPrice: c.lowPrice, other: c.other,
-      ads: ads, freight: freight, cost: cost, penalty: penalty,
-      autoSum: autoSum, manualSum: manualSum, base: base,
-      varCost: varCost, margin: margin, fixed: fixed, profit: profit,
-      hasData: sales !== 0 || returns !== 0 || varCost !== 0,
-      marginRate: net > 0 ? margin / net : 0,
-      profitRate: net > 0 ? profit / net : 0
-    };
-  }
-
-  /* 区间汇总（逐日累加，跨月时固定费自动按月切换）
-     ⚠️ 只累计「已填数据的天」：没填的天不进汇总。
-        否则固定费会白摊到空白日 —— 例如整月只填了 1 天，月累计会被倒扣 30 天固定费，
-        显示成「巨亏」，数字失去参考意义。满月填满后，月度数字才是完整月度经营利润。 */
-  function aggRange(shop, from, to) {
-    var a = {
-      days: 0, filled: 0,
-      sales: 0, returns: 0, net: 0,
-      commission: 0, payment: 0, lowPrice: 0, other: 0, autoSum: 0,
-      ads: 0, freight: 0, cost: 0, penalty: 0, manualSum: 0,
-      varCost: 0, margin: 0, fixed: 0, profit: 0
-    };
-    eachDay(from, to, function (d) {
-      var r = dayRow(shop, d);
-      a.days++;
-      if (!r.hasData) return;          /* 空白天不计入 */
-      a.filled++;
-      ['sales','returns','net','commission','payment','lowPrice','other','autoSum',
-       'ads','freight','cost','penalty','manualSum','varCost','margin','fixed','profit']
-        .forEach(function (k) { a[k] += r[k]; });
-    });
-    a.marginRate = a.net > 0 ? a.margin / a.net : 0;
-    a.profitRate = a.net > 0 ? a.profit / a.net : 0;
-    return a;
-  }
+  /* 以下全部转调 report-core.js —— 与个人页共用同一份算法。
+     保留同名薄包装，页面里其余调用点无需改动。 */
+  function fixedOfMonth(shop, ym) { return CORE.fixedOfMonth(DB, shop, ym); }
+  function fixedPerDay(shop, date) { return CORE.fixedPerDay(DB, shop, date); }
+  function costsOf(rec, base) { return CORE.costsOf(DB, rec, base); }
+  function dayRow(shop, date) { return CORE.dayRow(DB, shop, date); }
+  function aggRange(shop, from, to) { return CORE.aggRange(DB, shop, from, to); }
 
   /* ══════════════ 页面状态 ══════════════ */
 

@@ -322,6 +322,11 @@
       esc(p.role)
     );
 
+    /* 今日实时汇总：数据来自「经营报表」每天的填报，按人自动汇总名下 9 家店。
+       算法转调 assets/report-core.js（与经营报表页同一份），渲染见 render-parter-live.js
+       老周 2026-09-22 定：个人页要能自动汇总、看到自己今天能赚多少。 */
+    html += '<div id="plive-slot"></div>';
+
     html += '' +
       '<div class="overview-bar">' +
         '<div class="overview-item"><div class="ov-label">负责店铺</div>' +
@@ -333,9 +338,9 @@
         '<div class="overview-item"><div class="ov-label">累计出单</div>' +
           '<div class="ov-value">' + nf(t.orders) + '</div>' +
           '<div class="ov-sub">期内累加</div></div>' +
-        '<div class="overview-item"><div class="ov-label">本期分红</div>' +
-          '<div class="ov-value" style="font-size:19px">待接入</div>' +
-          '<div class="ov-sub">经营利润未接入</div></div>' +
+        '<div class="overview-item"><div class="ov-label">分红结算</div>' +
+          '<div class="ov-value" style="font-size:19px">按月结</div>' +
+          '<div class="ov-sub">日度预估见上方汇总</div></div>' +
       '</div>';
 
     /* 损益表（核心） */
@@ -513,6 +518,9 @@
     html += ruleNote();
     html += pageFoot('人维度核算 · 待接入');
     root.innerHTML = html;
+
+    /* 挂载「今日实时汇总」（脚本未加载时静默跳过，页面其余部分照常显示） */
+    if (window.SC_PARTER_LIVE) window.SC_PARTER_LIVE.mount(root, p);
   }
 
   /* ══════════════ 入口 ══════════════ */
