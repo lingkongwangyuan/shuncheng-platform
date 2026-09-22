@@ -3,14 +3,15 @@
    ───────────────────────────────────────────────────────────────
    适用页面：
      cat-kitchen.html          厨房大类总览（一、双站整合优先级总表 → 二、两站分级明细）
-     cat-kitchen-storage.html  存储和组织专页（国家 → 四级分类）
+     ~~cat-kitchen-storage.html~~  存储和组织四级专页 —— 2026-09-22 老周定整块下线，
+                               文件已删、导航项已删；本文件的 renderStorage() 暂留待用。
 
    两套数据源，主次分明（2026-09-22 老周定：厨房大类以三表为准）：
      · data/kitchen-l3.js   【唯一结论口径】三张《三级品类深度分析表 v1》
                             → 一、双站整合优先级总表 / 二、两站分级明细
      · data/kitchen.js      【基础数据层参考】《墨/巴厨房大类深度分析表》等源表
-                            → 四级分析专页（存储和组织）；月环比 / 年销年化 / 季节规律
-                              经 baseRefBlock() 挂在第二节详情内，逐条标注口径。
+                            → 月环比 / 年销年化 / 季节规律，经 baseRefBlock()
+                              挂在第二节详情内，逐条标注口径（storage 数据现无页面展示）。
    源表旧「跨国格局 · 13 个三级分类」（综合得分排序）已下架：其排序不含自发货可行性，
    与选品口径方向相反。
 
@@ -18,10 +19,11 @@
       ①「三、选品标准与优先级规则」两卡（墨/巴）—— 自发货选品的通用门槛（单SKU重量 /
         最长边 / 易碎品占比 / 跨境自发货占比 / CR10 / 星级 / 梯队），不是厨房专属，
         属方法论层而非品类数据层。数据仍在 data/kitchen-l3.js 的 mx.rules / br.rules。
-      ②「三、四级分类下钻」CTA 卡 —— 与第二节详情内的四级子品类表格重复；
-        入口保留在页面顶部 hero 按钮与左侧导航「存储和组织」。
+      ②「三、四级分类下钻」CTA 卡 —— 与第二节详情内的四级子品类表格重复。
       ③「四、口径说明、基础数据层参考与缺口」卡 —— 口径标注已落在第二节详情内，
         不再单列；data/kitchen.js 的 traits 数据保留未删。
+      ④ 顶部 hero 的「进入存储和组织四级分析」按钮 + 统计条第 4 项「四级分类已采」
+        —— 随「存储和组织」专页下线一并删除（now 统计条只有 3 项）。
 
    口径铁律：两套数值不一致时各自标注来源，不合并、不折算、不互相覆盖。
    ═══════════════════════════════════════════════════════════════ */
@@ -83,7 +85,7 @@
   }
 
   function stats(items) {
-    return '<div class="stats-grid">' + items.map(function (it) {
+    return '<div class="stats-grid' + (items.length === 3 ? ' is-3' : '') + '">' + items.map(function (it) {
       return '<div class="stat-card">' +
         '<div class="stat-label">' + esc(it.label) + '</div>' +
         '<div class="stat-value">' + it.value + '</div>' +
@@ -136,8 +138,7 @@
      一、厨房大类总览
      ══════════════════════════════════════════════════════════ */
   function renderKitchen(root) {
-    var stMx = (ST.mx || {}).rows || [];
-    var stBr = (ST.br || {}).rows || [];
+    /* 原 stMx / stBr（storage 四级记录）已随「存储和组织」模块下线而不再于本页使用 */
     var LMX = (L3.mx || {}).cats || [];
     var LBR = (L3.br || {}).cats || [];
 
@@ -155,22 +156,21 @@
 
     html += headCard({
       title: '🍳 厨房大类 <span class="cat-es">' + esc('Cocina · Cozinha') + '</span>',
-      actions: '<a class="btn btn-primary btn-sm" href="cat-kitchen-storage.html">📦 进入「存储和组织」四级分析</a>',
       breadcrumb: '<a href="index.html" class="path-item">选品中心</a>' +
         '<span class="path-arrow">›</span>' +
         '<span class="path-item active">🍳 厨房大类</span>'
     });
 
-    /* 统计条改为深度分析表 v1 口径（与本节数据一致） */
+    /* 统计条改为深度分析表 v1 口径（与本节数据一致）
+       原第 4 项「四级分类已采 46 条 · 仅存储和组织下钻完成」已随该模块下线删除，
+       故只有 3 项，走 .stats-grid.is-3 保持三列对齐。 */
     html += stats([
       { label: '三级品类', value: LMX.length + ' / ' + LBR.length + ' <span class="stat-unit">个</span>',
         sub: '🇲🇽 墨西哥 / 🇧🇷 巴西 · 深度分析表 v1 口径' },
       { label: 'S+ 最高优先级', value: spList.length + ' <span class="stat-unit">个</span>',
         sub: tierNames(spList) },
       { label: 'C 不进入', value: cList.length + ' <span class="stat-unit">个</span>',
-        sub: tierNames(cList) },
-      { label: '四级分类已采', value: (stMx.length + stBr.length) + ' <span class="stat-unit">条</span>',
-        sub: '仅「存储和组织」下钻完成' }
+        sub: tierNames(cList) }
     ]);
 
     /* ── 一、双站整合优先级总表（深度分析表 v1 口径）──
@@ -188,11 +188,11 @@
        数据仍保留在 data/kitchen-l3.js 的 mx.rules / br.rules，不在本页渲染。 */
 
     /* ── 原「三、四级分类下钻」CTA 卡 与「四、口径说明、基础数据层参考与缺口」卡
-       已于 2026-09-22 按老周要求删除。
-       · 四级分析入口未丢：页面顶部 hero 按钮 + 左侧导航「存储和组织」→ cat-kitchen-storage.html
+       已于 2026-09-22 按老周要求删除；同日「存储和组织」四级专页整块下线，
+       顶部 hero 按钮与统计条第 4 项「四级分类已采」随之删除，本页现只剩 一、二 两节。
        · 口径说明的原意已落到数据层：两套口径的来源标注留在第二节详情内（baseRefBlock()），
          本页正文只用三张《三级品类深度分析表 v1》。
-       · data/kitchen.js 的 traits（两国市场特点对比）与 storage 数据仍原样保留，未删。 */
+       · data/kitchen.js 的 traits 与 storage 数据仍原样保留，未删。 */
     html += foot();
     root.innerHTML = html;
     bindAcc(root);
@@ -585,7 +585,11 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     二、存储和组织专页（四级下钻）
+     【已下线】存储和组织四级专页（原 cat-kitchen-storage.html）
+     2026-09-22 老周定：导航项与页面文件一并删除，本段渲染代码暂留待用。
+     数据来源 data/kitchen.js 的 storage 字段（生成脚本 17_build_kitchendata.py），未删。
+     若将来恢复：①新建 cat-kitchen-storage.html（<body data-page="cat-kitchen-storage">）
+                ②在 data/categories.js 的「厨房大类」后加回导航项 ③加回厨房页 hero 按钮。
      ══════════════════════════════════════════════════════════ */
   function renderStorage(root) {
     var html = '';
@@ -785,6 +789,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     var root = document.getElementById('sc-content');
     if (!root) return;
+    /* cat-kitchen-storage 页已于 2026-09-22 下线（文件与导航项均已删除），
+       下面第一行分支保留，仅为将来恢复时立即可用。 */
     if (PAGE === 'cat-kitchen-storage') renderStorage(root);
     else if (PAGE === 'cat-kitchen') renderKitchen(root);
   });

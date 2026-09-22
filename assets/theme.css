@@ -338,6 +338,8 @@ a { color: inherit; }
   gap: 14px;
   margin-bottom: 18px;
 }
+/* 只有 3 项时保持三列等宽，不留空位（厨房页统计条，2026-09-22） */
+.stats-grid.is-3 { grid-template-columns: repeat(3, 1fr); }
 .stat-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -1461,6 +1463,7 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
 
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid.is-3 { grid-template-columns: repeat(2, 1fr); }
   .agent-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 1024px) {
@@ -1484,6 +1487,7 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
   .sidebar.open { transform: translateX(0); }
   .main { margin-left: 0; padding: 16px 14px 48px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid.is-3 { grid-template-columns: repeat(2, 1fr); }
   .store-grid { grid-template-columns: 1fr; }
   .agent-grid { grid-template-columns: repeat(2, 1fr); }
   .page-header-top { align-items: flex-start; }

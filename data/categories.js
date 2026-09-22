@@ -39,7 +39,9 @@ window.SC_DATA = {
            其余 10 个二级分类数据源为 data/home.js（由 16_build_homedata.py 生成）。
            indent: 1 = 二级缩进项，仅用于导航视觉层级。 */
         { name: '厨房大类', icon: '🍳', page: 'cat-kitchen.html' },
-        { name: '存储和组织', icon: '🗂️', page: 'cat-kitchen-storage.html', indent: 1 },
+        /* 2026-09-22 老周定：「存储和组织」四级专页（cat-kitchen-storage.html）整块下线，
+           导航项与页面文件一并删除。四级渲染代码（render-kitchen.js 的 renderStorage）
+           与 data/kitchen.js 的 storage 数据保留，需要时可恢复。 */
         { name: '家具', icon: '🛋️', page: 'cat-furniture.html' },
         { name: '花园和户外', icon: '🌿', page: 'cat-garden.html' },
         { name: '床垫及配件', icon: '🛏️', page: 'cat-mattress.html' },
