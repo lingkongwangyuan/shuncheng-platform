@@ -7,12 +7,18 @@
 
    两套数据源，主次分明（2026-09-22 老周定：厨房大类以三表为准）：
      · data/kitchen-l3.js   【唯一结论口径】三张《三级品类深度分析表 v1》
-                            → 一、双站整合优先级总表 / 二、两站分级明细 / 三、选品规则
+                            → 一、双站整合优先级总表 / 二、两站分级明细
      · data/kitchen.js      【基础数据层参考】《墨/巴厨房大类深度分析表》等源表
-                            → 第四节四级下钻（存储和组织）；月环比 / 年销年化 / 季节规律
+                            → 第三节四级下钻（存储和组织）；月环比 / 年销年化 / 季节规律
                               经 baseRefBlock() 挂在第二节详情内，逐条标注口径。
    源表旧「跨国格局 · 13 个三级分类」（综合得分排序）已下架：其排序不含自发货可行性，
-   与选品口径方向相反（详见第五节说明）。
+   与选品口径方向相反（详见第四节说明）。
+
+   ⚠️ 2026-09-22 老周定：原「三、选品标准与优先级规则」两卡（墨西哥站 / 巴西站）已从本页删除。
+      该节内容是自发货选品的通用门槛（单SKU重量 / 最长边 / 易碎品占比 / 跨境自发货占比 /
+      CR10 / 星级 / 梯队），并非厨房专属，属于方法论层而非品类数据层，不应占用品类页篇幅。
+      数据仍在 data/kitchen-l3.js 的 mx.rules / br.rules 与生成脚本
+      scripts/31_build_kitchen_l3.py 中原样保留，需要时可移入选品中心方法论页。
 
    口径铁律：两套数值不一致时各自标注来源，不合并、不折算、不互相覆盖。
    ═══════════════════════════════════════════════════════════════ */
@@ -168,18 +174,19 @@
        旧「一、跨国格局」（源表综合得分排序）已下架：其排序逻辑为
        「规模 + 增长 + 竞争」，不含自发货可行性，与本页选品口径方向相反
        （旧表第 1 名「存储和组织」在 v1 口径里仅 B 级观望、第 2 名「烹饪」为 C 不进入）。
-       相关源表数据转为基础数据层参考，见第二节详情与第五节。 */
+       相关源表数据转为基础数据层参考，见第二节详情与第四节。 */
     html += lv3MergeCard();
 
     /* ── 二、两站分级明细（深度分析表 v1 口径）── */
     html += lv3SiteTabs();
 
-    /* ── 三、选品标准与优先级规则（深度分析表 v1 口径）── */
-    html += lv3RulesCards();
+    /* ── 原「三、选品标准与优先级规则」（墨西哥站 / 巴西站两卡）已删除 ──
+       该节为自发货选品的通用门槛与星级、梯队规则，不限于厨房大类，属方法论层内容；
+       数据仍保留在 data/kitchen-l3.js 的 mx.rules / br.rules，不在本页渲染。 */
 
-    /* ── 四、四级下钻引导 ── */
+    /* ── 三、四级下钻引导 ── */
     html += card({
-      icon: '📦', iconCls: 'ct-orange', title: '四、四级分类下钻 · 仅「存储和组织」已采集',
+      icon: '📦', iconCls: 'ct-orange', title: '三、四级分类下钻 · 仅「存储和组织」已采集',
       hint: '其余 12 个三级分类的四级数据待采集',
       body: '<div class="tk-cta">' +
         '<div class="tk-cta-main">' +
@@ -196,7 +203,7 @@
       '</div>'
     });
 
-    /* ── 五、口径说明、基础数据层参考与缺口 ── */
+    /* ── 四、口径说明、基础数据层参考与缺口 ── */
     var traitRows = (K.traits || []).map(function (x) {
       return '<tr>' +
         '<td class="td-shop">' + esc(x.k) + '</td>' +
@@ -207,9 +214,9 @@
     }).join('');
 
     html += card({
-      icon: '⚠️', iconCls: 'ct-amber', title: '五、口径说明、基础数据层参考与缺口',
+      icon: '⚠️', iconCls: 'ct-amber', title: '四、口径说明、基础数据层参考与缺口',
       body: '<ul class="tk-ul">' +
-        '<li><strong>本页一、二、三节的数据与结论，全部以三张《三级品类深度分析表 v1》为准</strong>：' +
+        '<li><strong>本页一、二节的数据与结论，全部以三张《三级品类深度分析表 v1》为准</strong>：' +
           '墨西哥站厨房_三级品类深度分析表_v1、巴西站厨房_三级品类深度分析表_v1、' +
           '墨巴整合_厨房大类选品优先级总表_v1。</li>' +
         '<li><strong>基础数据层（源表大盘）已从正文下架，转为参考。</strong>' +
@@ -240,7 +247,7 @@
         '<thead><tr><th>对比维度</th><th>🇧🇷 巴西站</th><th>🇲🇽 墨西哥站</th><th>对比结论</th></tr></thead>' +
         '<tbody>' + traitRows + '</tbody></table></div>' +
         '<div class="table-note">上表取自源表《厨房大类跨国整合分析_巴西vs墨西哥》，' +
-        '口径与本页一、二、三节不同，仅作背景参考。</div>'
+        '口径与本页一、二节不同，仅作背景参考。</div>'
     });
 
     html += foot();
@@ -258,13 +265,13 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     一 ~ 三、三级品类层（深度分析表 v1 口径 · 本页唯一结论口径）
+     一 ~ 二、三级品类层（深度分析表 v1 口径 · 本页唯一结论口径）
      数据源：data/kitchen-l3.js（由 scripts/31_build_kitchen_l3.py 生成）
        · 一、双站整合优先级总表        lv3MergeCard()
        · 二、两站分级明细（tab）        lv3SiteTabs() → lv3SitePanel() → lv3Detail()
-       · 三、选品标准与优先级规则        lv3RulesCards() → lv3RulesCard()
      三张深度分析表未提供的字段（月环比 / 年销年化 / 季节规律）走 baseRefBlock()，
      取自基础数据层源表并单独标注口径，不作为选品依据。
+     mx.rules / br.rules 仍随数据生成，但页面已不再渲染（2026-09-22 老周定）。
      ══════════════════════════════════════════════════════════ */
 
   function lv3Cls(tier) {
@@ -460,33 +467,11 @@
     });
   }
 
-  function lv3RuleTable(rows, cols) {
-    if (!rows || !rows.length) return '<div class="tk-empty">源表未提供该节</div>';
-    return '<div class="table-scroll"><table class="shop-table"><thead><tr>' +
-      cols.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') +
-      '</tr></thead><tbody>' + rows.map(function (r) {
-        return '<tr>' + r.map(function (cell, i) {
-          var cls = i === 0 ? 'td-shop' : (i === r.length - 1 ? 'td-note' : 'td-owner');
-          return '<td class="' + cls + '">' + esc(cell) + '</td>';
-        }).join('') + '</tr>';
-      }).join('') + '</tbody></table></div>';
-  }
-
-  function lv3RulesCard(code, siteName, site) {
-    var R = site.rules || {};
-    return card({
-      icon: code === 'mx' ? '🇲🇽' : '🇧🇷',
-      iconCls: code === 'mx' ? 'ct-green' : 'ct-amber',
-      title: '三、选品标准与优先级规则 · ' + siteName,
-      hint: '源表原文 · 未改一字',
-      body: '<div class="sub-title">一、自发货硬门槛（不满足直接淘汰）</div>' +
-        lv3RuleTable(R.hard, ['门槛项', '标准', '淘汰逻辑']) +
-        '<div class="sub-title">二、自发货友好度星级规则</div>' +
-        lv3RuleTable(R.star, ['星级', '判断标准', '适配度']) +
-        '<div class="sub-title">三、优先级梯队规则</div>' +
-        lv3RuleTable(R.tier, ['梯队', '标准', '行动节奏'])
-    });
-  }
+  /* 已移除：lv3RuleTable() / lv3RulesCard()
+     —— 原「选品标准与优先级规则」两卡（墨西哥站 / 巴西站）。
+     该内容是自发货选品的通用门槛与星级、梯队规则，不限于厨房大类，
+     属方法论层而非品类数据层，2026-09-22 老周定为不在本页展示。
+     对应数据 mx.rules / br.rules 仍在 data/kitchen-l3.js 中原样保留。 */
 
   /* ── 一、双站整合优先级总表（深度分析表 v1 口径）── */
   function lv3MergeCard() {
@@ -597,12 +582,8 @@
     return '<div id="lv3-scope">' + tabsHtml + panelsHtml + '</div>';
   }
 
-  /* ── 三、选品标准与优先级规则（两站分别照录）── */
-  function lv3RulesCards() {
-    var L = L3;
-    return lv3RulesCard('mx', '墨西哥站', L.mx || {}) +
-           lv3RulesCard('br', '巴西站', L.br || {});
-  }
+  /* 原 lv3RulesCards()（墨西哥站 / 巴西站两张「选品标准与优先级规则」卡）
+     已随该节一并移除，见文件内相关说明。 */
 
   function bindL3Tabs(scope) {
     if (!scope) return;
