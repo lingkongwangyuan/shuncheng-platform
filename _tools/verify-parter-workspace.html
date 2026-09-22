@@ -57,6 +57,7 @@ var A, B, RPT;
 /* 先清空，再挂 iframe —— 同源，父窗口的 localStorage 就是它们的 */
 localStorage.removeItem('sc_report_v1');
 localStorage.removeItem('sc_ws_v1');
+localStorage.removeItem('sc_agent_queue_v1');
 
 window.addEventListener('load', function () {
   A = mkIframe('../parter-liyuan.html', 'fa');
@@ -159,19 +160,108 @@ function run() {
   ok('D 经营利润扣掉日摊 = ¥145', txt(D, '[data-ws-profit="唐博宏"]') === '¥145',
     txt(D, '[data-ws-profit="唐博宏"]'));
 
-  /* ── E · 段三 智能体 ── */
+  /* ── E · 段三 智能体（卡片） ── */
   var cards = D.querySelectorAll('.ws-agent');
   ok('E 智能体 6 张', cards.length === 6, cards.length);
   var agTxt = D.querySelector('.ws-agents').textContent;
   ok('E 含新增的合规风控智能体', agTxt.indexOf('合规风控智能体') >= 0);
   ok('E 全部标待建', D.querySelectorAll('.ws-agents .ws-todo-chip').length === 6,
     D.querySelectorAll('.ws-agents .ws-todo-chip').length);
-  ok('E 能力说明默认收起', D.querySelectorAll('.ws-agent-detail').length === 0);
+  ok('E 工作台默认收起', D.querySelector('#wsDw').hasAttribute('hidden'));
+  ok('E 卡片写明「打开工作台」', agTxt.indexOf('打开工作台') >= 0);
+  ok('E 没派活时不显示队列徽标', D.querySelector('.ws-agent-qn') === null);
+
+  /* ── J · 段三 工作台：派活进队列（老周 2026-09-22 定「任务台」） ── */
   cards[0].click();
-  ok('E 点开第一张 → 出现能力说明', D.querySelectorAll('.ws-agent-detail').length === 1);
-  ok('E 说明含「喂什么 / 吐什么」',
-    txt(D, '.ws-agent-detail').indexOf('吐出什么') >= 0 &&
-    txt(D, '.ws-agent-detail').indexOf('规矩') >= 0);
+  ok('J 点卡片 → 工作台滑出', !D.querySelector('#wsDw').hasAttribute('hidden'));
+  ok('J 解锁背景滚动被加上', D.documentElement.classList.contains('ws-lock'));
+  ok('J 抽屉标题是被点的那一个',
+    txt(D, '#wsDwTitle').indexOf('选品智能体') >= 0, txt(D, '#wsDwTitle'));
+  ok('J 抽屉分「说明 + 派活」两块',
+    txt(D, '#wsDwBody').indexOf('这个智能体干什么') >= 0 &&
+    txt(D, '#wsDwBody').indexOf('派活给它') >= 0);
+  ok('J 能力说明搬进抽屉',
+    txt(D, '#wsDwBody').indexOf('吐出什么') >= 0 && txt(D, '#wsDwBody').indexOf('规矩') >= 0);
+  ok('J 动作默认选中第一个',
+    txt(D, '.ws-act.is-on').indexOf('从大盘筛候选品类') >= 0, txt(D, '.ws-act.is-on'));
+  ok('J 选品要分站点 → 有 2 个站点按钮', D.querySelectorAll('.ws-site').length === 2,
+    D.querySelectorAll('.ws-site').length);
+  ok('J 队列初始为空', D.querySelector('#wsDwQueue .ws-dw-empty') !== null);
+
+  /* 第一个动作 min=0：留空也能提交（让它自己去大盘里筛） */
+  D.querySelector('[data-ws-dw="submit"]').click();
+  ok('J 留空可提交（筛大盘不用贴东西）', W.SC_WORKSPACE_VIEW.queue.of('sel').length === 1,
+    W.SC_WORKSPACE_VIEW.queue.of('sel').length);
+  ok('J 队列落本地存储（sc_agent_queue_v1）',
+    JSON.parse(localStorage.getItem('sc_agent_queue_v1')).items.length === 1);
+  ok('J 队列如实标「等待智能体接入」', txt(D, '.ws-qi-wait').indexOf('等待智能体接入') >= 0);
+  ok('J 提交后清空输入框', D.querySelector('#wsDwText').value === '');
+  ok('J 卡片出现队列徽标', txt(D, '.ws-agent-qn').indexOf('队列 1 条') >= 0, txt(D, '.ws-agent-qn'));
+
+  /* 第二个动作 min=1：空提交要被拦住、且不写进队列 */
+  var acts = D.querySelectorAll('.ws-act');
+  acts[1].click();
+  ok('J 换动作选中态跟着走', txt(D, '.ws-act.is-on').indexOf('给这批打五维分') >= 0,
+    txt(D, '.ws-act.is-on'));
+  D.querySelector('[data-ws-dw="submit"]').click();
+  ok('J 少于最少条数 → 拦下并提示',
+    D.querySelector('.ws-dw-flash') !== null && W.SC_WORKSPACE_VIEW.queue.of('sel').length === 1,
+    txt(D, '.ws-dw-flash'));
+
+  /* 贴两条 → 提交 */
+  var ta = D.querySelector('#wsDwText');
+  ta.value = '厨房收纳盒\n硅胶铲';
+  ta.dispatchEvent(new W.Event('input', { bubbles: true }));
+  ok('J 条数实时统计', txt(D, '#wsDwCount').indexOf('已贴 2 条') >= 0, txt(D, '#wsDwCount'));
+  D.querySelector('[data-ws-dw="submit"]').click();
+  var q2 = W.SC_WORKSPACE_VIEW.queue.of('sel');
+  ok('J 第二次提交进队列', q2.length === 2, q2.length);
+  ok('J 队列带上条数与站点', q2[0].n === 2 && q2[0].siteName === '墨西哥',
+    q2[0] && (q2[0].n + ' / ' + q2[0].siteName));
+  ok('J 队列记下贴的是什么', txt(D, '.ws-qi-pre').indexOf('厨房收纳盒') >= 0, txt(D, '.ws-qi-pre'));
+
+  D.querySelector('[data-ws-site="br"]').click();
+  ok('J 能切到巴西站', txt(D, '.ws-site.is-on') === '巴西', txt(D, '.ws-site.is-on'));
+
+  /* ‹ › 翻智能体（遮罩挡住了卡片，换人靠这两个键） */
+  D.querySelector('[data-ws-dw="next"]').click();
+  ok('J › 翻到数据采集智能体', txt(D, '#wsDwTitle').indexOf('数据采集智能体') >= 0,
+    txt(D, '#wsDwTitle'));
+  D.querySelector('[data-ws-dw="prev"]').click();
+  ok('J ‹ 翻回选品智能体', txt(D, '#wsDwTitle').indexOf('选品智能体') >= 0);
+  ok('J 回到第一个 → ‹ 自动禁用', D.querySelector('[data-ws-dw="prev"]').disabled === true);
+  ok('J 队列跟着智能体走（选品 2 条）', txt(D, '#wsDwQueue').indexOf('2 条') >= 0,
+    txt(D, '#wsDwQueue').slice(0, 40));
+
+  D.querySelector('[data-ws-qdel]').click();
+  ok('J 删队列项生效', W.SC_WORKSPACE_VIEW.queue.of('sel').length === 1,
+    W.SC_WORKSPACE_VIEW.queue.of('sel').length);
+
+  /* 不合规的智能体不该有站点按钮（经营分析按店铺走） */
+  D.querySelector('[data-ws-dw="close"]').click();
+  ok('J ✕ 关闭工作台', D.querySelector('#wsDw').hasAttribute('hidden'));
+  ok('J 关闭后解锁背景滚动', !D.documentElement.classList.contains('ws-lock'));
+  var ana = null;
+  Array.prototype.forEach.call(D.querySelectorAll('.ws-agent'), function (c) {
+    if (c.textContent.indexOf('经营分析智能体') >= 0) ana = c;
+  });
+  ana.click();
+  ok('J 经营分析智能体 → 不显示站点选择器', D.querySelectorAll('.ws-site').length === 0,
+    D.querySelectorAll('.ws-site').length);
+  ok('J 经营分析智能体配了 2 个动作', D.querySelectorAll('.ws-act').length === 2,
+    D.querySelectorAll('.ws-act').length);
+  D.querySelector('[data-ws-dw="close"]').click();
+
+  /* 6 个逐个点开：每个都得有活可派（防「配了但没读到」这种静默失败） */
+  var noAct = [];
+  Array.prototype.forEach.call(D.querySelectorAll('.ws-agent'), function (c) {
+    var nm = c.textContent.replace(/\s+/g, ' ').trim().slice(0, 6);
+    c.click();
+    if (D.querySelectorAll('.ws-act').length < 2) noAct.push(nm);
+    D.querySelector('[data-ws-dw="close"]').click();
+  });
+  ok('J 6 个智能体都配了 ≥2 个可派的活', noAct.length === 0, noAct.join(', '));
+  ok('J 逐个点开后工作台仍是关着的', D.querySelector('#wsDw').hasAttribute('hidden'));
 
   /* ── F · 段四 预估收入 ── */
   var slot = txt(D, '#plive-slot');
