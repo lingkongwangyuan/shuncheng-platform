@@ -1604,6 +1604,22 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
 /* ── 星级（照录源表 ⭐）── */
 .lv3-star { font-size: 12px; white-space: nowrap; color: var(--ink-secondary); }
 
+/* ── 基础数据层参考块（源表口径，视觉上与主口径区分）──
+   浅灰底一律配深灰字，不用橙字（配色铁律） */
+.lv3-base {
+  grid-column: 1 / -1;
+  background: var(--gray-bg);
+  border-left: 4px solid var(--border);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 12px 15px;
+}
+.lv3-base .tk-sec-title { color: var(--gray-ink); }
+.lv3-base .tk-metric-label { color: var(--gray-ink); }
+.lv3-base .tk-metric-value { color: var(--ink); }
+.lv3-base .tk-metric-note { color: var(--ink-secondary); }
+.lv3-base .tk-ul li { color: var(--ink-secondary); }
+.lv3-base .tk-ul strong { color: var(--gray-ink); }
+
 /* ── 建议列表：每条 = [优先级] 品类：建议原文 ── */
 .lv3-advice li { font-size: 12.5px; line-height: 1.85; padding-left: 14px; }
 .lv3-advice li .lv3-chip { margin-right: 5px; vertical-align: 1px; }

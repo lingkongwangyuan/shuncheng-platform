@@ -1,15 +1,20 @@
 /* ═══════════════════════════════════════════════════════════════
    顺诚AI工作平台 · 厨房大类渲染层
    ───────────────────────────────────────────────────────────────
-   数据源：data/kitchen.js（由 scripts/17_build_kitchendata.py 生成）
    适用页面：
-     cat-kitchen.html          厨房大类总览（国家 → 13 个三级分类）
+     cat-kitchen.html          厨房大类总览（三级品类 → 双站明细 → 四级下钻）
      cat-kitchen-storage.html  存储和组织专页（国家 → 四级分类）
 
-   口径说明（与源表一致，未做换算）：
-     · 墨西哥站 MLM，币种 MXN；巴西站 MLB，币种 BRL
-     · 「年销(亿人民币)」取自源表，为月销 × 12 的年化值，非自然年实际
-     · 源表未采集的一律显示「待采集」，不推算
+   两套数据源，主次分明（2026-09-22 老周定：厨房大类以三表为准）：
+     · data/kitchen-l3.js   【唯一结论口径】三张《三级品类深度分析表 v1》
+                            → 一、双站整合优先级总表 / 二、两站分级明细 / 三、选品规则
+     · data/kitchen.js      【基础数据层参考】《墨/巴厨房大类深度分析表》等源表
+                            → 第四节四级下钻（存储和组织）；月环比 / 年销年化 / 季节规律
+                              经 baseRefBlock() 挂在第二节详情内，逐条标注口径。
+   源表旧「跨国格局 · 13 个三级分类」（综合得分排序）已下架：其排序不含自发货可行性，
+   与选品口径方向相反（详见第五节说明）。
+
+   口径铁律：两套数值不一致时各自标注来源，不合并、不折算、不互相覆盖。
    ═══════════════════════════════════════════════════════════════ */
 
 (function () {
@@ -122,9 +127,20 @@
      一、厨房大类总览
      ══════════════════════════════════════════════════════════ */
   function renderKitchen(root) {
-    var totalBoth = TIERS.reduce(function (a, t) { return a + (parseFloat(t.total) || 0); }, 0);
     var stMx = (ST.mx || {}).rows || [];
     var stBr = (ST.br || {}).rows || [];
+    var LMX = (L3.mx || {}).cats || [];
+    var LBR = (L3.br || {}).cats || [];
+
+    var tierHead = function (t) { return String(t || '').replace(/[（(].*$/, '').toUpperCase(); };
+    var mgRowsAll = ((L3.merge || {}).rows) || [];
+    var countTier = function (k) {
+      return mgRowsAll.filter(function (r) { return tierHead(r.tier) === k; });
+    };
+    var tierNames = function (arr) {
+      return arr.map(function (r) { return r.name; }).join(' · ') || '—';
+    };
+    var spList = countTier('S+'), cList = countTier('C');
 
     var html = '';
 
@@ -136,113 +152,30 @@
         '<span class="path-item active">🍳 厨房大类</span>'
     });
 
+    /* 统计条改为深度分析表 v1 口径（与本节数据一致） */
     html += stats([
-      { label: '三级分类', value: TIERS.length + ' <span class="stat-unit">个</span>',
-        sub: '美客多官方结构，两国一致' },
-      { label: '两国合计年销', value: totalBoth.toFixed(2) + ' <span class="stat-unit">亿</span>',
-        sub: '13 个三级分类加总 · 人民币' },
-      { label: '站点', value: '2 <span class="stat-unit">个</span>',
-        sub: '🇲🇽 墨西哥 MLM · 🇧🇷 巴西 MLB' },
+      { label: '三级品类', value: LMX.length + ' / ' + LBR.length + ' <span class="stat-unit">个</span>',
+        sub: '🇲🇽 墨西哥 / 🇧🇷 巴西 · 深度分析表 v1 口径' },
+      { label: 'S+ 最高优先级', value: spList.length + ' <span class="stat-unit">个</span>',
+        sub: tierNames(spList) },
+      { label: 'C 不进入', value: cList.length + ' <span class="stat-unit">个</span>',
+        sub: tierNames(cList) },
       { label: '四级分类已采', value: (stMx.length + stBr.length) + ' <span class="stat-unit">条</span>',
         sub: '仅「存储和组织」下钻完成' }
     ]);
 
-    /* ── 一、跨国格局 ── */
-    var crossRows = TIERS.map(function (t) {
-      var lvl = t.level || '';
-      var cls = lvl.indexOf('强烈推荐') >= 0 ? 'pri-a'
-              : (lvl.indexOf('推荐') >= 0 ? 'pri-b' : 'pri-c');
-      return '<tr>' +
-        '<td class="td-owner">' + esc(t.rank) + '</td>' +
-        '<td class="td-shop"><strong>' + esc(t.name) + '</strong>' +
-          '<div class="tk-es">' + esc(t.nameEs || '—') + '</div></td>' +
-        '<td class="td-num">' + esc(t.total) + '</td>' +
-        '<td class="td-num"><strong>' + esc(t.score) + '</strong></td>' +
-        '<td class="td-owner">BR #' + esc(t.rankBr) + '</td>' +
-        '<td class="td-owner">MX #' + esc(t.rankMx) + '</td>' +
-        '<td><span class="pri-chip ' + cls + '">' + esc(lvl.replace(/⭐+\s*/, '')) + '</span></td>' +
-        '<td class="td-note">' + esc(t.note) + '</td>' +
-        '</tr>';
-    }).join('');
+    /* ── 一、双站整合优先级总表（深度分析表 v1 口径）──
+       旧「一、跨国格局」（源表综合得分排序）已下架：其排序逻辑为
+       「规模 + 增长 + 竞争」，不含自发货可行性，与本页选品口径方向相反
+       （旧表第 1 名「存储和组织」在 v1 口径里仅 B 级观望、第 2 名「烹饪」为 C 不进入）。
+       相关源表数据转为基础数据层参考，见第二节详情与第五节。 */
+    html += lv3MergeCard();
 
-    var traitRows = (K.traits || []).map(function (x) {
-      return '<tr>' +
-        '<td class="td-shop">' + esc(x.k) + '</td>' +
-        '<td class="td-owner">' + esc(x.a) + '</td>' +
-        '<td class="td-owner">' + esc(x.b) + '</td>' +
-        '<td class="td-note">' + esc(x.note) + '</td>' +
-        '</tr>';
-    }).join('');
+    /* ── 二、两站分级明细（深度分析表 v1 口径）── */
+    html += lv3SiteTabs();
 
-    html += card({
-      icon: '🌎', iconCls: 'ct-blue', title: '一、跨国格局 · 13 个三级分类',
-      hint: '排序 = 跨国综合得分降序（两国得分的均值）',
-      body: '<div class="scroll-hint">← 左右滑动可查看完整字段</div>' +
-        '<div class="table-scroll"><table class="shop-table kt-cross">' +
-        '<thead><tr><th>排名</th><th>三级分类</th><th>两国合计年销(亿)</th>' +
-        '<th>综合得分</th><th>巴西排名</th><th>墨西哥排名</th><th>推荐等级</th>' +
-        '<th>核心结论</th></tr></thead><tbody>' + crossRows + '</tbody></table></div>' +
-        '<div class="table-note">两国合计 = 源表「跨国统一排名」的「总市场规模」，' +
-        '为巴西 + 墨西哥年销（年化值）相加。等级取自源表原文。</div>' +
-        '<div class="sub-title">两国市场特点对比</div>' +
-        '<div class="table-scroll"><table class="shop-table">' +
-        '<thead><tr><th>对比维度</th><th>🇧🇷 巴西站</th><th>🇲🇽 墨西哥站</th><th>对比结论</th></tr></thead>' +
-        '<tbody>' + traitRows + '</tbody></table></div>'
-    });
-
-    /* ── 二、三级分类明细（按国家） ── */
-    html += tabs([
-      { code: 'mx', name: '墨西哥站', badge: '13 个三级分类' },
-      { code: 'br', name: '巴西站', badge: '13 个三级分类' }
-    ]);
-
-    ['mx', 'br'].forEach(function (code, idx) {
-      var rowsHtml = TIERS.map(function (t, i) {
-        var d = (t[code] || {});
-        var sm = d.sum || {};
-        var mom = sm.mom || '';
-        var yoy = sm.yoy || '';
-        return '' +
-          '<tr class="tk-row" data-acc="' + code + '-' + i + '">' +
-            '<td class="td-owner">' + esc(t.rank) + '</td>' +
-            '<td class="td-shop"><strong>' + esc(t.name) + '</strong>' +
-              '<div class="tk-es">' + esc(code === 'mx' ? t.nameEs : t.namePt) + '</div></td>' +
-            '<td class="td-num">' + esc(v(sm.total)) + '</td>' +
-            '<td class="td-num">' + esc(v(sm.active)) + '</td>' +
-            '<td class="td-num">' + esc(v(sm.activeRate)) + '</td>' +
-            '<td class="td-num">' + esc(v(sm.salesWan)) + '</td>' +
-            '<td class="td-num">' + esc(v(sm.salesM)) + '</td>' +
-            '<td class="td-num">' + esc(v(sm.salesCnyWan)) + '</td>' +
-            '<td class="td-num"><strong>' + esc(v(sm.yearCny)) + '</strong></td>' +
-            '<td class="td-num">' + esc(v(sm.price)) + '</td>' +
-            '<td class="td-num">' + fmtDelta(mom) + '</td>' +
-            '<td class="td-num">' + fmtDelta(yoy) + '</td>' +
-            '<td><button class="tk-acc-btn" type="button" data-target="acc-' + code + '-' + i + '">' +
-              '详情 ▾</button></td>' +
-          '</tr>' +
-          '<tr class="tk-acc-row" id="acc-' + code + '-' + i + '" hidden>' +
-            '<td colspan="13">' + detailBlock(t, code) + '</td></tr>';
-      }).join('');
-
-      html += '<div class="ct-panel" data-panel="' + code + '"' + (idx === 0 ? '' : ' hidden') + '>' +
-        card({
-          icon: code === 'mx' ? '🇲🇽' : '🇧🇷', iconCls: code === 'mx' ? 'ct-green' : 'ct-amber',
-          title: '二、' + SITE[code] + ' · 13 个三级分类大盘',
-          hint: '币种 ' + CUR[code] + ' · 数据时间：近 30 天',
-          body: '<div class="scroll-hint">← 左右滑动可查看完整字段；点「详情」看该分类的周期规律与年销估算</div>' +
-            '<div class="table-scroll"><table class="shop-table kt-detail">' +
-            '<thead><tr><th>跨国<br>排名</th><th>三级分类</th><th>总商品数</th><th>活跃商品</th>' +
-            '<th>活跃率</th><th>月销量<br>(万件)</th><th>月销额<br>(' + CUR[code] + ')</th>' +
-            '<th>月销额<br>(万人民币)</th><th>年销<br>(亿人民币)</th><th>客单价</th>' +
-            '<th>月环比</th><th>累计同比</th><th>展开</th></tr></thead>' +
-            '<tbody>' + rowsHtml + '</tbody></table></div>' +
-            '<div class="table-note">数值全部取自源表「' + SITE[code] + ' 厨房大类深度分析表」原值，' +
-            '未做换算。「年销(亿人民币)」为源表口径（当月 × 12 的年化）。</div>'
-        }) + '</div>';
-    });
-
-    /* ── 三、三级品类选品优先级（深度分析表 v1 口径）── */
-    html += lv3Section();
+    /* ── 三、选品标准与优先级规则（深度分析表 v1 口径）── */
+    html += lv3RulesCards();
 
     /* ── 四、四级下钻引导 ── */
     html += card({
@@ -263,31 +196,55 @@
       '</div>'
     });
 
-    /* ── 五、说明与缺口 ── */
+    /* ── 五、口径说明、基础数据层参考与缺口 ── */
+    var traitRows = (K.traits || []).map(function (x) {
+      return '<tr>' +
+        '<td class="td-shop">' + esc(x.k) + '</td>' +
+        '<td class="td-owner">' + esc(x.a) + '</td>' +
+        '<td class="td-owner">' + esc(x.b) + '</td>' +
+        '<td class="td-note">' + esc(x.note) + '</td>' +
+        '</tr>';
+    }).join('');
+
     html += card({
-      icon: '⚠️', iconCls: 'ct-amber', title: '五、数据说明与缺口',
+      icon: '⚠️', iconCls: 'ct-amber', title: '五、口径说明、基础数据层参考与缺口',
       body: '<ul class="tk-ul">' +
-        '<li><strong>页面存在两套口径，已分别标注。</strong>' +
-          '一、二节为源表大盘口径（官方后台采集，13 个三级分类）；' +
-          '第三节为《三级品类深度分析表 v1》口径（墨西哥 12 个 / 巴西 11 个三级品类，' +
-          '烹饪与烘焙分开计数、无「其他」项）。两套口径的月销数值不一致，本节不做合并或折算。</li>' +
-        '<li><strong>只有「存储和组织」有四級数据。</strong>其余三级分类' +
-          '目前只有大盘指标 + 年度周期规律，四级分类未采集（第三节的四级子品类为深度分析表口径）。</li>' +
-        '<li><strong>两国四级分类名称是两套译名。</strong>例：墨西哥「厨房整理架」↔ 巴西「厨房整理器」；' +
-          '墨西哥「容器」↔ 巴西「食品罐」。跨国比较时需按品类对齐，不能按名称直接配。</li>' +
-        '<li><strong>源表之间存在口径不一致</strong>（未擅自修改，原样保留）：' +
-          '① 三级机会排名表的「年销售规模」列全为 0，正确值在汇总表；' +
-          '② 两国年销合计说法不一 —— 跨国表写「巴西约 70 亿 / 墨西哥约 32 亿」，' +
-          '而 13 个三级分类年化值加总为巴西 88.13 亿 / 墨西哥 31.71 亿；' +
-          '③ 墨西哥四级大盘「序号」列大面积缺失，不影响名称与数值。</li>' +
-        '<li><strong>巴西站数据本次已到位。</strong>巴西站厨房大类的 13 个三级分类、' +
-          '存储和组织的 24 个四级分类均有实测数据。</li>' +
-        '</ul>'
+        '<li><strong>本页一、二、三节的数据与结论，全部以三张《三级品类深度分析表 v1》为准</strong>：' +
+          '墨西哥站厨房_三级品类深度分析表_v1、巴西站厨房_三级品类深度分析表_v1、' +
+          '墨巴整合_厨房大类选品优先级总表_v1。</li>' +
+        '<li><strong>基础数据层（源表大盘）已从正文下架，转为参考。</strong>' +
+          '旧「跨国格局」「三级分类大盘」两节取自《墨/巴厨房大类深度分析表》，' +
+          '其排序逻辑为「规模 + 增长 + 竞争」，不含自发货可行性，与本页选品口径方向相反' +
+          '（旧表第 1 名「存储和组织」在 v1 口径里为 B 级观望、第 2 名「烹饪」为 C 不进入），' +
+          '故不再作为主表。其中三表未提供的字段（月环比、年销年化值、季节规律）' +
+          '已保留在第二节每个品类的详情内，并单独标注口径。</li>' +
+        '<li><strong>两套口径的月销数值不一致（同品类可差数倍）。</strong>' +
+          '本页不做合并、不做折算，各自标注来源。选品判断以第二节（深度分析表 v1 口径）为准。</li>' +
+        '<li><strong>品类数差异：</strong>深度分析表 v1 为墨西哥 12 个 / 巴西 11 个三级品类，' +
+          '烹饪与烘焙分开计数、无「其他」项；源表为两国各 13 个（烹饪与烘焙合并、含「其他」）。' +
+          '「餐具和服务用品」在源表两站均有数据（巴西年销 24.59 亿¥），' +
+          '但巴西深度分析表 v1 与整合表均未收录，故本页第二节巴西站无该品类。</li>' +
+        '<li><strong>原表自身的三处待修（未擅自修改，原样保留）：</strong>' +
+          '① 墨西哥表第 9 项名为「餐具和餐具」（词重复），正式名应为「餐具和服务用品」；' +
+          '② 整合表未收录「餐具和服务用品」（墨西哥表内为 5603 万¥/月）；' +
+          '③ 三渠道占比（跨境自发货 + 本土海外仓 + 本土自发货）在所有品类上恰好加总 100.00%。</li>' +
+        '<li><strong>基础数据层源表内部亦不一致（未擅自修改）：</strong>' +
+          '跨国对比表写「巴西约 70 亿 / 墨西哥约 32 亿」，' +
+          '而按 13 个三级分类年化值加总为巴西 88.13 亿 / 墨西哥 31.71 亿。' +
+          '这也是基础数据层不再作为主表的原因之一。</li>' +
+        '<li><strong>四级下钻仍只覆盖「存储和组织」。</strong>' +
+          '其余品类目前只有三级指标与四级子品类占比（见第二节详情）。</li>' +
+        '</ul>' +
+        '<div class="sub-title">基础数据层参考 · 两国市场特点对比（源表口径，非本页结论）</div>' +
+        '<div class="table-scroll"><table class="shop-table">' +
+        '<thead><tr><th>对比维度</th><th>🇧🇷 巴西站</th><th>🇲🇽 墨西哥站</th><th>对比结论</th></tr></thead>' +
+        '<tbody>' + traitRows + '</tbody></table></div>' +
+        '<div class="table-note">上表取自源表《厨房大类跨国整合分析_巴西vs墨西哥》，' +
+        '口径与本页一、二、三节不同，仅作背景参考。</div>'
     });
 
     html += foot();
     root.innerHTML = html;
-    bindTabs(root);
     bindAcc(root);
     bindL3Tabs(document.getElementById('lv3-scope'));
   }
@@ -300,60 +257,14 @@
     return esc(t);
   }
 
-  /* 三级分类展开区：大盘核心指标 / 年度周期规律 / 年销估算 */
-  function detailBlock(t, code) {
-    var d = (t[code] || {}).detail;
-    if (!d) return '<div class="tk-empty">该分类暂无明细数据</div>';
-
-    var out = '<div class="tk-acc-body">';
-
-    out += '<div class="tk-sec"><div class="tk-sec-title">大盘核心指标</div>';
-    if (d.metrics && d.metrics.length) {
-      out += '<div class="tk-metrics">' + d.metrics.map(function (m) {
-        return '<div class="tk-metric">' +
-          '<div class="tk-metric-label">' + esc(m.label) + '</div>' +
-          '<div class="tk-metric-value">' + esc(m.value) + '</div>' +
-          (m.mom ? '<div class="tk-metric-sub">月环比 ' + fmtDelta(m.mom) + '</div>' : '') +
-          (m.note ? '<div class="tk-metric-note">' + esc(m.note) + '</div>' : '') +
-          '</div>';
-      }).join('') + '</div>';
-    } else {
-      out += '<div class="tk-empty">待采集</div>';
-    }
-    out += '</div>';
-
-    out += '<div class="tk-sec"><div class="tk-sec-title">年度周期规律</div>';
-    if (d.season && d.season.length) {
-      out += '<ul class="tk-ul">' + d.season.map(function (x) {
-        var txt = (x.cells || []).join(' · ');
-        return '<li>' + (x.label ? '<strong>' + esc(x.label) + '</strong>：' : '') + esc(txt) + '</li>';
-      }).join('') + '</ul>';
-    } else {
-      out += '<div class="tk-empty">待采集</div>';
-    }
-    out += '</div>';
-
-    /* 源表里巴西版没有「年销估算」这一节，按需输出，不留空栏 */
-    if (d.estimate && d.estimate.length) {
-      out += '<div class="tk-sec"><div class="tk-sec-title">年度销售规模估算</div>' +
-        '<div class="table-scroll"><table class="shop-table">' +
-        '<thead><tr><th>方法</th><th>公式</th><th>估算值</th><th>说明</th></tr></thead><tbody>' +
-        d.estimate.map(function (e) {
-          return '<tr><td class="td-owner">' + esc(e.method) + '</td>' +
-            '<td class="td-owner">' + esc(e.formula) + '</td>' +
-            '<td class="td-num">' + esc(e.value) + (e.usd ? ' （' + esc(e.usd) + '）' : '') + '</td>' +
-            '<td class="td-note">' + esc(e.note) + '</td></tr>';
-        }).join('') + '</tbody></table></div></div>';
-    }
-
-    out += '</div>';
-    return out;
-  }
-
   /* ══════════════════════════════════════════════════════════
-     三、三级品类选品优先级（深度分析表 v1 口径）
+     一 ~ 三、三级品类层（深度分析表 v1 口径 · 本页唯一结论口径）
      数据源：data/kitchen-l3.js（由 scripts/31_build_kitchen_l3.py 生成）
-     与上面两节是两套口径：本节以三张深度分析表为准，不覆盖源表大盘。
+       · 一、双站整合优先级总表        lv3MergeCard()
+       · 二、两站分级明细（tab）        lv3SiteTabs() → lv3SitePanel() → lv3Detail()
+       · 三、选品标准与优先级规则        lv3RulesCards() → lv3RulesCard()
+     三张深度分析表未提供的字段（月环比 / 年销年化 / 季节规律）走 baseRefBlock()，
+     取自基础数据层源表并单独标注口径，不作为选品依据。
      ══════════════════════════════════════════════════════════ */
 
   function lv3Cls(tier) {
@@ -377,7 +288,71 @@
     return '<span class="lv3-star">' + esc(s) + '</span>';
   };
 
-  function lv3Detail(c, site) {
+  /* ── 深度分析表 v1 品类名 → 基础数据层（源表）品类名映射 ──
+     两套表的三级分类名不完全一致：源表把「烹饪 + 烘焙」合并为一个，
+     且多一个「其他」；其余为同物异名。 */
+  var L3_TO_SRC = {
+    '酒类和酒吧用品': '酒类和调酒工具',
+    '冰块模具和桶': '冰块模具和冰箱',
+    '餐具和餐具': '餐具和服务用品',
+    '围裙': '厨房围裙',
+    '储存与组织': '存储和组织',
+    '瓶装泵（桶泵）': '桶泵',
+    '咖啡茶和马黛茶': '咖啡、茶和马黛茶'
+  };
+
+  function baseTier(name) {
+    var target = L3_TO_SRC[name] || name;
+    for (var i = 0; i < TIERS.length; i++) {
+      if (TIERS[i].name === target) return TIERS[i];
+    }
+    return null;
+  }
+
+  /* 基础数据层参考块：源表口径的月环比 / 年销 / 季节规律。
+     三张深度分析表 v1 未提供这三项，按「保留但标注口径」处理。 */
+  function baseRefBlock(c, code) {
+    var title = '<div class="tk-sec-title">基础数据层参考 · 源表大盘（口径不同，仅供趋势参考）</div>';
+    var t = baseTier(c.name);
+
+    if (!t) {
+      return '<div class="tk-sec lv3-base">' + title +
+        '<div class="tk-empty">源表把「烹饪 + 烘焙」合并为一个三级分类，无法拆分对应本表的单一品类</div>' +
+        '</div>';
+    }
+
+    var d = t[code] || {};
+    var sm = d.sum || {};
+    var det = d.detail || {};
+    var out = '<div class="tk-sec lv3-base">' + title;
+
+    out += '<div class="lv3-metrics">' +
+      '<div class="tk-metric"><div class="tk-metric-label">源表月销额</div>' +
+        '<div class="tk-metric-value">' + esc(v(sm.salesCnyWan)) + ' <span class="stat-unit">万¥</span></div></div>' +
+      '<div class="tk-metric"><div class="tk-metric-label">源表月环比</div>' +
+        '<div class="tk-metric-value">' + fmtDelta(sm.mom) + '</div></div>' +
+      '<div class="tk-metric"><div class="tk-metric-label">源表年销（×12 年化）</div>' +
+        '<div class="tk-metric-value">' + esc(v(sm.yearCny)) + ' <span class="stat-unit">亿¥</span></div></div>' +
+      '<div class="tk-metric"><div class="tk-metric-label">源表活跃率</div>' +
+        '<div class="tk-metric-value">' + esc(v(sm.activeRate)) + '</div></div>' +
+      '</div>';
+
+    if (det.season && det.season.length) {
+      out += '<ul class="tk-ul">' + det.season.map(function (x) {
+        return '<li>' + (x.label ? '<strong>' + esc(x.label) + '</strong>：' : '') +
+          esc((x.cells || []).join(' · ')) + '</li>';
+      }).join('') + '</ul>';
+    }
+
+    out += '<div class="tk-metric-note">以上取自源表《' + SITE[code] + ' 厨房大类深度分析表》。' +
+      '该表与本页《三级品类深度分析表 v1》的月销口径不一致（同品类可差数倍），' +
+      '此处仅作环比与季节性参考，<strong>不作为选品依据</strong>。</div>';
+
+    out += '</div>';
+    return out;
+  }
+
+  function lv3Detail(c, site, code) {
     var out = '<div class="tk-acc-body">';
 
     /* 源表章节标题形如「一、核心市场数据（近30天，汇率1CNY=2.57MXN）」，
@@ -386,7 +361,7 @@
       .replace(/^[一二三四五六七八]、/, '')
       .replace(/核心市场数据/, '');
 
-    out += '<div class="tk-sec"><div class="tk-sec-title">核心市场数据' +
+    out += '<div class="tk-sec lv3-span2"><div class="tk-sec-title">核心市场数据' +
       esc(rateNote) + '</div>' +
       ((c.metrics || []).length
         ? '<div class="lv3-metrics">' + c.metrics.map(function (m) {
@@ -433,6 +408,9 @@
         '<div class="lv3-basis">' + esc(R.advice) + '</div></div>';
     }
 
+    /* 三张深度分析表未提供的字段（月环比 / 年销 / 季节规律）→ 基础数据层参考 */
+    out += baseRefBlock(c, code);
+
     out += '</div>';
     return out;
   }
@@ -456,15 +434,16 @@
           '<td><button class="tk-acc-btn" type="button" data-target="' + id + '">详情 ▾</button></td>' +
         '</tr>' +
         '<tr class="tk-acc-row" id="' + id + '" hidden><td colspan="12">' +
-          lv3Detail(c, site) + '</td></tr>';
+          lv3Detail(c, site, code) + '</td></tr>';
     }).join('');
 
     return card({
       icon: code === 'mx' ? '🇲🇽' : '🇧🇷',
       iconCls: code === 'mx' ? 'ct-green' : 'ct-amber',
-      title: '三·B ' + siteName + ' · ' + cats.length + ' 个三级品类选品优先级',
+      title: '二、' + siteName + ' · ' + cats.length + ' 个三级品类明细',
       hint: '口径：深度分析表 v1',
-      body: '<div class="scroll-hint">← 左右滑动可查看完整字段；点「详情」看四级子品类结构、竞争格局与切入建议</div>' +
+      body: '<div class="scroll-hint">← 左右滑动可查看完整字段；点「详情」看四级子品类结构、竞争格局与切入建议，' +
+          '以及基础数据层（源表大盘）参考</div>' +
         '<div class="table-scroll"><table class="shop-table kt-detail">' +
         '<colgroup><col style="width:52px"><col style="width:158px">' +
           '<col style="width:98px"><col style="width:86px"><col style="width:78px">' +
@@ -477,7 +456,7 @@
         '<th>推荐<br>优先级</th><th>展开</th></tr></thead>' +
         '<tbody>' + rows + '</tbody></table></div>' +
         '<div class="table-note">数值照录源表《' + siteName + '厨房_三级品类深度分析表_v1》原文，' +
-        '未换算、未推断。月销售额单位为「万人民币」，与上方源表大盘口径不同。</div>'
+        '未换算、未推断。月销售额单位为「万人民币」。</div>'
     });
   }
 
@@ -498,7 +477,7 @@
     return card({
       icon: code === 'mx' ? '🇲🇽' : '🇧🇷',
       iconCls: code === 'mx' ? 'ct-green' : 'ct-amber',
-      title: '三·C 选品标准与优先级规则 · ' + siteName,
+      title: '三、选品标准与优先级规则 · ' + siteName,
       hint: '源表原文 · 未改一字',
       body: '<div class="sub-title">一、自发货硬门槛（不满足直接淘汰）</div>' +
         lv3RuleTable(R.hard, ['门槛项', '标准', '淘汰逻辑']) +
@@ -509,11 +488,11 @@
     });
   }
 
-  function lv3Section() {
-    var L = L3;
-    var MX = L.mx || {}, BR = L.br || {}, MG = L.merge || {};
-    var mxCats = MX.cats || [], brCats = BR.cats || [], mgRows = MG.rows || [];
-    if (!mxCats.length && !brCats.length) return '';
+  /* ── 一、双站整合优先级总表（深度分析表 v1 口径）── */
+  function lv3MergeCard() {
+    var L = L3, MG = L.merge || {};
+    var mgRows = MG.rows || [];
+    if (!mgRows.length) return '';
 
     var head = function (t) { return String(t || '').replace(/[（(].*$/, '').toUpperCase(); };
     var byTier = function (t) {
@@ -523,8 +502,7 @@
       return arr.map(function (r) { return r.name; }).join(' · ');
     };
     var sp = byTier('S+'), s1 = byTier('S'), cn = byTier('C');
-
-    var html = '';
+    var LMX = (L.mx || {}).cats || [], LBR = (L.br || {}).cats || [];
 
     /* ── A · 双站整合优先级总表 ── */
     /* 数字进表、建议出表 —— 建议列文字长，塞在表里会被推到屏幕外要横向拖。
@@ -567,15 +545,13 @@
         }).join('') + '</ul>'
       : '';
 
-    html += card({
+    return card({
       icon: '🧭', iconCls: 'ct-orange',
-      title: '三、三级品类选品优先级 · 双站对照（深度分析表 v1 口径）',
-      hint: '口径：' + ((L.meta || {}).basis || ''),
-      body: '<div class="lv3-basis"><strong>本节与上面两节是两套口径。</strong>' +
-          '上面「一、跨国格局」「二、三级分类大盘」取自源表《墨西哥厨房大类深度分析表》' +
-          '《巴西厨房大类深度分析表》（官方后台采集）；' +
-          '本节全部数值与结论取自三张《三级品类深度分析表 v1》，<strong>以本节为准</strong>。' +
-          '两者数值不一致时不互相覆盖，各自标注来源。</div>' +
+      title: '一、双站整合优先级总表 · 深度分析表 v1 口径',
+      hint: '行序照录源表，未重排',
+      body: '<div class="lv3-basis"><strong>本页三级品类层面的数据与结论，全部以三张《三级品类深度分析表 v1》为准。</strong>' +
+          '另有源表《墨/巴厨房大类深度分析表》的大盘数据作为基础数据层参考，' +
+          '已在第二节详情内单独标注，两套口径不混用、不互相覆盖。</div>' +
         stats([
           { label: 'S+ 最高优先级', value: sp.length + ' <span class="stat-unit">个</span>',
             sub: names(sp) || '—' },
@@ -583,7 +559,7 @@
             sub: names(s1) || '—' },
           { label: 'C 不进入', value: cn.length + ' <span class="stat-unit">个</span>',
             sub: names(cn) || '—' },
-          { label: '三级品类', value: mxCats.length + ' / ' + brCats.length,
+          { label: '三级品类', value: LMX.length + ' / ' + LBR.length,
             sub: '🇲🇽 墨西哥 / 🇧🇷 巴西' }
         ]) +
         mergeTable + adviceList + concl +
@@ -592,8 +568,15 @@
           '。月销单位为万人民币，源表已折算，本页照录。' +
           '「核心切入建议」为本表原文，未做删改。</div>'
     });
+  }
 
-    /* ── B · 两站分级明细（独立 tab，不与第一节联锁）── */
+  /* ── 二、两站分级明细（独立 tab，避免与其它块联锁）── */
+  function lv3SiteTabs() {
+    var L = L3;
+    var MX = L.mx || {}, BR = L.br || {};
+    var mxCats = MX.cats || [], brCats = BR.cats || [];
+    if (!mxCats.length && !brCats.length) return '';
+
     var defs = [
       { code: 'mx', name: '墨西哥站', badge: mxCats.length + ' 个三级品类' },
       { code: 'br', name: '巴西站', badge: brCats.length + ' 个三级品类' }
@@ -612,13 +595,14 @@
         lv3SitePanel(d.code, d.name, site, cats) + '</div>';
     }).join('');
 
-    html += '<div id="lv3-scope">' + tabsHtml + panelsHtml + '</div>';
+    return '<div id="lv3-scope">' + tabsHtml + panelsHtml + '</div>';
+  }
 
-    /* ── C · 选品标准与优先级规则 ── */
-    html += lv3RulesCard('mx', '墨西哥站', MX);
-    html += lv3RulesCard('br', '巴西站', BR);
-
-    return html;
+  /* ── 三、选品标准与优先级规则（两站分别照录）── */
+  function lv3RulesCards() {
+    var L = L3;
+    return lv3RulesCard('mx', '墨西哥站', L.mx || {}) +
+           lv3RulesCard('br', '巴西站', L.br || {});
   }
 
   function bindL3Tabs(scope) {
