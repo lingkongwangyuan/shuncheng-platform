@@ -306,49 +306,17 @@
     root.innerHTML = html;
   }
 
-  /* ══════════════ 页面 2/3：单个合伙人 ══════════════ */
-  function renderPartner(root, p) {
-    var t = p.totals || {};
-    var html = '';
+  /* ══════════════ 月底正式结算（个人工作平台第四段折叠区复用） ══════════════
+     老周 2026-09-22 定的新结构里，下面这几块从主视图收进折叠区：
+     主视图只留每天要看的四段（填写 / 分析 / 智能体 / 收入），
+     结算类的内容等月底再展开，不占每天的视线。 */
 
-    var others = PARTNERS.filter(function (x) { return x.id !== p.id; });
-    html += pageHeader(
-      '店铺合伙 · ' + esc(p.name),
-      crumbTop(p.name),
-      '<a class="btn btn-secondary" href="parter.html">← 合伙总览</a>' +
-      others.map(function (o) {
-        return '<a class="btn btn-secondary" href="' + esc(o.page) + '">' + esc(o.name) + '</a>';
-      }).join(''),
-      esc(p.role)
-    );
-
-    /* 今日实时汇总：数据来自「经营报表」每天的填报，按人自动汇总名下 9 家店。
-       算法转调 assets/report-core.js（与经营报表页同一份），渲染见 render-parter-live.js
-       老周 2026-09-22 定：个人页要能自动汇总、看到自己今天能赚多少。 */
-    html += '<div id="plive-slot"></div>';
-
-    html += '' +
-      '<div class="overview-bar">' +
-        '<div class="overview-item"><div class="ov-label">负责店铺</div>' +
-          '<div class="ov-value">' + (t.shops || 0) + '</div>' +
-          '<div class="ov-sub">家</div></div>' +
-        '<div class="overview-item"><div class="ov-label">在架链接</div>' +
-          '<div class="ov-value">' + nf(t.links) + '</div>' +
-          '<div class="ov-sub">期末快照</div></div>' +
-        '<div class="overview-item"><div class="ov-label">累计出单</div>' +
-          '<div class="ov-value">' + nf(t.orders) + '</div>' +
-          '<div class="ov-sub">期内累加</div></div>' +
-        '<div class="overview-item"><div class="ov-label">分红结算</div>' +
-          '<div class="ov-value" style="font-size:19px">按月结</div>' +
-          '<div class="ov-sub">日度预估见上方汇总</div></div>' +
-      '</div>';
-
-    /* 损益表（核心） */
-    html += '' +
+  function plCard() {
+    return '' +
       '<div class="card">' +
         '<div class="card-head">' +
           '<div class="card-title"><div class="ct-icon ct-green">🧮</div>月度损益表</div>' +
-          '<span class="card-hint">10 行结构 × 3 个月 · 金额待接入</span>' +
+          '<span class="card-hint">10 行结构 × ' + MONTHS.length + ' 个月 · 金额待接入</span>' +
         '</div>' +
         '<div class="scroll-hint">← 左右滑动可查看完整字段</div>' +
         '<div class="table-scroll" style="min-width:0">' + plTable(true) + '</div>' +
@@ -357,9 +325,10 @@
           '把某一项填 0 会把利润算虚，这是核算表最常见的坑，所以一律留空标注。' +
         '</div>' +
       '</div>';
+  }
 
-    /* 店 × 月 经营利润矩阵 */
-    html += '' +
+  function matrixCard(p) {
+    return '' +
       '<div class="card">' +
         '<div class="card-head">' +
           '<div class="card-title"><div class="ct-icon ct-blue">📐</div>各店 × 各月 经营利润</div>' +
@@ -397,11 +366,13 @@
         '<div class="table-note">' +
           '每格 = 该店该月的经营利润（待接入），下方小字是该月<b>真实运营底数</b>。' +
           '分红按月结算，格子里有数才有得算。' +
+          '这里走的是<b>月度结算</b>口径，与上面每天的日度预估不是一套算法。' +
         '</div>' +
       '</div>';
+  }
 
-    /* 分红台账 */
-    html += '' +
+  function ledgerCard(p) {
+    return '' +
       '<div class="card">' +
         '<div class="card-head">' +
           '<div class="card-title"><div class="ct-icon ct-orange">📒</div>分红台账</div>' +
@@ -440,28 +411,107 @@
           '　递延部分（' + pct((RULE.deferral || {}).yearEnd * 100, 0) + '）不列在当期货款里，年终统一结算。' +
         '</div>' +
       '</div>';
+  }
 
-    /* 数据完整度警示 */
+  function gapCard() {
     var badMonths = MONTHS.filter(function (m) { return !m.complete; });
-    if (badMonths.length) {
-      html += '' +
-        '<div class="card">' +
-          '<div class="card-head">' +
-            '<div class="card-title"><div class="ct-icon ct-orange">⚠</div>分红结算前必须先解决这一条</div>' +
-            '<span class="card-hint">三个月，没有一个完整月</span>' +
-          '</div>' +
-          '<div class="finding">' +
-            '分红是<b>按月结算</b>的，一个月算不干净，分红就没有可信的分母。当前三个月全部不完整：' +
-            '<br><br>' +
-            MONTHS.map(function (m) {
-              return '<b>' + esc(m.label) + '</b>：' + esc(m.note || '');
-            }).join('<br>') +
-            '<br><br>' +
-            '原因不是运营偷懒，是<b>填报口径不统一</b>——不同店铺的记录起止时间不一样，' +
-            '7 月尤其严重（李源只有 2 家店有记录）。<b>在建立固定月报机制前，增量分红无法准确结算</b>。' +
-          '</div>' +
-        '</div>';
+    if (!badMonths.length) return '';
+    return '' +
+      '<div class="card">' +
+        '<div class="card-head">' +
+          '<div class="card-title"><div class="ct-icon ct-orange">⚠</div>分红结算前必须先解决这一条</div>' +
+          '<span class="card-hint">' + MONTHS.length + ' 个月，没有一个完整月</span>' +
+        '</div>' +
+        '<div class="finding">' +
+          '分红是<b>按月结算</b>的，一个月算不干净，分红就没有可信的分母。当前全部月份都不完整：' +
+          '<br><br>' +
+          MONTHS.map(function (m) {
+            return '<b>' + esc(m.label) + '</b>：' + esc(m.note || '');
+          }).join('<br>') +
+          '<br><br>' +
+          '原因不是运营偷懒，是<b>填报口径不统一</b>——不同店铺的记录起止时间不一样，' +
+          '7 月尤其严重（李源只有 2 家店有记录）。<b>在建立固定月报机制前，增量分红无法准确结算</b>。' +
+        '</div>' +
+      '</div>';
+  }
+
+  /* 供个人工作平台第四段的折叠区调用 */
+  function settlementBlocks(p) {
+    return plCard() + matrixCard(p) + ledgerCard(p) + gapCard();
+  }
+
+  /* ══════════════ 个人工作平台（老周 2026-09-22 定的新结构） ══════════════
+     把个人页从「看账的页」改成「干活的页」，四段按一天的工作顺序排：
+       ① 数据填写 → ② 数据分析 → ③ 工作智能体 → ④ 预估收入
+     渲染在 assets/render-workspace.js，本文件只出页头、口径说明和页脚。
+     要退回旧版（纯核算视角）：把 renderPartner 开头的 workspace 分支去掉即可，
+     旧逻辑完整保留在下面，不会被删。 */
+  function renderPartnerWorkspace(root, p) {
+    var others = PARTNERS.filter(function (x) { return x.id !== p.id; });
+    root.innerHTML =
+      pageHeader(
+        '个人工作平台 · ' + esc(p.name),
+        crumbTop(p.name),
+        '<a class="btn btn-secondary" href="parter.html">← 合伙总览</a>' +
+        others.map(function (o) {
+          return '<a class="btn btn-secondary" href="' + esc(o.page) + '">' + esc(o.name) + '</a>';
+        }).join(''),
+        '个人工作平台 · 运营 / 核算一页看完'
+      ) +
+      '<div id="ws-mount"></div>' +
+      ruleNote() +
+      pageFoot('个人工作平台 · 填报数据存本机浏览器');
+    window.SC_WORKSPACE_VIEW.render(root.querySelector('#ws-mount'), p);
+  }
+
+  /* ══════════════ 页面 2/3：单个合伙人 ══════════════ */
+  function renderPartner(root, p) {
+    /* 默认走个人工作平台；脚本没加载时退回下面的旧版渲染 */
+    if (window.SC_WORKSPACE_VIEW && window.SC_WORKSPACE_VIEW.render) {
+      renderPartnerWorkspace(root, p);
+      return;
     }
+    var t = p.totals || {};
+    var html = '';
+
+    var others = PARTNERS.filter(function (x) { return x.id !== p.id; });
+    html += pageHeader(
+      '店铺合伙 · ' + esc(p.name),
+      crumbTop(p.name),
+      '<a class="btn btn-secondary" href="parter.html">← 合伙总览</a>' +
+      others.map(function (o) {
+        return '<a class="btn btn-secondary" href="' + esc(o.page) + '">' + esc(o.name) + '</a>';
+      }).join(''),
+      esc(p.role)
+    );
+
+    /* 今日实时汇总：数据来自「经营报表」每天的填报，按人自动汇总名下 9 家店。
+       算法转调 assets/report-core.js（与经营报表页同一份），渲染见 render-parter-live.js
+       老周 2026-09-22 定：个人页要能自动汇总、看到自己今天能赚多少。 */
+    html += '<div id="plive-slot"></div>';
+
+    html += '' +
+      '<div class="overview-bar">' +
+        '<div class="overview-item"><div class="ov-label">负责店铺</div>' +
+          '<div class="ov-value">' + (t.shops || 0) + '</div>' +
+          '<div class="ov-sub">家</div></div>' +
+        '<div class="overview-item"><div class="ov-label">在架链接</div>' +
+          '<div class="ov-value">' + nf(t.links) + '</div>' +
+          '<div class="ov-sub">期末快照</div></div>' +
+        '<div class="overview-item"><div class="ov-label">累计出单</div>' +
+          '<div class="ov-value">' + nf(t.orders) + '</div>' +
+          '<div class="ov-sub">期内累加</div></div>' +
+        '<div class="overview-item"><div class="ov-label">分红结算</div>' +
+          '<div class="ov-value" style="font-size:19px">按月结</div>' +
+          '<div class="ov-sub">日度预估见上方汇总</div></div>' +
+      '</div>';
+
+    /* 月底结算的三块抽成了函数（见下方 plCard / matrixCard / ledgerCard / gapCard），
+       个人工作平台的第四段折叠区复用同一份，避免两处各写一遍 */
+    html += plCard();
+    html += matrixCard(p);
+    html += ledgerCard(p);
+    html += gapCard();
 
     /* 各店运营底数（真实） */
     html += '' +
@@ -542,6 +592,14 @@
     root.innerHTML = '<div class="card"><div class="card-title">未识别的页面</div>' +
       '<div class="table-note">请在 body 上标注 data-page="parter" / "parter-liyuan" / "parter-shi"。</div></div>';
   }
+
+  /* 供个人工作平台复用（assets/render-workspace.js 第四段的折叠区） */
+  window.SC_PARTER_PARTS = {
+    pageHeader: pageHeader, pageFoot: pageFoot, ruleNote: ruleNote,
+    plTable: plTable, plCard: plCard,
+    matrixCard: matrixCard, ledgerCard: ledgerCard, gapCard: gapCard,
+    settlementBlocks: settlementBlocks
+  };
 
   document.addEventListener('DOMContentLoaded', boot);
 })();

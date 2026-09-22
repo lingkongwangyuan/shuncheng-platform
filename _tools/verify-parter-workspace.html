@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><title>WS_PENDING</title></head>
+<body>
+<pre id="log" style="font:12px/1.6 monospace"></pre>
+<script>
+var R = [], NT = 0;
+function ok(name, cond, extra) {
+  NT++;
+  R.push((cond ? 'PASS' : 'FAIL') + ' ' + name + (extra !== undefined ? ' | ' + extra : ''));
+}
+function ready(fr, cb) {
+  var tries = 0;
+  (function loop() {
+    var w = null, d = null;
+    try { w = fr.contentWindow; d = fr.contentDocument; } catch (e) {}
+    var done = false;
+    if (w && d) {
+      if (d.querySelector('#ws-fill')) {
+        done = !!(w.SC_WORKSPACE_VIEW && d.querySelector('#plive-slot .plive-col'));
+      } else {
+        done = !!(w.SC_REPORT_CORE && d.querySelector('#rpShop'));
+      }
+    }
+    if (done) return cb();
+    if (tries++ > 300) { R.push('FAIL 等页面就绪超时 ' + fr.id); return cb(); }
+    setTimeout(loop, 60);
+  })();
+}
+function mkIframe(src, id) {
+  var f = document.createElement('iframe');
+  f.id = id; f.src = src;
+  f.style.cssText = 'width:1500px;height:1200px;border:0';
+  document.body.appendChild(f);
+  return f;
+}
+function fill(doc, W, shop, k, v) {
+  var el = doc.querySelector('.ws-inp[data-ws-shop="' + shop + '"][data-ws-k="' + k + '"]');
+  if (!el) { R.push('FAIL 找不到输入框 ' + shop + '/' + k); return false; }
+  el.value = String(v);
+  el.dispatchEvent(new W.Event('input', { bubbles: true }));
+  return true;
+}
+function txt(doc, sel) {
+  var e = doc.querySelector(sel);
+  return e ? e.textContent.replace(/\s+/g, ' ').trim() : '';
+}
+function pad(n) { return (n < 10 ? '0' : '') + n; }
+function today() {
+  var d = new Date();
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+}
+
+var TODAY = today();
+var A, B, RPT;
+
+/* 先清空，再挂 iframe —— 同源，父窗口的 localStorage 就是它们的 */
+localStorage.removeItem('sc_report_v1');
+localStorage.removeItem('sc_ws_v1');
+
+window.addEventListener('load', function () {
+  A = mkIframe('../parter-liyuan.html', 'fa');
+  B = mkIframe('../parter-shi.html', 'fb');
+  RPT = mkIframe('../report.html', 'fr');
+  ready(A, function () { ready(B, function () { ready(RPT, function () { setTimeout(run, 900); }); }); });
+});
+
+function run() {
+  var W = A.contentWindow, D = A.contentDocument;
+  var WB = B.contentWindow, DB = B.contentDocument;
+
+  /* ── A · 段一渲染 ── */
+  ok('A 四段导航存在', !!D.querySelector('.ws-nav'), D.querySelectorAll('.ws-nav-item').length + ' 项');
+  ok('A 四段锚点在位',
+    !!D.querySelector('#ws-fill') && !!D.querySelector('#ws-analyze') &&
+    !!D.querySelector('#ws-agents') && !!D.querySelector('#ws-income'));
+  var rows = D.querySelectorAll('#wsRows tr');
+  ok('A 表体 9 行（9 家店）', rows.length === 9, rows.length);
+  var inps = D.querySelectorAll('.ws-inp[data-ws-k]');
+  ok('A 输入框 9×10=90 个', inps.length === 90, inps.length);
+  var th = D.querySelector('.ws-table thead').textContent;
+  ok('A 表头有「经营结果」分组', th.indexOf('经营结果（元）') >= 0);
+  ok('A 表头有「运营动作」分组', th.indexOf('运营动作') >= 0);
+  ['销售额', '退货额', '广告费', '运费', '采购成本', '平台罚金', '出单数', '新上架', '风险记录', '封停']
+    .forEach(function (k) { if (th.indexOf(k) < 0) R.push('FAIL A 表头缺字段 ' + k); });
+  NT++;
+  ok('A 进度初始 0/9', txt(D, '#wsProg').indexOf('0 / 9') >= 0, txt(D, '#wsProg'));
+  ok('A 初始无预警（显示今天没有异常）', !!D.querySelector('.ws-ok'));
+
+  /* ── B · 填报写入 ── */
+  fill(D, W, '唐博宏', 'sales', 10000);
+  fill(D, W, '唐博宏', 'returns', 500);
+  fill(D, W, '唐博宏', 'ads', 800);
+  fill(D, W, '唐博宏', 'freight', 300);
+  fill(D, W, '唐博宏', 'cost', 3000);
+  fill(D, W, '唐博宏', 'penalty', 100);
+  fill(D, W, '唐博宏', 'orders', 20);
+  fill(D, W, '唐博宏', 'newLinks', 50);
+  fill(D, W, '唐博宏', 'riskNotes', 0);
+  fill(D, W, '唐博宏', 'stops', 0);
+
+  var db = JSON.parse(localStorage.getItem('sc_report_v1') || '{}');
+  var rec = ((db.daily || {})['唐博宏'] || {})[TODAY] || {};
+  ok('B 写入的是 sc_report_v1（与经营报表同一份）', rec.sales === 10000, JSON.stringify(rec));
+  ok('B 运营字段写进同一条记录', rec.orders === 20 && rec.newLinks === 50);
+
+  /* 期望：net=9500 变动费=1852.5+332.5+800+300+3000+100=6385 边界利润=3115 固定费=0 利润=3115 */
+  var pc = txt(D, '[data-ws-profit="唐博宏"]');
+  ok('B 经营利润 = ¥3,115', pc === '¥3,115', pc);
+  ok('B 合计行 = ¥3,115', txt(D, '#wsFoot').indexOf('¥3,115') >= 0, txt(D, '#wsFoot'));
+  ok('B 进度变 1 / 9', txt(D, '#wsProg').indexOf('1 / 9') >= 0, txt(D, '#wsProg'));
+  ok('B 已填格子加高亮 class',
+    D.querySelector('.ws-inp[data-ws-shop="唐博宏"][data-ws-k="sales"]').classList.contains('has-val'));
+
+  /* ── C · 预警 ── */
+  function nAlerts() { return D.querySelectorAll('.ws-alert').length; }
+  ok('C 数据正常时不报警', nAlerts() === 0, nAlerts());
+  ok('C 出单断崖不误报（只有一天数据，无 7 日参照）',
+    D.querySelector('.ws-alerts') === null || D.querySelector('.ws-alerts').textContent.indexOf('出单断崖') < 0);
+
+  fill(D, W, '唐博宏', 'riskNotes', 2);
+  ok('C 风险记录 ≥1 → 报警', nAlerts() === 1, nAlerts());
+  ok('C 报警级别是「立即处理」', !!D.querySelector('.ws-alert.is-l1'));
+  ok('C 报警带动作', txt(D, '.ws-alert-act').indexOf('当天处理完') >= 0);
+  ok('C 报警挂到合规风控智能体', txt(D, '.ws-alert').indexOf('合规风控智能体') >= 0);
+
+  fill(D, W, '唐博宏', 'stops', 1);
+  ok('C 封停 ≥1 → 再加一条', nAlerts() === 2, nAlerts());
+
+  fill(D, W, '唐博宏', 'ads', 2000);
+  ok('C 广告占比 20% > 15% → 报警', nAlerts() === 3, nAlerts());
+
+  fill(D, W, '唐博宏', 'returns', 1500);
+  ok('C 退货率 15% > 8% → 报警', nAlerts() === 4, nAlerts());
+  ok('C 三档计数条存在', D.querySelectorAll('.ws-lvbar-item').length === 3);
+
+  /* 改阈值 */
+  var ti = D.querySelector('.ws-th-inp[data-ws-th="returnsRate"]');
+  ti.value = '20';
+  ti.dispatchEvent(new W.Event('change', { bubbles: true }));
+  ok('C 阈值改成 20% → 退货预警消失', nAlerts() === 3, nAlerts());
+  ok('C 阈值落本地', JSON.parse(localStorage.getItem('sc_ws_v1') || '{}').th.returnsRate === 20);
+
+  D.querySelector('#wsThReset').click();
+  ok('C 恢复默认值 → 预警回来', nAlerts() === 4, nAlerts());
+  ok('C 恢复默认后本地阈值清空', JSON.parse(localStorage.getItem('sc_ws_v1') || '{}').th === undefined);
+
+  /* 经营利润已随退货变化：net=8500 边界利润=1145 利润=1145 */
+  ok('C 改数后经营利润跟着变 = ¥1,145', txt(D, '[data-ws-profit="唐博宏"]') === '¥1,145',
+    txt(D, '[data-ws-profit="唐博宏"]'));
+
+  /* ── D · 固定费 ── */
+  var fx = D.querySelector('.ws-inp[data-ws-fixed="唐博宏"]');
+  fx.value = '30000';
+  fx.dispatchEvent(new W.Event('change', { bubbles: true }));
+  ok('D 固定费日摊 = ¥1,000', txt(D, '[data-ws-fixedday="唐博宏"]') === '¥1,000',
+    txt(D, '[data-ws-fixedday="唐博宏"]'));
+  ok('D 固定费进存储', JSON.parse(localStorage.getItem('sc_report_v1')).fixed['唐博宏']['2026-09'] === 30000);
+  ok('D 经营利润扣掉日摊 = ¥145', txt(D, '[data-ws-profit="唐博宏"]') === '¥145',
+    txt(D, '[data-ws-profit="唐博宏"]'));
+
+  /* ── E · 段三 智能体 ── */
+  var cards = D.querySelectorAll('.ws-agent');
+  ok('E 智能体 6 张', cards.length === 6, cards.length);
+  var agTxt = D.querySelector('.ws-agents').textContent;
+  ok('E 含新增的合规风控智能体', agTxt.indexOf('合规风控智能体') >= 0);
+  ok('E 全部标待建', D.querySelectorAll('.ws-agents .ws-todo-chip').length === 6,
+    D.querySelectorAll('.ws-agents .ws-todo-chip').length);
+  ok('E 能力说明默认收起', D.querySelectorAll('.ws-agent-detail').length === 0);
+  cards[0].click();
+  ok('E 点开第一张 → 出现能力说明', D.querySelectorAll('.ws-agent-detail').length === 1);
+  ok('E 说明含「喂什么 / 吐什么」',
+    txt(D, '.ws-agent-detail').indexOf('吐出什么') >= 0 &&
+    txt(D, '.ws-agent-detail').indexOf('规矩') >= 0);
+
+  /* ── F · 段四 预估收入 ── */
+  var slot = txt(D, '#plive-slot');
+  ok('F 店群汇总已渲染', slot.length > 50);
+  ok('F 显示店群经营利润 ¥145', slot.indexOf('¥145') >= 0, slot.slice(0, 160));
+  /* 个人预估 = 145 × 70% = 101.5 → 102 */
+  ok('F 个人预估 = ¥102（145×70%）', slot.indexOf('¥102') >= 0, slot.slice(0, 200));
+  ok('F 四段标题「预估收入」在位', txt(D, '#ws-income .card-title').indexOf('预估收入') >= 0);
+  ok('F 月底结算收进折叠区', !!D.querySelector('#ws-income details.ws-fold'));
+
+  /* ── G · 石老师页（无数据） ── */
+  ok('G 石老师页进度 0/9', txt(DB, '#wsProg').indexOf('0 / 9') >= 0, txt(DB, '#wsProg'));
+  var dashVals = [];
+  Array.prototype.forEach.call(DB.querySelectorAll('.plive-row b'), function (b) { dashVals.push(b.textContent.trim()); });
+  ok('G 石老师三栏全「—」', dashVals.length > 0 && dashVals.every(function (x) { return x === '—'; }),
+    dashVals.join('/'));
+  ok('G 石老师页全文不出现 ¥0', DB.body.textContent.indexOf('¥0') < 0);
+  ok('G 石老师页给填报引导', !!DB.querySelector('.plive-empty'));
+  ok('G 石老师页 9 行输入框', DB.querySelectorAll('#wsRows tr').length === 9);
+
+  /* ── H · 与经营报表共用一份数据 ── */
+  var DR = RPT.contentDocument, WR = RPT.contentWindow;
+  var rdb = WR.SC_REPORT_CORE.load();
+  ok('H 经营报表读到同一份销量数据',
+    (((rdb.daily || {})['唐博宏'] || {})[TODAY] || {}).sales === 10000);
+  ok('H 经营报表读到同一份固定费',
+    ((rdb.fixed || {})['唐博宏'] || {})['2026-09'] === 30000);
+
+  /* ── I · 结构一致性：不重复定义算法 ── */
+  ok('I 个人页复用了 parter 的结算片段', typeof W.SC_PARTER_PARTS.settlementBlocks === 'function');
+  ok('I 实时汇总提供 repaint（供填写后刷新）', typeof W.SC_PARTER_LIVE.repaint === 'function');
+  ok('I 亏损金额格式 -¥609（不是 ¥-609）', W.SC_REPORT_CORE.yuan(-609) === '-¥609', W.SC_REPORT_CORE.yuan(-609));
+  ok('I 盈利金额格式 ¥609', W.SC_REPORT_CORE.yuan(609) === '¥609', W.SC_REPORT_CORE.yuan(609));
+  ok('I 段一列头写明「当日经营利润」',
+    D.querySelector('.ws-th-profit').textContent.indexOf('当日经营利润') >= 0);
+
+  document.getElementById('log').textContent = R.join('\n');
+  var fails = R.filter(function (x) { return x.indexOf('FAIL') === 0; }).length;
+  document.title = 'RESULT::total=' + NT + ' fail=' + fails;
+}
+</script>
+</body>
+</html>

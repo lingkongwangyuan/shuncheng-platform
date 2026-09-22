@@ -28,7 +28,7 @@
   var CORE = window.SC_REPORT_CORE;
   if (!CORE) return;
 
-  var esc = CORE.esc, num = CORE.num, money = CORE.money, money0 = CORE.money0;
+  var esc = CORE.esc, num = CORE.num, money = CORE.money, money0 = CORE.money0, yuan = CORE.yuan;
 
   /* 提成比例存本机（独立于经营报表的存储） */
   var CFG_KEY = 'sc_parter_live_v1';
@@ -93,7 +93,7 @@
 
   function dash(v, filled) {
     /* 该店铺当天没填 → 显示破折号，不显示 0（0 会被读成「这天没赚钱」） */
-    return filled ? '¥' + money0(v) : '—';
+    return filled ? yuan(v) : '—';
   }
 
   function slotCard(p, date) {
@@ -123,13 +123,13 @@
           '<div class="plive-col-head">' + c.label +
             '<em>' + c.sub + ' · 已填 ' + c.filledShops + '/' + shops.length + ' 家</em></div>' +
           '<div class="plive-row"><span>店群净销售额</span><b>' +
-            (a.hasAny ? '¥' + money0(a.net) : '—') + '</b></div>' +
+            (a.hasAny ? yuan(a.net) : '—') + '</b></div>' +
           '<div class="plive-row"><span>店群经营利润</span><b class="' +
             (a.hasAny && a.profit < 0 ? 'is-neg' : '') + '">' +
-            (a.hasAny ? '¥' + money0(a.profit) : '—') + '</b></div>' +
+            (a.hasAny ? yuan(a.profit) : '—') + '</b></div>' +
           /* 一条数据都没有时显示「—」而不是 ¥0：没有数据 ≠ 今天没赚钱 */
           '<div class="plive-row is-key"><span>个人预估</span><b>' +
-            (a.hasAny ? '¥' + money0(personal) : '—') + '</b></div>' +
+            (a.hasAny ? yuan(personal) : '—') + '</b></div>' +
           '<div class="plive-sub">' +
             (a.hasAny
               ? (a.profit > 0 ? '按 ' + (pct * 100).toFixed(0) + '% 分成'
@@ -215,12 +215,12 @@
     var foot = '' +
       '<tr class="plive-tr-sum">' +
         '<td class="plive-td-shop">合计（已填 ' + s.filledShops + ' 家）</td>' +
-        '<td class="plive-num">' + (s.hasAny ? '¥' + money0(s.sales) : '—') + '</td>' +
-        '<td class="plive-num">' + (s.hasAny ? '¥' + money0(s.net) : '—') + '</td>' +
-        '<td class="plive-num">' + (s.hasAny ? '¥' + money0(s.varCost) : '—') + '</td>' +
-        '<td class="plive-num">' + (s.hasAny ? '¥' + money0(s.margin) : '—') + '</td>' +
-        '<td class="plive-num">' + (s.hasAny ? '¥' + money0(s.fixed) : '—') + '</td>' +
-        '<td class="plive-num is-strong">' + (s.hasAny ? '¥' + money0(s.profit) : '—') + '</td>' +
+        '<td class="plive-num">' + (s.hasAny ? yuan(s.sales) : '—') + '</td>' +
+        '<td class="plive-num">' + (s.hasAny ? yuan(s.net) : '—') + '</td>' +
+        '<td class="plive-num">' + (s.hasAny ? yuan(s.varCost) : '—') + '</td>' +
+        '<td class="plive-num">' + (s.hasAny ? yuan(s.margin) : '—') + '</td>' +
+        '<td class="plive-num">' + (s.hasAny ? yuan(s.fixed) : '—') + '</td>' +
+        '<td class="plive-num is-strong">' + (s.hasAny ? yuan(s.profit) : '—') + '</td>' +
         '<td class="plive-td-state">' + s.filledShops + '/' + shops.length + '</td>' +
       '</tr>';
 
@@ -293,5 +293,9 @@
     }
   }
 
-  window.SC_PARTER_LIVE = { mount: mount, owners: owners, shopsOf: shopsOf, pctOf: pctOf };
+  window.SC_PARTER_LIVE = {
+    mount: mount, owners: owners, shopsOf: shopsOf, pctOf: pctOf,
+    /* 供个人工作平台在填完数后立刻刷新这一块（render-workspace.js 调） */
+    repaint: paint
+  };
 })();

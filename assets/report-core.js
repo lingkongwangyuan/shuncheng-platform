@@ -58,6 +58,12 @@
     return (n < 0 ? '-' : '') + Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
+  /* ¥ 金额：负号提到货币符号前面 —— 「¥-609」读起来别扭，规范写法是「-¥609」 */
+  function yuan(v) {
+    var s = money0(v);
+    return s.charAt(0) === '-' ? '-¥' + s.slice(1) : '¥' + s;
+  }
+
   function pctS(v, d) {
     if (!isFinite(v)) return '—';
     return (v * 100).toFixed(d == null ? 1 : d) + '%';
@@ -289,7 +295,7 @@
     KEY: STORE_KEY,
 
     /* 工具 */
-    esc: esc, num: num, money: money, money0: money0, pctS: pctS, clone: clone,
+    esc: esc, num: num, money: money, money0: money0, yuan: yuan, pctS: pctS, clone: clone,
 
     /* 存储 */
     blank: blank, load: load, save: save, hasAnyData: hasAnyData,

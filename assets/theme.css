@@ -2088,3 +2088,261 @@ html.l3-lock, html.l3-lock body { overflow: hidden; }
 @media (max-width: 900px) {
   .plive-bar { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   个人工作平台（render-workspace.js）
+   ───────────────────────────────────────────────────────────────
+   四段：① 数据填写 ② 数据分析 ③ 工作智能体 ④ 预估收入
+   配色铁律：浅彩底一律配深字（--on-soft / --ink），禁橙字配橙底。
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 顶部四段跳转（吸顶） ── */
+.ws-nav {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 30;
+  display: flex; gap: 4px; flex-wrap: wrap;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 7px 9px; margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.ws-nav-item {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--ink-secondary); text-decoration: none;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+}
+.ws-nav-item:hover { background: var(--primary-soft); color: var(--on-soft); }
+.ws-nav-no { font-size: 12px; font-weight: 700; color: var(--on-soft); }
+
+/* 段落定位：吸顶导航会挡住锚点，留出偏移 */
+.ws-card, .ws-anchor { scroll-margin-top: calc(var(--header-h) + 68px); }
+.ws-card { margin-bottom: 16px; }
+
+/* ── 段一 · 填报日期条 ── */
+.ws-bar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: var(--gray-bg); border-radius: var(--radius-sm);
+  padding: 10px 13px; margin-bottom: 12px;
+}
+.ws-bar-item { display: flex; align-items: center; gap: 8px; }
+.ws-bar-item label { font-size: 12.5px; font-weight: 600; color: var(--ink-secondary); }
+.ws-date {
+  font-family: inherit; font-size: 13px; color: var(--ink);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 6px 10px; background: #fff; outline: none;
+}
+.ws-date:focus { border-color: var(--primary); }
+.ws-bar-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.ws-prog { margin-left: auto; font-size: 12.5px; color: var(--ink-light); }
+.ws-prog-num { font-size: 15px; font-weight: 700; color: var(--on-soft); margin-right: 6px; }
+.ws-prog-num.is-done { color: #1a7a43; }
+
+/* ── 段一 · 填报表 ── */
+.ws-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ws-table th {
+  font-size: 11.5px; font-weight: 600; color: var(--ink-secondary);
+  padding: 7px 6px; text-align: center; white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+.ws-table td { padding: 4px 5px; border-bottom: 1px solid var(--border-light); text-align: center; }
+.ws-table tbody tr:hover td { background: #fafbfc; }
+.ws-th-sub { font-weight: 400; font-size: 10px; color: var(--ink-faint); }
+.ws-th-money { background: var(--primary-soft); color: var(--on-soft); }
+.ws-th-ops { background: var(--blue-bg); color: var(--blue-ink); }
+.ws-th-shop, .ws-th-profit { background: var(--gray-bg); color: var(--ink-secondary); }
+.ws-req {
+  display: inline-block; font-style: normal; font-size: 10px; font-weight: 400;
+  background: #fff; color: var(--on-soft); border-radius: 3px;
+  padding: 0 4px; margin-left: 3px;
+}
+.ws-td-shop { text-align: left; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.ws-td-shop em { font-style: normal; font-weight: 400; font-size: 11px; color: var(--ink-light); margin-left: 4px; }
+.ws-inp {
+  width: 100%; box-sizing: border-box;
+  font-family: inherit; font-size: 13px; font-weight: 600; color: var(--ink);
+  text-align: right; font-variant-numeric: tabular-nums;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 5px 7px; background: #fff; outline: none;
+}
+.ws-inp::placeholder { color: #c9ced6; font-weight: 400; }
+.ws-inp:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-hover); }
+.ws-inp.has-val { background: var(--primary-bg); border-color: #f0d9c6; }
+.ws-inp.is-ops { color: var(--blue-ink); }
+.ws-td-profit { text-align: right; padding-right: 10px; font-variant-numeric: tabular-nums; }
+.ws-td-profit b { font-size: 13px; color: var(--ink); }
+.ws-td-profit b.is-neg, .ws-td-num.is-neg { color: #a8341a; }
+.ws-dash { color: var(--ink-faint); }
+.ws-tr-sum td {
+  background: var(--primary-soft); color: var(--on-soft); font-weight: 700;
+  border-top: 1px solid #f0d9c6;
+}
+.ws-tr-sum .ws-td-shop { color: var(--on-soft); }
+.ws-td-sum { text-align: right; font-variant-numeric: tabular-nums; padding-right: 8px; }
+.ws-td-empty { text-align: center; font-weight: 400; font-size: 12px; color: var(--on-soft); }
+.ws-tr-empty td { color: var(--ink-faint); }
+
+/* ── 折叠块（固定费 / 阈值 / 算法明细 / 月底结算） ── */
+.ws-fold {
+  margin-top: 14px; border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm); background: #fcfcfd;
+}
+.ws-fold > summary {
+  cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--ink-secondary);
+  padding: 11px 14px; list-style: none;
+}
+.ws-fold > summary::-webkit-details-marker { display: none; }
+.ws-fold > summary::before { content: '▸ '; color: var(--ink-faint); }
+.ws-fold[open] > summary::before { content: '▾ '; }
+.ws-fold[open] > summary { border-bottom: 1px solid var(--border-light); }
+.ws-fold > *:not(summary) { margin-left: 14px; margin-right: 14px; }
+.ws-fold > .table-note { padding-bottom: 12px; }
+.ws-settle .card { border: none; box-shadow: none; padding: 0 0 4px; margin-bottom: 0; }
+.ws-settle .card + .card { border-top: 1px solid var(--border-light); padding-top: 16px; }
+
+/* ── 段二 · 数据分析 ── */
+.ws-lvbar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.ws-lvbar-item {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-radius: var(--radius-sm); padding: 11px 14px;
+  border-left: 4px solid transparent;
+}
+.ws-lvbar-item span { font-size: 12.5px; font-weight: 600; }
+.ws-lvbar-item b { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ws-lvbar-item.is-l1 { background: #fdecec; border-left-color: #c0392b; color: #7a2318; }
+.ws-lvbar-item.is-l2 { background: var(--amber-bg); border-left-color: #a16207; color: var(--amber-ink); }
+.ws-lvbar-item.is-l3 { background: var(--gray-bg); border-left-color: #8c939d; color: var(--gray-ink); }
+
+.ws-alerts { display: flex; flex-direction: column; gap: 10px; }
+.ws-alert {
+  display: flex; gap: 12px; border-radius: var(--radius-sm);
+  padding: 12px 14px; border-left: 4px solid transparent;
+}
+.ws-alert.is-l1 { background: #fdecec; border-left-color: #c0392b; }
+.ws-alert.is-l2 { background: var(--amber-bg); border-left-color: #a16207; }
+.ws-alert.is-l3 { background: var(--gray-bg); border-left-color: #8c939d; }
+.ws-alert-lv { flex: none; font-size: 11px; font-weight: 700; white-space: nowrap; padding-top: 2px; }
+.ws-alert.is-l1 .ws-alert-lv { color: #7a2318; }
+.ws-alert.is-l2 .ws-alert-lv { color: var(--amber-ink); }
+.ws-alert.is-l3 .ws-alert-lv { color: var(--gray-ink); }
+.ws-alert-body { flex: 1; min-width: 0; }
+.ws-alert-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
+.ws-alert-shop { font-size: 13px; font-weight: 700; color: var(--ink); }
+.ws-alert-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.ws-alert-dim {
+  font-size: 10.5px; color: var(--ink-light); background: #fff;
+  border-radius: 999px; padding: 1px 8px;
+}
+.ws-alert-ev { font-size: 12.5px; color: var(--ink-secondary); margin-bottom: 6px; }
+.ws-alert-act {
+  font-size: 12.5px; color: var(--ink); line-height: 1.75;
+  background: #fff; border-radius: 6px; padding: 8px 11px;
+}
+.ws-act-tag {
+  display: inline-block; font-size: 10.5px; font-weight: 700;
+  color: var(--on-soft); background: var(--primary-soft);
+  border-radius: 3px; padding: 1px 6px; margin-right: 7px;
+}
+.ws-alert-agent { font-size: 11.5px; color: var(--ink-light); margin-top: 6px; }
+
+.ws-ok { background: var(--green-bg); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 12px; }
+.ws-ok b { display: block; font-size: 13.5px; color: var(--green-ink); margin-bottom: 5px; }
+.ws-ok span { font-size: 12.5px; color: var(--green-ink); line-height: 1.8; }
+
+/* ── 段二 · 阈值表 ── */
+.ws-table-th td { font-size: 12px; text-align: left; padding: 9px 10px; vertical-align: top; }
+.ws-table-th .ws-td-shop { white-space: nowrap; }
+.ws-th-dim { display: block; font-style: normal; font-size: 10.5px; font-weight: 400; color: var(--ink-faint); }
+.ws-td-cond { color: var(--ink-secondary); }
+.ws-td-th { white-space: nowrap; }
+.ws-th-inpwrap {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px;
+}
+.ws-th-inpwrap:focus-within { border-color: var(--primary); }
+.ws-th-inp {
+  width: 46px; border: none; outline: none; background: transparent;
+  font-family: inherit; font-size: 13px; font-weight: 700; color: var(--ink);
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+.ws-th-inpwrap span { font-size: 11px; color: var(--ink-light); }
+.ws-td-act { color: var(--ink-secondary); line-height: 1.7; }
+
+/* ── 段二 · 算法明细 ── */
+.ws-table-calc td { font-size: 12.5px; }
+.ws-td-num { text-align: right; padding-right: 10px; font-variant-numeric: tabular-nums; color: var(--ink-secondary); }
+.ws-td-num.is-strong { font-weight: 700; color: var(--ink); }
+
+/* ── 段一 · 固定费表 ── */
+.ws-table-fixed td { text-align: left; padding: 5px 8px; }
+.ws-table-fixed .ws-inp { max-width: 140px; }
+.ws-td-fixed-day { color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
+
+/* ── 段三 · 工作智能体 ── */
+.ws-agents { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.ws-agent {
+  border: 1px solid var(--border-light); border-radius: var(--radius-sm);
+  padding: 13px 14px; background: #fff; cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.ws-agent:hover { border-color: var(--primary); box-shadow: 0 2px 10px rgba(232, 114, 42, 0.09); }
+.ws-agent.is-open { border-color: var(--primary); background: var(--primary-bg); grid-column: span 3; }
+.ws-agent-top { display: flex; align-items: center; gap: 9px; }
+.ws-agent-no {
+  flex: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--gray-bg); color: var(--gray-ink);
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.ws-agent-icon {
+  flex: none; width: 30px; height: 30px; border-radius: 8px;
+  background: var(--primary-soft); color: var(--on-soft);
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.ws-agent-icon.ai-blue { background: var(--blue-bg); }
+.ws-agent-icon.ai-green { background: var(--green-bg); }
+.ws-agent-icon.ai-amber { background: var(--amber-bg); }
+.ws-agent-icon.ai-red { background: #fdecec; }
+.ws-agent-namebox { flex: 1; min-width: 0; }
+.ws-agent-name { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+.ws-agent-stage { font-size: 11px; color: var(--ink-light); margin-top: 1px; }
+.ws-agent-arrow { flex: none; font-size: 12px; color: var(--ink-faint); }
+.ws-agent-desc { font-size: 12.5px; color: var(--ink-secondary); line-height: 1.6; margin-top: 9px; }
+.ws-agent-detail { margin-top: 11px; border-top: 1px dashed var(--border); padding-top: 10px; }
+.ws-ad-row { font-size: 12.5px; color: var(--ink-secondary); line-height: 1.75; padding: 3px 0; }
+.ws-ad-row span { display: inline-block; min-width: 82px; font-weight: 600; color: var(--on-soft); }
+.ws-ad-row.is-why {
+  color: var(--ink); background: #fff; border-radius: 6px;
+  padding: 8px 11px; margin-top: 6px;
+}
+
+.ws-todo-chip {
+  display: inline-block; font-size: 10.5px; border-radius: 999px;
+  padding: 1px 8px; background: var(--gray-bg); color: var(--gray-ink);
+  margin-left: 6px; white-space: nowrap;
+}
+.ws-new-chip {
+  display: inline-block; font-size: 10.5px; border-radius: 999px;
+  padding: 1px 8px; background: #fdecec; color: #7a2318; margin-left: 6px;
+}
+.ws-warn-chip {
+  display: inline-block; font-size: 11px; border-radius: 999px;
+  padding: 2px 9px; background: var(--amber-bg); color: var(--amber-ink); margin-left: 8px;
+}
+
+/* ── 响应式 ── */
+@media (max-width: 1100px) {
+  .ws-agents { grid-template-columns: repeat(2, 1fr); }
+  .ws-agent.is-open { grid-column: span 2; }
+  .ws-lvbar { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .ws-agents { grid-template-columns: 1fr; }
+  .ws-agent.is-open { grid-column: span 1; }
+  .ws-nav { position: static; }
+  .ws-bar { flex-direction: column; align-items: stretch; }
+  .ws-prog { margin-left: 0; }
+  .ws-alert { flex-direction: column; gap: 6px; }
+  .ws-ad-row span { display: block; min-width: 0; }
+}
