@@ -195,7 +195,7 @@
        · data/kitchen.js 的 traits 与 storage 数据仍原样保留，未删。 */
     html += foot();
     root.innerHTML = html;
-    bindAcc(root);
+    bindL3Drawer(root);
     bindL3Tabs(document.getElementById('lv3-scope'));
   }
 
@@ -373,7 +373,10 @@
   function lv3SitePanel(code, siteName, site, cats) {
     var rows = cats.map(function (c, i) {
       var id = 'lv3-' + code + '-' + i;
-      return '<tr class="lv3-row" data-acc-row="' + id + '" title="点击展开该品类的四级子品类与切入建议">' +
+      return '<tr class="lv3-row" data-l3-open="' + id + '" tabindex="0" role="button"' +
+          /* 抽屉标题不带国旗：Windows 下 🇲🇽 会回退成字母「MX」，与站点名连读像「MX 墨西哥站」重复 */
+          ' data-l3-name="' + esc(siteName + ' · ' + c.name) + '"' +
+          ' aria-label="查看 ' + esc(c.name) + ' 的品类详情">' +
           '<td class="td-shop"><div class="lv3-cat">' + lv3Chip(c.tier) +
             '<strong>' + esc(c.name) + '</strong></div>' +
             '<div class="tk-es">' + esc(c.nameForeign || '—') + '</div></td>' +
@@ -385,9 +388,15 @@
           '<td class="td-num">' + esc(c.selfShip) + '</td>' +
           '<td class="td-num">' + lv3Star(c.star) + '</td>' +
           '<td class="lv3-chev-td"><span class="lv3-chev" aria-hidden="true"></span></td>' +
-        '</tr>' +
-        '<tr class="tk-acc-row" id="' + id + '" hidden><td colspan="8">' +
-          lv3Detail(c, site, code) + '</td></tr>';
+        '</tr>';
+    }).join('');
+
+    /* 详情不再插进表格行内：原做法会把后面 11 行顶下去、页面被拉长，
+       收起后又要滚动找回原来的位置。改为预渲染进右侧抽屉，
+       点行即滑出，表格始终是完整的一屏。 */
+    var panes = cats.map(function (c, i) {
+      return '<div class="l3-pane" data-l3-pane="lv3-' + code + '-' + i + '" hidden>' +
+        lv3Detail(c, site, code) + '</div>';
     }).join('');
 
     return card({
@@ -395,18 +404,37 @@
       iconCls: code === 'mx' ? 'ct-green' : 'ct-amber',
       title: '二、' + siteName + ' · ' + cats.length + ' 个三级品类明细',
       hint: '口径：深度分析表 v1',
-      body: '<div class="scroll-hint">点任意一行，就地展开该品类的四级子品类、竞争格局与切入建议</div>' +
+      body: '<div class="l3-tip">点任意一行 → 详情从右侧滑出，表格保持完整不被撑长。' +
+        '抽屉顶部 <kbd>‹</kbd> <kbd>›</kbd> 或键盘左右键可连续翻看下一个品类，' +
+        '按 <kbd>Esc</kbd> 或点空白处关闭。</div>' +
         '<div class="table-scroll"><table class="shop-table kt-detail">' +
         '<colgroup><col style="width:176px"><col style="width:92px">' +
           '<col style="width:74px"><col style="width:76px"><col style="width:118px">' +
-          '<col style="width:86px"><col style="width:92px"><col style="width:30px"></colgroup>' +
+          '<col style="width:86px"><col style="width:92px"><col style="width:34px"></colgroup>' +
         '<thead><tr><th>三级品类 / 优先级</th><th>月销售额<br>(万人民币)</th>' +
         '<th>客单价<br>(人民币)</th><th>累计<br>同比</th>' +
         '<th>CR10(%)<br><span class="th-sub">品牌 / 店铺 / 商品</span></th>' +
         '<th>跨境自<br>发货占比</th><th>自发货<br>友好度</th><th></th></tr></thead>' +
         '<tbody>' + rows + '</tbody></table></div>' +
         '<div class="table-note">数值照录源表《' + siteName + '厨房_三级品类深度分析表_v1》原文，' +
-        '未换算、未推断。月销售额单位为「万人民币」，CR10 单位为百分比。</div>'
+        '未换算、未推断。月销售额单位为「万人民币」，CR10 单位为百分比。</div>' +
+
+        /* ── 右侧滑出抽屉（每个站点面板各一个，只承载该站的详情）── */
+        '<div class="l3-drawer" hidden>' +
+          '<div class="l3-drawer-mask" data-l3-close></div>' +
+          '<aside class="l3-drawer-panel" role="dialog" aria-modal="true" aria-label="三级品类详情"' +
+            ' tabindex="-1">' +
+            '<div class="l3-drawer-bar">' +
+              '<button class="l3-drawer-nav" type="button" data-l3-dir="-1"' +
+                ' aria-label="上一个品类">‹</button>' +
+              '<div class="l3-drawer-title" data-l3-title>品类详情</div>' +
+              '<button class="l3-drawer-nav" type="button" data-l3-dir="1"' +
+                ' aria-label="下一个品类">›</button>' +
+              '<button class="l3-drawer-x" type="button" data-l3-close aria-label="关闭详情">✕</button>' +
+            '</div>' +
+            '<div class="l3-drawer-body" data-l3-body>' + panes + '</div>' +
+          '</aside>' +
+        '</div>'
     });
   }
 
@@ -534,6 +562,7 @@
     Array.prototype.forEach.call(list, function (btn) {
       btn.addEventListener('click', function () {
         var code = btn.getAttribute('data-l3country');
+        if (l3DrawerClose) l3DrawerClose();   /* 切站时先收起抽屉，避免遮罩挡住新面板 */
         Array.prototype.forEach.call(list, function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         Array.prototype.forEach.call(scope.querySelectorAll('.l3-panel'), function (p) {
@@ -544,44 +573,110 @@
     });
   }
 
-  function bindAcc(root) {
-    /* 按钮式展开（历史形态，保留以兼容） */
-    Array.prototype.forEach.call(root.querySelectorAll('.tk-acc-btn'), function (btn) {
-      btn.addEventListener('click', function () {
-        var row = document.getElementById(btn.getAttribute('data-target'));
-        if (!row) return;
-        if (!row.hasAttribute('hidden')) { row.setAttribute('hidden', ''); btn.textContent = '详情 ▾'; }
-        else { row.removeAttribute('hidden'); btn.textContent = '收起 ▴'; }
+  /* ── 三级品类明细 · 右侧滑出抽屉 ──
+     老周 2026-09-22 定：原来的「行内展开」不好用 —— 点一行会把后面 11 行顶下去，
+     页面被拉长，收起后还要滚动找回原位；对比两个品类得先收起再点。
+     改为：点行 → 详情从右侧滑出（表格始终完整一屏），表格行本身不再变化。
+     遮罩会挡住表格，点不到别的行，所以抽屉顶上另配 ‹ › 翻页（含键盘 ← →），
+     换品类不用先关再点 —— 这是「对比两个品类」最顺的路径。
+     交互：点遮罩 / ✕ / Esc 关闭；打开时锁背景滚动；关闭后焦点回到原行。 */
+  var l3DrawerClose = null;   /* 供 Esc、切换站点 tab 时统一收起 */
+
+  function bindL3Drawer(root) {
+    var rows = root.querySelectorAll('[data-l3-open]');
+
+    var drawerOf = function (el) {
+      var panel = el.closest ? el.closest('.l3-panel') : null;
+      return (panel || root).querySelector('.l3-drawer');
+    };
+
+    /* 同一站点面板内的行序，翻页按它走 */
+    var sibsOf = function (tr) {
+      var panel = tr.closest ? tr.closest('.l3-panel') : null;
+      return Array.prototype.slice.call(
+        (panel || root).querySelectorAll('[data-l3-open]'));
+    };
+
+    var close = function (restoreFocus) {
+      var tr = root.querySelector('.lv3-row.is-open');
+      if (!tr) return;
+      var d = drawerOf(tr);
+      if (d) d.setAttribute('hidden', '');
+      tr.classList.remove('is-open');
+      document.documentElement.classList.remove('l3-lock');
+      if (restoreFocus) { try { tr.focus({ preventScroll: true }); } catch (e) { tr.focus(); } }
+    };
+
+    var open = function (tr) {
+      close(false);
+      var d = drawerOf(tr);
+      if (!d) return;
+      var pane = d.querySelector('[data-l3-pane="' + tr.getAttribute('data-l3-open') + '"]');
+      if (!pane) return;
+      Array.prototype.forEach.call(d.querySelectorAll('.l3-pane'), function (p) {
+        if (p === pane) p.removeAttribute('hidden');
+        else p.setAttribute('hidden', '');
+      });
+      var t = d.querySelector('[data-l3-title]');
+      if (t) t.textContent = tr.getAttribute('data-l3-name') || '品类详情';
+      var body = d.querySelector('[data-l3-body]');
+      if (body) body.scrollTop = 0;      /* 换品类时回到顶部，不继承上一品的滚动位置 */
+      d.removeAttribute('hidden');
+      document.documentElement.classList.add('l3-lock');
+      tr.classList.add('is-open');
+
+      /* 首/末条时禁用对应方向的翻页键，避免点到空 */
+      var list = sibsOf(tr);
+      var i = list.indexOf(tr);
+      Array.prototype.forEach.call(d.querySelectorAll('[data-l3-dir]'), function (b) {
+        var dir = parseInt(b.getAttribute('data-l3-dir'), 10);
+        var target = list[i + dir];
+        b.disabled = !target;
+      });
+      var panel = d.querySelector('.l3-drawer-panel');
+      if (panel) { try { panel.focus({ preventScroll: true }); } catch (e) { panel.focus(); } }
+    };
+
+    var step = function (dir) {
+      var tr = root.querySelector('.lv3-row.is-open');
+      if (!tr) return;
+      var list = sibsOf(tr);
+      var next = list[list.indexOf(tr) + dir];
+      if (next) open(next);
+    };
+
+    l3DrawerClose = function () { close(true); };
+
+    Array.prototype.forEach.call(rows, function (tr) {
+      tr.addEventListener('click', function () {
+        if (tr.classList.contains('is-open')) close(true);
+        else open(tr);
+      });
+      /* 整行可点，也要能用键盘打开（Enter / 空格） */
+      tr.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tr.click(); }
       });
     });
 
-    /* 整行式展开（三级品类明细）：点行内任意位置就地展开，
-       免去「先把宽表横滑到最右、再点按钮」的两步操作。
-       同一 tbody 内互斥（手风琴），避免多行同时展开把页面拉得很长。 */
-    Array.prototype.forEach.call(root.querySelectorAll('[data-acc-row]'), function (tr) {
-      var collapse = function (t) {
-        var r = document.getElementById(t.getAttribute('data-acc-row'));
-        if (r) r.setAttribute('hidden', '');
-        t.classList.remove('is-open');
-      };
-      var toggle = function () {
-        var row = document.getElementById(tr.getAttribute('data-acc-row'));
-        if (!row) return;
-        var opening = row.hasAttribute('hidden');
-        if (opening) {
-          var sibs = tr.parentNode ? tr.parentNode.querySelectorAll('[data-acc-row].is-open') : [];
-          Array.prototype.forEach.call(sibs, function (o) { if (o !== tr) collapse(o); });
-          row.removeAttribute('hidden');
-          tr.classList.add('is-open');
-        } else {
-          collapse(tr);
-        }
-      };
-      tr.addEventListener('click', toggle);
-      tr.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    Array.prototype.forEach.call(root.querySelectorAll('[data-l3-dir]'), function (b) {
+      b.addEventListener('click', function () {
+        step(parseInt(b.getAttribute('data-l3-dir'), 10));
       });
     });
+
+    Array.prototype.forEach.call(root.querySelectorAll('[data-l3-close]'), function (el) {
+      el.addEventListener('click', function () { close(true); });
+    });
+
+    if (!bindL3Drawer._keysBound) {
+      bindL3Drawer._keysBound = true;
+      document.addEventListener('keydown', function (e) {
+        if (!root.querySelector('.lv3-row.is-open')) return;
+        if (e.key === 'Escape') { l3DrawerClose(); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+      });
+    }
   }
 
   /* ══════════════════════════════════════════════════════════

@@ -1397,15 +1397,9 @@ a { color: inherit; }
                            /* 第三节的整合优先级表已拆为「数字表 + 建议列表」，
                               9 列可在桌面宽度内放下，故不设 min-width 覆盖。 */
 
-/* ── 三级分类行展开 ── */
-.tk-acc-btn {
-  font-family: inherit; font-size: 11.5px; font-weight: 600;
-  color: var(--on-soft); background: var(--primary-soft);
-  border: 1px solid var(--border); border-radius: 999px;
-  padding: 4px 11px; cursor: pointer; white-space: nowrap;
-}
-.tk-acc-btn:hover { border-color: var(--primary); }
-.tk-acc-row > td { background: var(--primary-bg); padding: 0; }
+/* ── 三级分类详情块（现渲染进右侧抽屉内，见文件末尾 .l3-drawer）──
+   已删死样式：.tk-acc-btn / .tk-acc-row —— 原「按钮式展开」与「行内展开区」
+   2026-09-22 全部改为抽屉，页面内已无对应 DOM。 */
 .tk-acc-body {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px; padding: 14px;
@@ -1627,15 +1621,17 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
 .table-scroll table.kt-detail tbody > tr.lv3-row > td { padding-top: 9px; padding-bottom: 9px; }
 .table-scroll table.kt-detail .tk-es { font-size: 11px; margin-top: 1px; }
 .lv3-chev-td { text-align: right; }
-/* 用 CSS 三角而非 ▾ 字符：字符在部分字体下会回退成看不清的窄点 */
+/* 用 CSS 三角而非 ▸ 字符：字符在部分字体下会回退成看不清的窄点。
+   指右（不是指下）—— 表示「点开右侧抽屉」，不是「向下展开」。 */
 .lv3-chev {
   display: inline-block; width: 0; height: 0;
-  border-left: 4px solid transparent; border-right: 4px solid transparent;
-  border-top: 5.5px solid var(--ink-light);
+  border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+  border-left: 5.5px solid var(--ink-light);
   vertical-align: middle;
-  transition: transform .16s ease, border-top-color .16s ease;
+  transition: transform .16s ease, border-left-color .16s ease;
 }
-.lv3-row.is-open .lv3-chev { transform: rotate(180deg); border-top-color: var(--primary-deep); }
+.lv3-row:hover .lv3-chev { border-left-color: var(--primary); }
+.lv3-row.is-open .lv3-chev { transform: translateX(3px); border-left-color: var(--primary-deep); }
 
 /* ── 基础数据层参考块（源表口径，视觉上与主口径区分）──
    浅灰底一律配深灰字，不用橙字（配色铁律） */
@@ -1657,3 +1653,98 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
 .lv3-advice li { font-size: 12.5px; line-height: 1.85; padding-left: 14px; }
 .lv3-advice li .lv3-chip { margin-right: 5px; vertical-align: 1px; }
 .lv3-advice li strong { color: var(--ink); }
+
+/* ══════════════════════════════════════════════════════════
+   三级品类详情 · 右侧滑出抽屉（2026-09-22 立）
+   替代原「行内展开」：表格永远是完整一屏，不再被详情块撑长。
+   配色：遮罩深棕半透明（--ink 系），抽屉白底深字，关闭键描边不填色
+   —— 全篇无「浅底配橙字」，符合配色铁律。
+   fixed 定位安全：.card / .l3-panel 等祖先均无 transform / filter / contain。
+   ══════════════════════════════════════════════════════════ */
+html.l3-lock, html.l3-lock body { overflow: hidden; }
+
+.l3-tip {
+  font-size: 11.5px; line-height: 1.7; color: var(--ink-secondary);
+  margin-bottom: 9px;
+}
+.l3-tip kbd {
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  color: var(--ink); background: var(--gray-bg);
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: 0 4px;
+}
+
+.l3-drawer { position: fixed; inset: 0; z-index: 3000; }
+.l3-drawer[hidden] { display: none; }
+.l3-drawer-mask {
+  position: absolute; inset: 0;
+  background: rgba(47, 36, 29, 0.34);   /* 轻一点：遮罩后仍能大致看清表格在讲哪几行 */
+  animation: l3FadeIn .18s ease-out;
+}
+.l3-drawer-panel {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: min(720px, 94vw);
+  display: flex; flex-direction: column;
+  background: #fff;
+  box-shadow: -10px 0 34px rgba(47, 36, 29, 0.18);
+  animation: l3SlideIn .22s cubic-bezier(.22, .61, .36, 1);
+}
+.l3-drawer-bar {
+  flex: none; display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px 10px 18px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+.l3-drawer-title {
+  flex: 1; min-width: 0;
+  font-size: 13px; font-weight: 700; color: var(--ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+/* 翻页键：遮罩挡住了表格行，换品类靠这两个键（或键盘 ← →） */
+.l3-drawer-nav {
+  flex: none; width: 28px; height: 28px;
+  font-family: inherit; font-size: 17px; line-height: 1;
+  color: var(--ink-secondary); background: #fff;
+  border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer;
+}
+.l3-drawer-nav:hover:not(:disabled) { border-color: var(--primary); color: var(--primary-deep); }
+.l3-drawer-nav:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+/* 禁用态用「浅灰底 + 深灰字」（对比度 5.5 ≥ 4.5），不用 opacity 淡化 ——
+   淡化会把对比度压到 4.5 以下，违反浅亮底必深字的配色铁律 */
+.l3-drawer-nav:disabled {
+  color: var(--ink-secondary); background: var(--gray-bg);
+  border-color: var(--border); cursor: default;
+}
+.l3-drawer-panel:focus { outline: none; }
+.l3-drawer-x {
+  flex: none; width: 30px; height: 30px;
+  font-family: inherit; font-size: 13px; line-height: 1;
+  color: var(--ink-secondary); background: #fff;
+  border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer;
+}
+.l3-drawer-x:hover { border-color: var(--primary); color: var(--primary-deep); }
+.l3-drawer-x:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+.l3-drawer-body {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 14px 16px 30px;
+  -webkit-overflow-scrolling: touch;
+}
+.l3-pane[hidden] { display: none; }
+/* 详情块在卡片里是「内嵌」留 14px 内边距，在抽屉里容器已留白，去掉避免双重缩进 */
+.l3-drawer-body > .l3-pane > .tk-acc-body { padding: 0; }
+
+@keyframes l3FadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes l3SlideIn {
+  from { transform: translateX(30px); opacity: .55; }
+  to   { transform: none; opacity: 1; }
+}
+
+@media (max-width: 760px) {
+  .l3-drawer-panel { width: 100%; }
+  .l3-drawer-body { padding: 12px 12px 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .l3-drawer-mask, .l3-drawer-panel { animation: none; }
+}
