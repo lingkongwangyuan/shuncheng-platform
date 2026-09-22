@@ -49,6 +49,8 @@
   --amber-bg: #fef3c7;
   --blue-ink: #33404f;           /* 浅蓝底上的文字（深灰蓝） */
   --blue-bg: #e8f0fe;
+  --purple-ink: #3d3350;         /* 浅紫底上的文字（深灰紫） */
+  --purple-bg: #f3ecfa;
   --gray-ink: #495057;
   --gray-bg: #f1f3f5;
 
@@ -1379,10 +1381,14 @@ a { color: inherit; }
 .tk-dash { color: var(--ink-faint); }
 
 /* ── 宽表：列多时横向滚动，避免 table-layout:fixed 把末列压成单字 ── */
-.kt-cross  { min-width: 1120px; }
-.kt-detail { min-width: 1340px; }
-.kt-lv4    { min-width: 1200px; }
-.kt-rank   { min-width: 1420px; }
+/* 注：必须写成 .table-scroll table.X —— 否则被上一条 `.table-scroll table{min-width:780px}`
+   （特异性 0,1,1）压过，导致 8~12 列宽表被挤回 780px、末列文字竖排。 */
+.table-scroll table.kt-cross  { min-width: 1120px; }
+.table-scroll table.kt-detail { min-width: 1340px; }
+.table-scroll table.kt-lv4    { min-width: 1200px; }
+.table-scroll table.kt-rank   { min-width: 1420px; }
+                           /* 第三节的整合优先级表已拆为「数字表 + 建议列表」，
+                              9 列可在桌面宽度内放下，故不设 min-width 覆盖。 */
 
 /* ── 三级分类行展开 ── */
 .tk-acc-btn {
@@ -1543,3 +1549,62 @@ tr.tk-weak .td-num, tr.tk-weak .td-shop strong { color: var(--ink-light); font-w
   .tk-track-row { grid-template-columns: 1fr; }
   .tk-track-name { text-align: left; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   厨房大类 · 三级品类选品优先级（深度分析表 v1 口径 · 2026-09-22）
+   浅彩底一律配跨色系 / 低饱和深字（配色铁律）
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 优先级五级阶梯 chip：S+ / S / A / B / C ── */
+.lv3-chip {
+  display: inline-block; font-size: 11.5px; font-weight: 700;
+  padding: 2px 9px; border-radius: 999px; white-space: nowrap;
+}
+.lv3-sx { background: var(--purple-bg); color: var(--purple-ink); }
+.lv3-s  { background: var(--green-bg);  color: var(--green-ink); }
+.lv3-a  { background: var(--blue-bg);   color: var(--blue-ink); }
+.lv3-b  { background: var(--amber-bg);  color: var(--amber-ink); }
+.lv3-c  { background: var(--gray-bg);   color: var(--gray-ink); }
+
+/* ── 本节专属 tab：观感同 ct-tab，但用独立类名，避免与第一节的 ct-panel 联锁 ── */
+.l3-tabs { display: flex; gap: 9px; margin-bottom: 16px; flex-wrap: wrap; }
+.l3-tab {
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 10px 18px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: #fff; color: var(--ink-secondary);
+  cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+}
+.l3-tab:hover { border-color: var(--primary); color: var(--on-soft); }
+.l3-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.l3-tab .l3-badge {
+  font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+  background: var(--gray-bg); color: var(--gray-ink);
+}
+.l3-tab.active .l3-badge { background: #fff; color: var(--on-soft); }
+.l3-panel[hidden] { display: none; }
+
+/* ── 13 项核心指标：自适应多列，比单列短一半 ── */
+.lv3-metrics {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 7px 14px;
+}
+.lv3-metrics .tk-metric { padding-bottom: 6px; }
+
+/* 展开区里需要整行宽度的块（四级子品类表列多，半栏放不下） */
+.tk-acc-body .lv3-span2 { grid-column: 1 / -1; }
+
+/* ── 口径声明条（浅橙底 + 深棕字，禁橙字）── */
+.lv3-basis {
+  background: var(--primary-soft); border-left: 4px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 11px 14px; font-size: 12.5px; color: var(--on-soft); line-height: 1.8;
+}
+.lv3-basis + .lv3-basis { margin-top: 8px; }
+
+/* ── 星级（照录源表 ⭐）── */
+.lv3-star { font-size: 12px; white-space: nowrap; color: var(--ink-secondary); }
+
+/* ── 建议列表：每条 = [优先级] 品类：建议原文 ── */
+.lv3-advice li { font-size: 12.5px; line-height: 1.85; padding-left: 14px; }
+.lv3-advice li .lv3-chip { margin-right: 5px; vertical-align: 1px; }
+.lv3-advice li strong { color: var(--ink); }
