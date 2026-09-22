@@ -1748,3 +1748,225 @@ html.l3-lock, html.l3-lock body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .l3-drawer-mask, .l3-drawer-panel { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   经营报表（report.html）
+   每天填 6 个数 → 按费率自动算 → 周/月汇总 → 分红测算
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 页头 ── */
+.rp-head { margin-bottom: 16px; }
+.rp-title { font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+.rp-desc { font-size: 12.5px; color: var(--ink-light); line-height: 1.9; margin-top: 6px; }
+.rp-formula {
+  display: inline-block; margin-top: 9px;
+  background: var(--primary-soft); color: var(--on-soft);
+  border-radius: 999px; padding: 5px 15px;
+  font-size: 12.5px; font-weight: 600; letter-spacing: .01em;
+}
+
+/* ── 店铺 / 日期 工具条 ── */
+.rp-bar {
+  display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap;
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px 16px; margin-bottom: 16px; box-shadow: var(--shadow);
+}
+.rp-bar-item { display: flex; flex-direction: column; gap: 5px; }
+.rp-bar-item label { font-size: 11.5px; color: var(--ink-light); font-weight: 600; }
+.rp-select, .rp-date {
+  font-family: inherit; font-size: 13.5px; color: var(--ink); background: #fff;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 7px 10px; outline: none; min-width: 158px;
+}
+.rp-select:focus, .rp-date:focus { border-color: var(--primary); }
+.rp-bar-btns { display: flex; gap: 8px; margin-left: auto; }
+
+/* ── 两列：左填 右算 ── */
+.rp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.rp-cols > .card { margin-bottom: 0; }
+
+/* ── 填写表单 ── */
+.rp-form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px 14px; }
+.rp-field label {
+  display: block; font-size: 12.5px; color: var(--ink-secondary);
+  font-weight: 600; margin-bottom: 5px;
+}
+.rp-req {
+  font-style: normal; margin-left: 6px; font-size: 10px; font-weight: 600;
+  background: var(--primary-soft); color: var(--on-soft);
+  border-radius: 999px; padding: 1px 7px; vertical-align: 1px;
+}
+.rp-inp-wrap { position: relative; display: flex; align-items: center; }
+.rp-inp {
+  width: 100%; font-family: inherit; font-size: 14.5px; font-weight: 700;
+  color: var(--ink); background: #fff;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 9px 36px 9px 11px; outline: none;
+  font-variant-numeric: tabular-nums;
+  transition: border-color .15s, box-shadow .15s;
+}
+.rp-inp:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(232,114,42,.13); }
+.rp-inp::-webkit-outer-spin-button,
+.rp-inp::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.rp-inp[type=number] { -moz-appearance: textfield; }
+.rp-unit {
+  position: absolute; right: 11px; font-size: 11.5px;
+  color: var(--ink-faint); pointer-events: none;
+}
+.rp-hint { font-size: 11px; color: var(--ink-faint); margin-top: 4px; line-height: 1.6; }
+
+/* ── 自动计算区（不用填的那些）── */
+.rp-autobox { margin-top: 16px; border-top: 1px dashed var(--border); padding-top: 14px; }
+.rp-autobox-head { font-size: 12.5px; color: var(--ink-light); font-weight: 600; margin-bottom: 10px; }
+.rp-auto-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.rp-auto-item { background: var(--blue-bg); border-radius: var(--radius-sm); padding: 10px 11px; }
+.rp-auto-label { font-size: 11.5px; color: var(--blue-ink); opacity: .88; }
+.rp-auto-val {
+  font-size: 15px; font-weight: 700; color: var(--blue-ink);
+  font-variant-numeric: tabular-nums; margin: 3px 0 2px;
+}
+.rp-auto-rate { font-size: 10.5px; color: var(--blue-ink); opacity: .74; }
+
+/* ── 计算链 ── */
+.rp-chain { font-size: 13px; }
+.rp-chain-row {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 7px 0; border-bottom: 1px solid var(--border-light);
+}
+.rp-chain-row:last-child { border-bottom: none; }
+.rp-chain-label { flex: none; width: 84px; font-weight: 600; color: var(--ink); }
+.rp-chain-expr {
+  flex: 1; font-size: 11.5px; color: var(--ink-faint); line-height: 1.6;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rp-chain-val {
+  flex: none; font-weight: 700; font-variant-numeric: tabular-nums;
+  color: var(--ink); min-width: 98px; text-align: right;
+}
+.rp-chain-break {
+  font-size: 11px; color: var(--ink-faint); font-weight: 600;
+  padding: 9px 0 3px; letter-spacing: .05em;
+}
+.rp-chain-row.is-sub { background: var(--primary-soft); }
+.rp-chain-row.is-sub .rp-chain-label,
+.rp-chain-row.is-sub .rp-chain-val { color: var(--on-soft); }
+.rp-chain-row.is-minus .rp-chain-val { color: #7a4213; }
+.rp-chain-row.is-key {
+  background: var(--primary-soft); border-radius: var(--radius-sm);
+  padding: 10px 9px; margin-top: 7px;
+}
+.rp-chain-row.is-key .rp-chain-label { font-size: 14px; color: var(--on-soft); }
+.rp-chain-row.is-key .rp-chain-val { font-size: 16px; color: var(--on-soft); }
+
+/* ── 当日结果大字 ── */
+.rp-profit {
+  margin-top: 16px; border-radius: var(--radius); padding: 16px 18px;
+  background: var(--gray-bg); text-align: center;
+}
+.rp-profit.is-pos { background: var(--green-bg); }
+.rp-profit.is-neg { background: #fdecea; }
+.rp-profit-label { font-size: 12px; color: var(--ink-light); }
+.rp-profit.is-pos .rp-profit-label,
+.rp-profit.is-neg .rp-profit-label { color: var(--on-soft); }
+.rp-profit-val {
+  font-size: 32px; font-weight: 700; color: var(--ink);
+  line-height: 1.25; font-variant-numeric: tabular-nums;
+}
+.rp-profit.is-pos .rp-profit-val { color: var(--green-ink); }
+.rp-profit.is-neg .rp-profit-val { color: var(--on-soft); }
+.rp-profit-meta { font-size: 11.5px; color: var(--ink-light); margin-top: 6px; }
+.rp-profit.is-pos .rp-profit-meta,
+.rp-profit.is-neg .rp-profit-meta { color: var(--on-soft); opacity: .82; }
+
+/* ── 报表通用表 ── */
+.table-scroll table.rp-table { min-width: 0; }
+.rp-table .rp-td-name { font-weight: 600; }
+.rp-table .rp-td-num { text-align: right; font-variant-numeric: tabular-nums; }
+.rp-table .rp-td-strong { font-weight: 700; }
+.rp-table .rp-td-op { text-align: center; }
+.rp-table .is-neg { color: #a8341a; }
+.rp-table tr.is-minus td { color: var(--ink-secondary); }
+.rp-table tr.is-sub td { font-weight: 600; }
+.rp-table tr.is-key td {
+  background: var(--primary-soft); color: var(--on-soft);
+  font-weight: 700; font-size: 14px;
+}
+.rp-daylink {
+  cursor: pointer; color: var(--on-soft);
+  border-bottom: 1px dashed var(--ink-faint); padding-bottom: 1px;
+}
+.rp-daylink:hover { border-bottom-color: var(--primary); color: var(--primary-deep); }
+.rp-del {
+  border: none; background: transparent; color: var(--ink-faint);
+  cursor: pointer; font-size: 13px; line-height: 1;
+  width: 24px; height: 24px; border-radius: 6px;
+}
+.rp-del:hover { background: #fdecea; color: var(--on-soft); }
+.rp-empty { color: var(--ink-faint) !important; text-align: center; padding: 16px 0 !important; }
+
+/* ── 汇总 KPI ── */
+.rp-kpi {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin-top: 14px; border-top: 1px solid var(--border-light); padding-top: 14px;
+}
+.rp-kpi-item { background: var(--gray-bg); border-radius: var(--radius-sm); padding: 11px 13px; }
+.rp-kpi-item span { display: block; font-size: 11.5px; color: var(--ink-light); }
+.rp-kpi-item b {
+  display: block; font-size: 17px; font-weight: 700; color: var(--ink);
+  margin-top: 3px; font-variant-numeric: tabular-nums;
+}
+.rp-kpi-item.is-key { background: var(--primary-soft); }
+.rp-kpi-item.is-key span, .rp-kpi-item.is-key b { color: var(--on-soft); }
+
+/* ── 固定费 ── */
+.rp-fixed { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+.rp-fixed-item { flex: 1; min-width: 200px; }
+.rp-fixed-item label {
+  display: block; font-size: 12px; color: var(--ink-light);
+  font-weight: 600; margin-bottom: 5px;
+}
+.rp-fixed-arrow { font-size: 13px; color: var(--ink-faint); padding-bottom: 11px; font-weight: 600; }
+.rp-fixed-out {
+  font-size: 20px; font-weight: 700; color: var(--ink);
+  padding: 5px 0; font-variant-numeric: tabular-nums;
+}
+
+/* ── 分红测算 ── */
+.rp-dv-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+.rp-dv-box { background: var(--gray-bg); border-radius: var(--radius-sm); padding: 13px 15px; }
+.rp-dv-box span { display: block; font-size: 11.5px; color: var(--ink-light); }
+.rp-dv-box b {
+  display: block; font-size: 20px; font-weight: 700; color: var(--ink);
+  margin: 4px 0 3px; font-variant-numeric: tabular-nums;
+}
+.rp-dv-box em { font-style: normal; font-size: 10.5px; color: var(--ink-faint); }
+.rp-dv-box.is-key { background: var(--primary-soft); }
+.rp-dv-box.is-key span, .rp-dv-box.is-key b, .rp-dv-box.is-key em { color: var(--on-soft); }
+
+/* ── 费率与数据 ── */
+.rp-rates { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.rp-rate-item label {
+  display: block; font-size: 12px; color: var(--ink-light);
+  font-weight: 600; margin-bottom: 5px;
+}
+.rp-actions { display: flex; gap: 9px; flex-wrap: wrap; }
+.rp-warnbar { font-size: 13px; color: var(--on-soft); line-height: 1.85; }
+.rp-inp-wrap.is-tiny { max-width: 112px; }
+.rp-inp-wrap.is-tiny .rp-inp { padding: 5px 30px 5px 9px; font-size: 15px; }
+
+/* ── 响应式 ── */
+@media (max-width: 1100px) {
+  .rp-auto-grid { grid-template-columns: repeat(2, 1fr); }
+  .rp-kpi { grid-template-columns: repeat(2, 1fr); }
+  .rp-rates { grid-template-columns: repeat(2, 1fr); }
+  .rp-dv-top { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .rp-cols { grid-template-columns: 1fr; }
+  .rp-form { grid-template-columns: 1fr; }
+  .rp-bar-btns { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .rp-select, .rp-date { min-width: 0; width: 100%; }
+  .rp-bar-item { flex: 1 1 140px; }
+  .rp-chain-expr { display: none; }
+  .rp-profit-val { font-size: 26px; }
+}

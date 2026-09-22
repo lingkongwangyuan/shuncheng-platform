@@ -66,10 +66,14 @@ window.SC_DATA = {
       id: 'ops', name: '经营数据', icon: '📊',
       children: [
         { name: '经营概览', icon: '📈', page: 'ops.html' },
-        { name: '数据体检', icon: '🩺', page: 'ops-quality.html' },
-        { name: '作业节奏', icon: '📅', page: 'ops-rhythm.html' },
+        /* 2026-09-22 新增「经营报表」：每天填 6 个数 → 自动算变动费 →
+           自动汇总到周和月 → 输出经营利润 → 分红测算。数据源 report-config.js，
+           交互与计算在 assets/render-report.js，数据存浏览器本地。 */
+        { name: '经营报表', icon: '📝', page: 'report.html' },
         { name: '独立核算', icon: '💰', page: 'acct.html' },
         { name: '产品核算', icon: '🏷️', page: 'acct-products.html' },
+        { name: '数据体检', icon: '🩺', page: 'ops-quality.html' },
+        { name: '作业节奏', icon: '📅', page: 'ops-rhythm.html' },
         { name: '广告分析', icon: '📣', todo: true }
       ]
     },
