@@ -3,23 +3,25 @@
    ───────────────────────────────────────────────────────────────
    适用页面：parter-liyuan.html / parter-shi.html
    数据来源：
-     · data/workspace.js     智能体清单 + 预警规则 + 运营填报字段（内容源）
+     · data/workspace.js     预警规则 + 运营填报字段（内容源）
      · data/report-config.js 钱那 6 项的填报字段（与经营报表共用）
      · data/parter.js        人的店铺归属、月度损益表、分红台账
      · localStorage          填报数据（sc_report_v1）+ 阈值设置（sc_ws_v1）
-                             + 智能体任务队列（sc_agent_queue_v1）
 
-   四段（老周 2026-09-22 定，按一天的工作顺序排）：
+   三段（老周 2026-09-22 定，按一天的工作顺序排）：
      ① 数据填写    一行一家店，今天填完
-     ② 数据分析    6 条预警规则 → 每条一个动作 → 挂到对应智能体
-     ③ 工作智能体  运营岗一天要用的 6 个；点卡片滑出工作台，可以派活进队列
-     ④ 预估收入    店群自动汇总 + 月底正式结算（折叠）
+     ② 数据分析    6 条预警规则 → 每条一个具体动作
+     ③ 预估收入    店群自动汇总 + 月底正式结算（折叠）
+
+   ⚠️ 原「③ 工作智能体」已于 2026-09-22 从本页下架（老周定）：
+      6 个智能体一个都还没做出来，摆在页面上是画饼。
+      data/workspace.js 里的 agents 配置**保留未删**，将来真做出来了直接挂上即可。
 
    铁律：
      · 钱那 6 项与「经营报表」共用一份存储，不做第二套数据
-     · 没填就是「—」，不是 0；没有的智能体就是「待建」，不放死链接
-     · 智能体没做出来就不许编结果 —— 派出去的活进队列，如实标「等待接入」
+     · 没填就是「—」，不是 0
      · 算法只调 assets/report-core.js，不在这里另写一套
+     · 页面只放能用的东西 —— 做不出来的功能不上页面
    ═══════════════════════════════════════════════════════════════ */
 
 (function () {
@@ -127,12 +129,6 @@
     return null;
   }
 
-  function agentById(id) {
-    var list = W.agents || [];
-    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
-    return null;
-  }
-
   /* 对一家店跑一遍全部规则，返回命中清单 */
   function alertsForShop(shop, date) {
     var out = [];
@@ -213,7 +209,7 @@
 
   /* ══════════════ 页面状态 ══════════════ */
 
-  var state = { date: CORE.todayISO(), name: '', shops: [], agentOpen: {}, thOpen: false, calcOpen: false };
+  var state = { date: CORE.todayISO(), name: '', shops: [], thOpen: false, calcOpen: false };
 
   /* ══════════════ 段一 · 数据填写 ══════════════ */
 
@@ -382,7 +378,6 @@
 
   function alertCard(a) {
     var lv = LV[a.rule.level] || LV[3];
-    var ag = a.rule.agent ? agentById(a.rule.agent) : null;
     return '' +
     '<div class="ws-alert ' + lv.cls + '">' +
       '<div class="ws-alert-lv">' + lv.label + '</div>' +
@@ -394,10 +389,6 @@
         '</div>' +
         '<div class="ws-alert-ev">' + esc(a.evidence) + '</div>' +
         '<div class="ws-alert-act"><span class="ws-act-tag">做什么</span>' + esc(a.rule.action) + '</div>' +
-        (ag
-          ? '<div class="ws-alert-agent">可以用「' + esc(ag.name) + '」' +
-            '<span class="ws-todo-chip">待建</span></div>'
-          : '') +
       '</div>' +
     '</div>';
   }
@@ -516,333 +507,7 @@
     '</div>';
   }
 
-  /* ══════════════ 段三 · 工作智能体（工作台） ══════════════
-     老周 2026-09-22 定：段三从「说明书」改成「能派活的工作台」。
-     点卡片 → 右侧滑出工作台：上半是它能干什么，下半是派活区 + 任务队列。
-     铁律：智能体还没做出来就不许编结果 —— 提交的活进队列、如实标「等待智能体接入」。 */
-
-  var QUEUE_KEY = 'sc_agent_queue_v1';
-  var DW_SITE = { mx: '墨西哥', br: '巴西' };
-
-  function loadQueue() {
-    try {
-      var d = JSON.parse(localStorage.getItem(QUEUE_KEY) || '{}');
-      return { items: (d && d.items && d.items.length) ? d.items : [] };
-    } catch (e) { return { items: [] }; }
-  }
-  function saveQueue(q) {
-    try { localStorage.setItem(QUEUE_KEY, JSON.stringify(q)); return true; }
-    catch (e) { return false; }
-  }
-  function queueOf(id) {
-    return loadQueue().items.filter(function (t) { return t.agentId === id; });
-  }
-  function agentsSorted() {
-    return (W.agents || []).slice().sort(function (x, y) { return x.order - y.order; });
-  }
-  function actionOf(a, id) {
-    var list = (a && a.actions) || [];
-    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
-    return list[0] || null;
-  }
-  /* 贴进来的活按行切，空行不算 */
-  function lines(text) {
-    return String(text == null ? '' : text).split(/\r?\n/).map(function (s) {
-      return s.trim();
-    }).filter(function (s) { return s.length; });
-  }
-  function stamp() {
-    var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
-    return p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
-  }
-
-  function agentCard(a) {
-    var n = queueOf(a.id).length;
-    return '' +
-    '<div class="ws-agent" data-ws-agent="' + esc(a.id) + '" tabindex="0" role="button" ' +
-      'aria-label="打开' + esc(a.name) + '的工作台">' +
-      '<div class="ws-agent-top">' +
-        '<span class="ws-agent-no">' + a.order + '</span>' +
-        '<span class="ws-agent-icon ' + esc(a.cls || '') + '">' + a.icon + '</span>' +
-        '<div class="ws-agent-namebox">' +
-          '<div class="ws-agent-name">' + esc(a.name) +
-            (a.origin === 'new' ? '<span class="ws-new-chip">本次新增</span>' : '') + '</div>' +
-          '<div class="ws-agent-stage">' + esc(a.stage) + '</div>' +
-        '</div>' +
-        '<span class="ws-todo-chip">待建</span>' +
-      '</div>' +
-      '<div class="ws-agent-desc">' + esc(a.desc) + '</div>' +
-      '<div class="ws-agent-foot">' +
-        '<span class="ws-agent-open">打开工作台</span>' +
-        (n ? '<span class="ws-agent-qn">队列 ' + n + ' 条</span>' : '') +
-      '</div>' +
-    '</div>';
-  }
-
-  function agentsCard() {
-    var list = agentsSorted();
-    var todo = list.filter(function (a) { return a.status === 'todo'; }).length;
-    var qn = loadQueue().items.length;
-    return '' +
-    '<div class="card ws-card" id="ws-agents">' +
-      '<div class="card-head">' +
-        '<div class="card-title"><div class="ct-icon ct-blue">🤖</div>' +
-          '③ 工作智能体 · 运营岗一天要用的 ' + list.length + ' 个</div>' +
-        '<span class="card-hint">' + agentsHint(list, qn) + '</span>' +
-      '</div>' +
-      '<div class="ws-agents">' + list.map(agentCard).join('') + '</div>' +
-      '<div class="table-note">' + esc(W.agentNote || '') + '</div>' +
-      '<div class="table-note ws-note-key">' + esc(W.taskBoardNote || '') + '</div>' +
-    '</div>';
-  }
-
-  function agentsHint(list, qn) {
-    var todo = list.filter(function (a) { return a.status === 'todo'; }).length;
-    return todo + ' 个待建 · 点卡片打开工作台派活' + (qn ? ' · 已排队 ' + qn + ' 条' : '');
-  }
-
-  /* ── 工作台抽屉 ──
-     遮罩挡住卡片，换智能体靠顶上的 ‹ ›（含键盘 ← →）。 */
-
-  var dwState = { agent: null, action: null, site: 'mx', draft: '', flash: '', from: null };
-
-  function drawerShell() {
-    return '' +
-    '<div class="ws-dw" id="wsDw" hidden>' +
-      '<div class="ws-dw-mask" data-ws-dw="close"></div>' +
-      '<div class="ws-dw-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="wsDwTitle">' +
-        '<div class="ws-dw-bar">' +
-          '<div class="ws-dw-head" id="wsDwHead"></div>' +
-          '<button class="ws-dw-nav" type="button" data-ws-dw="prev" aria-label="上一个智能体">‹</button>' +
-          '<button class="ws-dw-nav" type="button" data-ws-dw="next" aria-label="下一个智能体">›</button>' +
-          '<button class="ws-dw-x" type="button" data-ws-dw="close" aria-label="关闭工作台">✕</button>' +
-        '</div>' +
-        '<div class="ws-dw-body" id="wsDwBody"></div>' +
-      '</div>' +
-    '</div>';
-  }
-
-  function dwHeadHtml(a) {
-    return '' +
-      '<span class="ws-agent-icon ' + esc(a.cls || '') + '">' + a.icon + '</span>' +
-      '<div class="ws-dw-titlebox">' +
-        '<div class="ws-dw-title" id="wsDwTitle">' + esc(a.name) +
-          (a.origin === 'new' ? '<span class="ws-new-chip">本次新增</span>' : '') +
-          '<span class="ws-todo-chip">待建</span></div>' +
-        '<div class="ws-dw-sub">第 ' + a.order + ' 个 · ' + esc(a.stage) + ' · 运营岗</div>' +
-      '</div>';
-  }
-
-  function dwQueueHtml(a) {
-    var q = queueOf(a.id);
-    if (!q.length) {
-      return '<div class="ws-dw-empty">还没有派过活。上面贴一批提交，就会排在这里。</div>';
-    }
-    return '<div class="ws-qlist">' + q.map(function (t) {
-      return '' +
-      '<div class="ws-qi">' +
-        '<div class="ws-qi-top">' +
-          '<span class="ws-qi-act">' + esc(t.actionName || '') + '</span>' +
-          (t.siteName ? '<span class="ws-qi-site">' + esc(t.siteName) + '</span>' : '') +
-          '<span class="ws-qi-n">' + (t.n ? t.n + ' 条' : '不限条数') + '</span>' +
-          '<button type="button" class="ws-qi-x" data-ws-qdel="' + esc(t.id) + '" ' +
-            'aria-label="删掉这条任务">✕</button>' +
-        '</div>' +
-        '<div class="ws-qi-sub">' + esc(t.time || '') +
-          ' · <b class="ws-qi-wait">等待智能体接入</b></div>' +
-        (t.preview ? '<div class="ws-qi-pre">' + esc(t.preview) + '</div>' : '') +
-      '</div>';
-    }).join('') + '</div>' +
-    '<div class="table-note">' + esc(W.taskBoardNote || '') + '</div>';
-  }
-
-  function dwBody(a) {
-    var act = actionOf(a, dwState.action);
-    if (!act) return '<div class="ws-dw-empty">这个智能体还没配可派的活。</div>';
-    dwState.action = act.id;
-
-    var flash = dwState.flash || '';
-    dwState.flash = '';
-
-    var acts = (a.actions || []).map(function (x) {
-      return '<button type="button" class="ws-act' + (x.id === act.id ? ' is-on' : '') +
-        '" data-ws-act="' + esc(x.id) + '">' + esc(x.name) + '</button>';
-    }).join('');
-
-    var sites = a.sites
-      ? '<div class="ws-dw-lab">跑哪个站</div>' +
-        '<div class="ws-sites">' +
-          ['mx', 'br'].map(function (s) {
-            return '<button type="button" class="ws-site' + (dwState.site === s ? ' is-on' : '') +
-              '" data-ws-site="' + s + '">' + DW_SITE[s] + '</button>';
-          }).join('') +
-        '</div>'
-      : '';
-
-    var q = queueOf(a.id);
-
-    return '' +
-    (flash ? '<div class="ws-dw-flash">' + esc(flash) + '</div>' : '') +
-
-    '<section class="ws-dw-sec">' +
-      '<div class="ws-dw-h">这个智能体干什么</div>' +
-      '<div class="ws-ad-row"><span>怎么用</span>' + esc(a.input) + '</div>' +
-      '<div class="ws-ad-row"><span>吐出什么</span>' + esc(a.output) + '</div>' +
-      '<div class="ws-ad-row"><span>规矩</span>' + esc(a.rule) + '</div>' +
-      '<div class="ws-ad-row is-why"><span>为什么要有它</span>' + esc(a.why) + '</div>' +
-    '</section>' +
-
-    '<section class="ws-dw-sec">' +
-      '<div class="ws-dw-h">派活给它</div>' +
-      '<div class="ws-dw-lab">要它做什么</div>' +
-      '<div class="ws-acts">' + acts + '</div>' +
-      sites +
-      '<div class="ws-dw-lab">把活贴进来</div>' +
-      '<textarea id="wsDwText" class="ws-dw-text" rows="5" ' +
-        'placeholder="' + esc(act.hint) + '"></textarea>' +
-      '<div class="ws-dw-foot">' +
-        '<button type="button" class="btn btn-primary" data-ws-dw="submit">提交任务</button>' +
-        '<span class="ws-dw-count" id="wsDwCount"></span>' +
-        '<span class="ws-dw-min">' + (act.min ? '至少填 ' + act.min + ' 条' : '可以留空') + '</span>' +
-      '</div>' +
-    '</section>' +
-
-    '<section class="ws-dw-sec">' +
-      '<div class="ws-dw-h">任务队列' + (q.length ? ' · ' + q.length + ' 条' : '') + '</div>' +
-      '<div id="wsDwQueue">' + dwQueueHtml(a) + '</div>' +
-    '</section>';
-  }
-
-  function dwCurrent() {
-    var list = agentsSorted();
-    for (var i = 0; i < list.length; i++) {
-      if (list[i].id === dwState.agent) return { a: list[i], i: i, list: list };
-    }
-    return null;
-  }
-
-  function updateCount(d) {
-    var ta = d && d.querySelector('#wsDwText');
-    var out = d && d.querySelector('#wsDwCount');
-    if (!out) return;
-    var n = ta ? lines(ta.value).length : 0;
-    out.textContent = n ? '已贴 ' + n + ' 条' : '还没贴';
-    out.className = 'ws-dw-count' + (n ? ' is-on' : '');
-  }
-
-  function renderDrawer(root, keepScroll) {
-    var d = root.querySelector('#wsDw');
-    var cur = dwCurrent();
-    if (!d || !cur) return;
-    var a = cur.a;
-
-    var head = d.querySelector('#wsDwHead');
-    if (head) head.innerHTML = dwHeadHtml(a);
-
-    var body = d.querySelector('#wsDwBody');
-    if (body) {
-      var st = keepScroll ? body.scrollTop : 0;
-      body.innerHTML = dwBody(a);
-      body.scrollTop = st;      /* 换动作时别把人家看到一半的位置顶掉 */
-    }
-
-    /* 首/末个时禁掉对应方向的翻页键，避免点到空 */
-    Array.prototype.forEach.call(d.querySelectorAll('[data-ws-dw]'), function (b) {
-      var c = b.getAttribute('data-ws-dw');
-      if (c === 'prev') b.disabled = cur.i <= 0;
-      if (c === 'next') b.disabled = cur.i >= cur.list.length - 1;
-    });
-
-    var ta = d.querySelector('#wsDwText');
-    if (ta) ta.value = dwState.draft || '';
-    updateCount(d);
-  }
-
-  function openDrawer(root, id, fromEl) {
-    var d = root.querySelector('#wsDw');
-    if (!d) return;
-    dwState.agent = id;
-    dwState.action = null;      /* null → 用这个智能体的第一个动作 */
-    dwState.draft = '';
-    dwState.flash = '';
-    dwState.site = 'mx';
-    dwState.from = fromEl || null;
-    renderDrawer(root, false);
-    d.removeAttribute('hidden');
-    document.documentElement.classList.add('ws-lock');
-    var p = d.querySelector('.ws-dw-panel');
-    if (p) { try { p.focus({ preventScroll: true }); } catch (e) { p.focus(); } }
-  }
-
-  function closeDrawer(root, back) {
-    var d = root.querySelector('#wsDw');
-    if (!d || d.hasAttribute('hidden')) return;
-    d.setAttribute('hidden', '');
-    document.documentElement.classList.remove('ws-lock');
-    if (back && dwState.from) {
-      try { dwState.from.focus({ preventScroll: true }); } catch (e) { }
-    }
-  }
-
-  function dwStep(root, dir) {
-    var cur = dwCurrent();
-    if (!cur) return;
-    var next = cur.list[cur.i + dir];
-    if (!next) return;
-    dwState.agent = next.id;
-    dwState.action = null;
-    dwState.draft = '';
-    dwState.flash = '';
-    renderDrawer(root, false);
-  }
-
-  function submitTask(root, a) {
-    var d = root.querySelector('#wsDw');
-    var ta = d && d.querySelector('#wsDwText');
-    var arr = lines(ta ? ta.value : '');
-    var act = actionOf(a, dwState.action) || {};
-    var min = act.min || 0;
-
-    if (arr.length < min) {
-      dwState.flash = '这个动作至少要 ' + min + ' 条，现在只有 ' + arr.length + ' 条，没提交。';
-      renderDrawer(root, true);
-      return;
-    }
-
-    var q = loadQueue();
-    q.items.unshift({
-      id: 't' + Date.now() + '_' + Math.floor(Math.random() * 1000),
-      agentId: a.id,
-      agentName: a.name,
-      actionId: act.id,
-      actionName: act.name,
-      site: a.sites ? dwState.site : '',
-      siteName: a.sites ? DW_SITE[dwState.site] : '',
-      n: arr.length,
-      preview: arr.length
-        ? (arr.slice(0, 2).join(' / ') + (arr.length > 2 ? ' 等 ' + arr.length + ' 条' : ''))
-        : '',
-      time: stamp(),
-      status: 'waiting'
-    });
-    saveQueue(q);
-
-    dwState.draft = '';
-    dwState.flash = '已排进队列 · 这个智能体现在有 ' + queueOf(a.id).length + ' 条活等着';
-    renderDrawer(root, true);
-    repaintAgentCards(root);
-  }
-
-  function repaintAgentCards(root) {
-    var box = root.querySelector('.ws-agents');
-    if (!box) return;
-    var list = agentsSorted();
-    box.innerHTML = list.map(agentCard).join('');
-    var hint = root.querySelector('#ws-agents .card-hint');
-    if (hint) hint.textContent = agentsHint(list, loadQueue().items.length);
-  }
-
-  /* ══════════════ 段四 · 预估收入 ══════════════ */
+  /* ══════════════ 段三 · 预估收入 ══════════════ */
 
   function incomeCard(p) {
     var blocks = (window.SC_PARTER_PARTS && window.SC_PARTER_PARTS.settlementBlocks)
@@ -851,7 +516,7 @@
     '<div class="card ws-card" id="ws-income">' +
       '<div class="card-head">' +
         '<div class="card-title"><div class="ct-icon ct-green">💰</div>' +
-          '④ 预估收入 · 今天能赚多少</div>' +
+          '③ 预估收入 · 今天能赚多少</div>' +
         '<span class="card-hint">数据来自上面填的数，自动汇总名下 ' + state.shops.length + ' 家店</span>' +
       '</div>' +
       '<div id="plive-slot"></div>' +
@@ -875,8 +540,7 @@
     var items = [
       { id: 'ws-fill', no: '①', name: '数据填写' },
       { id: 'ws-analyze', no: '②', name: '数据分析' },
-      { id: 'ws-agents', no: '③', name: '工作智能体' },
-      { id: 'ws-income', no: '④', name: '预估收入' }
+      { id: 'ws-income', no: '③', name: '预估收入' }
     ];
     return '<div class="ws-nav">' + items.map(function (i) {
       return '<a class="ws-nav-item" href="#' + i.id + '">' +
@@ -921,7 +585,7 @@
           '<div class="ov-sub">期内累加</div></div>' +
         '<div class="overview-item"><div class="ov-label">分红结算</div>' +
           '<div class="ov-value" style="font-size:19px">按月结</div>' +
-          '<div class="ov-sub">日度预估见第四段</div></div>' +
+          '<div class="ov-sub">日度预估见第三段</div></div>' +
       '</div>';
 
     root.innerHTML =
@@ -929,9 +593,7 @@
       idBar +
       '<div id="ws-fill" class="ws-anchor">' + fillCard() + '</div>' +
       analyzeCard() +
-      agentsCard() +
-      incomeCard(p) +
-      drawerShell();
+      incomeCard(p);
 
     bind(root, p);
   }
@@ -958,7 +620,7 @@
     var calc = root.querySelector('.ws-table-calc tbody');
     if (calc) calc.innerHTML = calcRowsOnly();
 
-    /* 第四段：店群汇总（营业额 / 利润 / 个人预估）跟着变 */
+    /* 第三段：店群汇总（营业额 / 利润 / 个人预估）跟着变 */
     if (window.SC_PARTER_LIVE && window.SC_PARTER_LIVE.repaint) window.SC_PARTER_LIVE.repaint();
   }
 
@@ -1075,104 +737,11 @@
   }
 
   /* 卡片会被局部重画，所以用委托绑一次就好 */
-  function bindAgents(root) {
-    if (root._wsAgentsBound) return;
-    root._wsAgentsBound = true;
-
-    root.addEventListener('click', function (e) {
-      var card = e.target && e.target.closest && e.target.closest('[data-ws-agent]');
-      if (!card || !root.contains(card)) return;
-      openDrawer(root, card.getAttribute('data-ws-agent'), card);
-    });
-
-    /* 卡片可键盘打开（Enter / 空格） */
-    root.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      var card = e.target && e.target.closest && e.target.closest('[data-ws-agent]');
-      if (!card || e.target.tagName === 'BUTTON') return;
-      e.preventDefault();
-      openDrawer(root, card.getAttribute('data-ws-agent'), card);
-    });
-  }
-
-  function bindDrawer(root) {
-    if (root._wsDwBound) return;
-    root._wsDwBound = true;
-
-    root.addEventListener('click', function (e) {
-      var t = e.target;
-      if (!t || !t.closest) return;
-
-      /* 删一条队列 */
-      var del = t.closest('[data-ws-qdel]');
-      if (del) {
-        var q = loadQueue();
-        var qid = del.getAttribute('data-ws-qdel');
-        q.items = q.items.filter(function (x) { return x.id !== qid; });
-        saveQueue(q);
-        var cur = dwCurrent();
-        var box = root.querySelector('#wsDwQueue');
-        if (cur && box) box.innerHTML = dwQueueHtml(cur.a);
-        repaintAgentCards(root);
-        return;
-      }
-
-      /* 换动作 / 换站点 */
-      var actBtn = t.closest('[data-ws-act]');
-      if (actBtn) {
-        dwState.action = actBtn.getAttribute('data-ws-act');
-        renderDrawer(root, true);
-        return;
-      }
-      var siteBtn = t.closest('[data-ws-site]');
-      if (siteBtn) {
-        dwState.site = siteBtn.getAttribute('data-ws-site');
-        renderDrawer(root, true);
-        return;
-      }
-
-      var cmd = t.closest('[data-ws-dw]');
-      if (!cmd) return;
-      var c = cmd.getAttribute('data-ws-dw');
-      if (c === 'close') { closeDrawer(root, true); return; }
-      if (c === 'prev') { dwStep(root, -1); return; }
-      if (c === 'next') { dwStep(root, 1); return; }
-      if (c === 'submit') {
-        var cur2 = dwCurrent();
-        if (cur2) submitTask(root, cur2.a);
-      }
-    });
-
-    /* 草稿随打随存，换动作/切站点重建表单时不丢 */
-    root.addEventListener('input', function (e) {
-      if (e.target && e.target.id === 'wsDwText') {
-        dwState.draft = e.target.value;
-        updateCount(root.querySelector('#wsDw'));
-      }
-    });
-
-    /* Esc 关闭、← → 翻页（在输入框里按左右键要留给光标） */
-    if (!bindDrawer._keys) {
-      bindDrawer._keys = true;
-      document.addEventListener('keydown', function (e) {
-        if (!TARGET) return;
-        var d = TARGET.root.querySelector('#wsDw');
-        if (!d || d.hasAttribute('hidden')) return;
-        if (e.key === 'Escape') { e.preventDefault(); closeDrawer(TARGET.root, true); return; }
-        if (e.target && (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT')) return;
-        if (e.key === 'ArrowLeft') { e.preventDefault(); dwStep(TARGET.root, -1); }
-        if (e.key === 'ArrowRight') { e.preventDefault(); dwStep(TARGET.root, 1); }
-      });
-    }
-  }
-
   function bind(root, p) {
     bindFill(root);
     bindAnalyze(root);
-    bindAgents(root);
-    bindDrawer(root);
 
-    /* 第四段：店群自动汇总（算法仍在 report-core，由 render-parter-live 渲染） */
+    /* 第三段：店群自动汇总（算法仍在 report-core，由 render-parter-live 渲染） */
     if (window.SC_PARTER_LIVE) window.SC_PARTER_LIVE.mount(root, p);
 
     /* 别的标签页改了数据 → 本页跟上 */
@@ -1183,23 +752,10 @@
         if (e.key === CORE.KEY || e.key === CFG_KEY) {
           DB = CORE.load();
           rerenderBody();
-          return;
-        }
-        /* 队列是段三自己的存储：只更新队列区，不动正在填的草稿 */
-        if (e.key === QUEUE_KEY) {
-          repaintAgentCards(TARGET.root);
-          var cur = dwCurrent();
-          var box = TARGET.root.querySelector('#wsDwQueue');
-          if (cur && box) box.innerHTML = dwQueueHtml(cur.a);
         }
       });
     }
   }
 
-  window.SC_WORKSPACE_VIEW = {
-    render: render, state: state, th: th,
-    /* 供回归验证调用 */
-    queue: { load: loadQueue, of: queueOf },
-    drawer: { open: openDrawer, close: closeDrawer, state: dwState, current: dwCurrent }
-  };
+  window.SC_WORKSPACE_VIEW = { render: render, state: state, th: th };
 })();
